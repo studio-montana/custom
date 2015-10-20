@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+
+/**
+ * @package WordPress
+ * @version 1.0
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * This file, like this theme, like WordPress, is licensed under the GPL.
+ */
+
+
+/**
+ * MASONRY & ISOTOPE
+ */
+.masonry-wrapper ul.masonry,
+.isotope-wrapper ul.isotope,
+.classic-wrapper ul.classic {
+	margin-left: -1em;
+}
+
+.masonry-item, 
+.isotope-item,
+.classic-item {
+	padding: 0 0 1em 1em;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+/**
+ * ITEM HAS-MASK 
+ */
+.masonry-item .has-mask,
+.isotope-item .has-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	border: none;
+	z-index: 700;
+	overflow: hidden;
+	margin: 1em;
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(255, 255, 255, 0.75);
+	-moz-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
+	-webkit-transition: all 0.4s ease-in-out 0s;
+	transition: all 0.4s ease-in-out 0s;
+	width: calc(100% - 2em);
+	height: calc(100% - 2em);
+	text-align: center;
+}
+
+/** 
+ * CLASSIC WP GALLERY
+ */
+.classic-item .has-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 700;
+	overflow: hidden;
+	opacity: 0;
+	background-color: rgba(255, 255, 255, 0);
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.classic-item a:hover .has-mask {
+	opacity: 1;
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+
+.classic-item .has-mask::before {
+	content: "+";
+	font-size: 2.4rem;
+	font-weight: 300;
+	position: relative;
+	top: calc(50% - 2.4rem);
+}
+

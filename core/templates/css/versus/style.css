@@ -1,0 +1,422 @@
+/* @override
+	http://localhost:8888/WP_Custom/wp-content/themes/custom/style.css 
+ */
+/*
+Theme Name: Custom
+Theme URI: http://wp.seb-c.com/themes/custom
+Author: Sébastien Chandonay / Cyril Tissot
+Author URI: http://www.seb-c.com
+Description: Thème Responsive Design 
+Version: 1.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: custom, responsive design, cyril tissot, sébastien chandonay, www.seb-c.com, www.cyriltissot.com
+Text Domain: custom
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+ */
+@import url("core/templates/css/knacss.css");
+@import url("core/templates/css/style.css");
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,900,800,700,600,500,300,200,100);
+
+/*
+Please write your styles after this comment.
+If you don't want keep core style, 
+you can comment or remove import statement
+ */
+
+/**
+ * GENERAL WIDTHS
+ */
+#page {
+	max-width: 900px;
+	width: 100%;
+}
+
+.site-header {
+	width: 100%;
+}
+
+.site-header-container {
+	width: 100%;
+}
+
+.site-branding {
+	width: 100%;
+}
+
+.site-branding-container {
+	width: 100%;
+}
+
+.site-navigation {
+	width: 100%;
+}
+
+.site-navigation-container {
+	width: 100%;
+}
+
+.site-breadcrumb {
+	width: 100%;
+}
+
+.site-breadcrumb-container {
+	width: 100%;
+}
+
+.site-main {
+	width: 100%;
+}
+
+.site-main-container {
+	width: 100%;
+}
+
+.site-main #primary {
+	display: block;
+	width: 100%;
+}
+
+.site-main #sidebar {
+	display: block;
+	width: 100%;
+}
+
+.site-footer {
+	width: 100%;
+}
+
+.site-footer-container {
+	width: 100%;
+}
+
+/**
+ * HEADER
+ */
+.main-navigation li {
+	padding-left: 0;
+}
+
+.main-navigation li:first-child {
+	padding-left: 0;
+}
+
+.main-navigation li:last-child:after,
+.main-navigation ul ul.sub-menu li:after {
+	display: none;
+}
+
+.main-navigation a {
+	color: rgba(0, 0, 0, 1);
+	text-decoration: none;
+}
+
+.main-navigation a:hover,
+.main-navigation a:focus,
+.main-navigation a:active,
+.main-navigation .page_item_has_children > a,
+.main-navigation .menu-item-has-children > a, 
+.main-navigation .current_page_item > a,
+.main-navigation .current-menu-item > a,
+.main-navigation .current_page_ancestor > a,
+.main-navigation .current_menu_ancestor > a,
+.main-navigation .sub-menu .current_page_item > a,
+.main-navigation .sub-menu .current-menu-item > a,
+.main-navigation .sub-menu .current_page_ancestor > a,
+.main-navigation .sub-menu .current_menu_ancestor > a {
+	color: rgba(255, 199, 64, 1);
+	text-decoration: none;
+}
+
+.main-navigation li:after {
+	content: "|";
+	margin-left: 12px;
+}
+
+/**
+ * MAIN
+ */
+.site-main {
+	padding-top: 1em;
+}
+
+/**
+ * PAGINATION
+ */
+.pagination {
+	margin: 3.6rem 0;
+}
+
+/**
+ * TYPOGRAPHY : GENERAL
+ */
+body,
+button,
+input,
+select,
+textarea,
+p {
+	font-family: 'Raleway', 'Helvetica', Arial, sans-serif;
+}
+h1, h2, h3, h4, h4, h5, h6 {
+	font-family: 'Raleway', 'Helvetica', Arial, sans-serif;
+}
+h1,
+.h1-like {
+}
+h2,
+.h2-like {
+}
+h3,
+.h3-like {
+}
+h4,
+.h4-like {
+}
+h5,
+.h5-like {
+	text-transform: uppercase;
+}
+h6,
+.h6-like {
+	text-transform: uppercase;
+}
+
+/**
+ * TYPOGRAPHY : ENTRY TITLE
+ */
+h1.entry-title,
+h2.entry-title,
+h3.entry-title,
+h4.entry-title,
+h5.entry-title,
+h6.entry-title {
+}
+
+.post h1.entry-title,
+.post h2.entry-title,
+.post h3.entry-title,
+.post h4.entry-title,
+.post h5.entry-title,
+.post h6.entry-title {}
+
+/**
+ * TYPOGRAPHY : ENTRY SUBTITLE
+ */
+h1.entry-subtitle,
+h2.entry-subtitle,
+h3.entry-subtitle,
+h4.entry-subtitle,
+h5.entry-subtitle,
+h6.entry-subtitle {}
+
+.post h1.entry-subtitle,
+.post h2.entry-subtitle,
+.post h3.entry-subtitle,
+.post h4.entry-subtitle,
+.post h5.entry-subtitle,
+.post h6.entry-subtitle {}
+
+/**
+ * TYPOGRAPHY : ENTRY CONTENT TITLE
+ */
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {}
+
+.entry-content table h1,
+.entry-content table h2,
+.entry-content table h3,
+.entry-content table h4,
+.entry-content table h5,
+.entry-content table h6 {
+}
+
+/**
+ * ENTRY
+ */
+.entry-content {}
+.entry-thumbnail {
+	text-align: center;
+}
+
+/**
+ * LINKS
+ */
+a {
+	color: rgba(255, 199, 64, 1);
+	text-decoration: none;
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+
+a:hover,
+a:focus,
+a:active {
+	color: rgba(0, 0, 0, 1);
+}
+
+/**
+ * ELEMENTS
+ */
+blockquote {
+	border-left: 3px solid #efefef;
+}
+
+blockquote::before {
+	content: "";
+}
+
+.highlight {
+	background-color: rgba(0, 0, 0, 1);
+	color: rgba(255, 255, 255, 1);
+	padding: 0.4em;
+	margin: 0;
+}
+
+/**
+ * TABLE
+ */
+th {
+	background-color: rgba(0, 0, 0, 0.15);
+}
+
+table tr:nth-child(2n), table thead tr {
+	background-color: rgba(0, 0, 0, 0.15);
+}
+
+th, td {
+	border-left: transparent;
+	border-bottom: transparent;
+	border-top: transparent;
+	border-right: 1px solid rgba(0, 0, 0, 0.15);
+	padding: 1em;
+}
+
+td:last-child {
+	border-right: transparent;
+}
+
+/**
+ * FORMS
+ */
+button,
+input[type='submit'],
+input[type="button"],
+input[type="reset"] {
+	border: none;
+	background-color: rgba(0, 0, 0, 1);
+	color: #fff;
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+	text-decoration: none;
+	text-align: center;
+}
+
+button:active,
+button:focus,
+button:hover,
+input[type="button"]:active,
+input[type="button"]:focus,
+input[type="button"]:hover,
+input[type="reset"]:active,
+input[type="reset"]:focus,
+input[type="reset"]:hover,
+input[type='submit']:active,
+input[type='submit']:focus,
+input[type='submit']:hover {
+	background-color: rgba(255, 199, 64, 1);
+	color: #000;
+	-moz-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
+	-webkit-transition: all 0.4s ease-in-out 0s;
+	transition: all 0.4s ease-in-out 0s;
+}
+
+
+/**
+ * CONTACT FORM 7 PLUGIN 
+ */
+.wpcf7-form input[type="submit"] {
+	background-color: transparent;
+	text-transform: capitalize;
+	color: #000;
+	font-size: 1.4rem;
+	letter-spacing: 1px;
+	padding: 0.65em 1em;
+}
+
+.wpcf7-form input[type="submit"]:hover,
+.wpcf7-form input[type="submit"]:focus {
+	color: rgba(255, 199, 64, 1);
+	background-color: rgba(0, 0, 0, 1);
+}
+
+.wpcf7-form input[type="submit"] + img {
+	display: inline-block;
+	float: left;
+	margin: 0;
+}
+
+.wpcf7-form > p:nth-last-child(2) {
+	text-align: right;
+}
+.wpcf7-form p.submission {
+	text-align: left;
+}
+
+.wpcf7-form > p:nth-last-child(3) {
+	margin-bottom: 0;
+}
+
+.wpcf7-form p.message {
+	margin-bottom: 0;
+}
+
+div.wpcf7-validation-errors,
+span.wpcf7-not-valid-tip {
+	font-size: 1.2rem;
+}
+
+div.wpcf7-validation-errors {
+	border: transparent;
+	background-color: #f5f5f5;
+	padding: 0.4em 0.8em;
+}
+
+/**
+ * RESPONSIVE
+ */
+
+/* Maximum width of 1200px */
+@media screen and (max-width: 1200px) {}
+
+/* Maximum width of 1024px */
+@media screen and (max-width: 1024px) {}
+
+/* Maximum width of 940px */
+@media screen and (max-width: 940px) {}
+
+/* Maximum width of 840px */
+@media screen and (max-width: 840px) {}
+
+/* Maximum width of 768px */
+@media screen and (max-width: 768px) {}
+
+/* Maximum width of 600px */
+@media screen and (max-width: 640px) {}
+
+/* Maximum width of 460px */
+@media screen and (max-width: 460px) {}
+
+/* Maximum width of 380px */
+@media screen and (max-width: 380px) {}

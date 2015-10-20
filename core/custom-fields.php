@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * Customs fields on post-types
+ * @package WordPress
+ * @subpackage Custom
+ * @since Custom 1.0
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ */
+
+define('CUSTOMFIELDS_NONCE_ACTION', 'customfields_action');
+
+if (!function_exists("customfields_admin_init")):
+/**
+ * Hooks the WP admin_init action to add metaboxe customfields on post-type
+*
+* @return void
+*/
+function customfields_admin_init() {
+	$customfields_posttypes_available = get_displayed_post_types();
+	foreach ($customfields_posttypes_available as $post_type){
+		add_meta_box('customfields', __( 'Customize', CUSTOM_TEXT_DOMAIN), 'customfields_add_inner_meta_boxes', $post_type, 'normal', 'high');
+	}
+}
+add_action('admin_init', 'customfields_admin_init');
+endif;
+
+if (!function_exists("customfields_add_inner_meta_boxes")):
+/**
+ * include customfields template
+* @param unknown $post
+*/
+function customfields_add_inner_meta_boxes($post) {
+	?>
+	<input type="hidden" name="<?php echo CUSTOMFIELDS_NONCE_ACTION; ?>" value="<?php echo wp_create_nonce(CUSTOMFIELDS_NONCE_ACTION);?>" />
+	<?php
+	do_action("customfields_add_inner_meta_boxes", $post);
+}
+endif;
+
+if (!function_exists("customfields_save_post")):
+/**
+ * save BACKGROUNDIMAGE fields on post type
+* @param unknown $post_id
+*/
+function customfields_save_post($post_id){
+	$customfields_posttypes_available = get_displayed_post_types();
+
+	// verify if this is an auto save routine.
+	// If it is our form has not been submitted, so we dont want to do anything
+	if (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		return;
+	// verify if this post-type is available and editable.
+	$is_post_available = false;
+	$post_type = null;
+	if (isset($_POST['post_type']) && !empty($_POST['post_type']) && in_array($_POST['post_type'], $customfields_posttypes_available)){
+		$post_type = $_POST['post_type'];
+	}
+	if (empty($post_type))
+		return;
+	if ($post_type == 'page') {
+		if (!current_user_can('edit_page', $post_id))
+			return;
+	} else {
+		if (!current_user_can('edit_post', $post_id ))
+			return;
+	}
+	if (!isset($_POST[CUSTOMFIELDS_NONCE_ACTION]) || !wp_verify_nonce($_POST[CUSTOMFIELDS_NONCE_ACTION], CUSTOMFIELDS_NONCE_ACTION))
+		return;
+
+	do_action("customfields_save_post", $post_id);
+}
+add_action('save_post', 'customfields_save_post');
+endif;

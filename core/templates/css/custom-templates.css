@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+html{
+}
+
+/* FULL WIDTH. */
+body.page-template-page-full-width #page {
+    max-width: 100%;
+}
+
+body.page-template-page-full-width #page .main {}
+
+/* NO BACKGROUND. */
+body.page-template-page-no-background #page {
+    background: transparent;
+    padding: 0;
+}
+
+body.page-template-page-no-background .main {
+    background: transparent;
+    padding: 0;
+}

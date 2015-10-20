@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customtheme>
+	<tool name="backgroundimage">true</tool>
+	<tool name="breadcrumb">true</tool>
+	<tool name="cookies">true</tool>
+	<tool name="display">true</tool>
+	<tool name="event">true</tool>
+	<tool name="gallery">true</tool>
+	<tool name="googleanalytics">true</tool>
+	<tool name="logo">true</tool>
+	<tool name="menu">true</tool>
+	<tool name="pagination">true</tool>
+	<tool name="portfolio">true</tool>
+	<tool name="private">true</tool>
+	<tool name="secure">true</tool>
+	<tool name="seo">true</tool>
+	<tool name="shortcodes">true</tool>
+	<tool name="thumbnail">true</tool>
+	<tool name="video">true</tool>
+	<tool name="wall">true</tool>
+	<tool name="wip">true</tool>
+	<tool name="woocommerce">true</tool>
+</customtheme>

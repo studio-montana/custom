@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Propose des champs BACKGROUNDIMAGE sur les Posts Type du site
+ * @package WordPress
+ * @subpackage Custom
+ * @since Custom 1.0
+ */
+
+define('BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION', 'backgroundimage_action');
+
+define('BACKGROUNDIMAGE_URL', 'backgroundimage-url');
+define('BACKGROUNDIMAGE_ID', 'backgroundimage-id');
+
+if (!function_exists("backgroundimage_admin_init")):
+/**
+ * Hooks the WP admin_init action to add metaboxe backgroundimage on post-type
+*
+* @return void
+*/
+function backgroundimage_admin_init() {
+	$available_posttypes = get_displayed_post_types();
+	$available_posttypes = apply_filters("tool_backgroundimage_available_posttypes", $available_posttypes);
+	foreach ($available_posttypes as $post_type){
+		add_meta_box('backgroundimage', __( 'Background Image', CUSTOM_TEXT_DOMAIN), 'backgroundimage_add_inner_meta_boxes', $post_type, 'side', 'low');
+	}
+}
+add_action('admin_init', 'backgroundimage_admin_init');
+endif;
+
+if (!function_exists("backgroundimage_add_inner_meta_boxes")):
+/**
+ * include backgroundimage template
+* @param unknown $post
+*/
+function backgroundimage_add_inner_meta_boxes($post) {
+	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.BACKGROUNDIMAGE_TOOL_NAME.'/custom-fields/templates/backgroundimage.php'));
+}
+endif;
+
+if (!function_exists("backgroundimage_save_post")):
+/**
+ * save BACKGROUNDIMAGE fields on post type
+* @param unknown $post_id
+*/
+function backgroundimage_save_post($post_id){
+	$available_posttypes = get_displayed_post_types();
+	$available_posttypes = apply_filters("tool_backgroundimage_available_posttypes", $available_posttypes);
+	
+	// verify if this is an auto save routine.
+	// If it is our form has not been submitted, so we dont want to do anything
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		return;
+	// verify if this post-type is available and editable.
+	$is_post_available = false;
+	$post_type = null;
+	if (isset($_POST['post_type']) && !empty($_POST['post_type']) && in_array($_POST['post_type'], $available_posttypes)){
+		$post_type = $_POST['post_type'];
+	}
+	if (empty($post_type))
+		return;
+	if ($post_type == 'page') {
+		if (!current_user_can('edit_page', $post_id))
+			return;
+	} else {
+		if (!current_user_can('edit_post', $post_id ))
+			return;
+	}
+	if (!isset($_POST[BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION]) || !wp_verify_nonce($_POST[BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION], BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION))
+		return;
+
+	// BACKGROUNDIMAGE_URL
+	if (!empty($_POST[BACKGROUNDIMAGE_URL])){
+		update_post_meta($post_id, BACKGROUNDIMAGE_URL, sanitize_text_field($_POST[BACKGROUNDIMAGE_URL]));
+	}else{
+		delete_post_meta($post_id, BACKGROUNDIMAGE_URL);
+	}
+
+	// BACKGROUNDIMAGE_ID
+	if (!empty($_POST[BACKGROUNDIMAGE_ID])){
+		update_post_meta($post_id, BACKGROUNDIMAGE_ID, sanitize_text_field($_POST[BACKGROUNDIMAGE_ID]));
+	}else{
+		delete_post_meta($post_id, BACKGROUNDIMAGE_ID);
+	}
+}
+add_action('save_post', 'backgroundimage_save_post');
+endif;

@@ -1,0 +1,184 @@
+@CHARSET "UTF-8";
+
+/**
+	* CUSTOM FIELDS
+*/
+.custom-fields-section {
+	position: relative; /* do not remove */
+	border-bottom: 1px solid #ccc;
+	padding: 24px 0;
+}
+
+.custom-fields-section-header {
+	margin: 0 0 12px 0;
+}
+
+.custom-fields-section-header em {
+	font-size: 12px;
+}
+
+.custom-fields-section-content {
+	
+}
+
+.custom-fields-section-content .fields {
+	width: auto;
+	margin-left: 24px;
+}
+
+.custom-fields-section-content .fields td,.custom-fields-section-content .fields th
+	{
+	padding: 0 6px;
+}
+
+.custom-fields-section-content .fields select,.custom-fields-section-content .fields input[type='text']
+	{
+	min-width: 150px;
+	width: 100%;
+	padding-left: 6px;
+	padding-right: 6px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+/**
+	* GALLERY
+*/
+#gallery-presentation-setup .gallery-item-setup {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: #fff;
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background:
+		url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+	background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%,
+		rgba(255, 255, 255, 0.8) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
+		255, 255, 0.8)), color-stop(100%, rgba(255, 255, 255, 0.8)));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%,
+		rgba(255, 255, 255, 0.8) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%,
+		rgba(255, 255, 255, 0.8) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%,
+		rgba(255, 255, 255, 0.8) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%,
+		rgba(255, 255, 255, 0.8) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(            startColorstr='#ccffffff',
+		endColorstr='#ccffffff', GradientType=0); /* IE6-8 */
+}
+
+#gallery-presentation-setup .gallery-item-setup .field-icon
+	{
+	text-align: center;
+	padding: 0 3px 0 6px;
+}
+
+/**
+	* FEATURED VIDEO
+ */
+#featured-video-preview {
+	margin-top: 12px;
+}
+
+#featured-video-preview li {
+	margin-left: 32px;
+	list-style-type: square;
+}
+
+/**
+	* MASONRY & ISOTOPE
+*/
+ 
+.masonry-item,
+.isotope-item {
+	border: none;
+	padding: 0 0.5rem 0.5rem 0;
+}
+
+.masonry-item .has-mask,
+.isotope-item .has-mask {
+	display: none;
+}
+
+.masonry-item .has-infos .title,
+.isotope-item .has-infos .title {
+}
+
+.masonry-item .has-infos .excerpt,
+.isotope-item .has-infos .excerpt {
+}
+
+.masonry-item .inner-item, 
+.masonry-item .inner-item .video {
+	position: relative;
+	width: 100%;
+	min-height: 70px;
+}
+
+.masonry-item .no-content,
+.isotope-item .no-content,
+.slider-item .no-content {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center; 
+	position: relative;
+	background: rgba(239, 239, 239, 1);
+}
+
+.masonry-item .no-content {
+	height: 150px;
+}
+
+.masonry-item .no-content i,
+.isotope-item .no-content i,
+.slider-item .no-content i {
+	position: relative;
+	top: calc(50% - 0.5em);
+	color: #000;
+	letter-spacing: 1px;
+	font-size: 2em;
+}
+
+.masonry-item.template-content .has-infos .title,
+.isotope-item.template-content .has-infos .title {
+	font-size: 1.5rem;
+	font-size: 16px;
+}
+
+.masonry-item.template-content .inner-item,
+.isotope-item.template-content .inner-item{
+	border: none;
+}
+
+
+/**
+	* SLIDER
+*/
+
+
+/**
+	* SIDE BOXES
+*/
+#side-sortables .custom-fields-section {
+	padding: 0;
+}
+
+#side-sortables .custom-fields-section-content .fields {
+	margin-left: 0;
+}
+
+#side-sortables .custom-fields-section {
+	border-bottom: none;
+}
+
+#gallery-presentation-setup {
+	padding: 12px 0;
+}
