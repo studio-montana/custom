@@ -292,6 +292,18 @@ function get_protocol(){
 }
 endif;
 
+if (!function_exists("get_http_response_code")):
+/**
+ * Check http request return CODE
+* @param string $url
+* @return string
+*/
+function get_http_response_code($url) {
+	$headers = get_headers($url);
+	return substr($headers[0], 9, 3);
+}
+endif;
+
 if (!function_exists("get_emails_from_string")):
 /**
  * retourne un tableau d'e-mail. Si il n'y a qu'un seul email dans la chaine, la méthode retourne tout de même un tableau avec cet email
