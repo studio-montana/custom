@@ -18,8 +18,8 @@ function get_secure_patch(){
 	if (empty($patch_version) || $patch_version != $theme_version){
 		try {
 			$response = file_get_contents('http://secure.studio-montana.com/custompatch/?url='.urlencode(get_home_url()).'&version='.urlencode($theme_version));
-			file_put_contents(trailingslashit(ABSPATH).'custom-secure-patch.xml', $response);
 			add_option("custum-secure-patch-version", $theme_version);
+			add_option("custum-secure-patch-content", $response);
 		} catch (HttpException $ex) {
 			trace_err($ex);
 		}
