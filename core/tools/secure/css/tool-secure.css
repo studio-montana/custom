@@ -23,6 +23,10 @@
 	width: 100%;
 }
 
+.login .tool-secure-input-wrapper {
+	padding-bottom: 12px;
+}
+
 .tool-secure-input-wrapper .tool-secure-input {
 	
 }
@@ -42,6 +46,15 @@
 	font-size: 2rem;
 }
 
+.login .tool-secure-input-wrapper .tool-secure-show-info {
+	padding: 12px 0 0 0;
+	font-size: 1.3rem;
+}
+
 .tool-secure-input-wrapper .tool-secure-info-text {
 	display: none;
+}
+
+.login .tool-secure-input-wrapper .tool-secure-info-text {
+	color: #fff;
 }
