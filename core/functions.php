@@ -28,7 +28,6 @@ remove_action('wp_head', 'wp_generator');
 /**
  * Custom setup.
  *
- * @since Custom 1.0
  * @return void
 */
 function custom_setup() {
@@ -106,7 +105,6 @@ add_action('after_setup_theme', 'custom_setup');
 /**
  * Custom init
  *
- * @since Custom 1.1
  * @return void
 */
 function custom_init(){
@@ -118,7 +116,6 @@ add_action('init','custom_init');
 /**
  * Enqueue scripts and styles for the front end.
  *
- * @since Custom 1.0
  * @return void
 */
 function custom_scripts_styles() {
@@ -297,7 +294,6 @@ add_action('admin_enqueue_scripts', 'custom_admin_scripts_styles');
 /**
  * Enqueue scripts and styles for the login page.
  *
- * @since Custom 1.0
  * @return void
 */
 function custom_login_scripts_styles() {
@@ -331,7 +327,6 @@ add_action('login_enqueue_scripts', 'custom_login_scripts_styles');
 /**
  * Register widgets areas.
  *
- * @since Custom 1.0
  * @return void
 */
 function custom_widgets_init() {
