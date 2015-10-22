@@ -31,9 +31,10 @@
 						});
 					}
 					// isotope columnWidth
+					var larg = $isotope.width() / window_matrice.columns
 					$isotope.isotope({
 						masonry : {
-							columnWidth : $isotope.width() / window_matrice.columns
+							columnWidth : larg
 						}
 					});
 					resized = true;
@@ -50,9 +51,10 @@
 					custom_resize_isotope_items_height($(this));
 				});
 				// isotope columnWidth
+				var larg = $isotope.width() / $isotope.data("columns")
 				$isotope.isotope({
 					masonry : {
-						columnWidth : $(this).width() / $(this).data("columns")
+						columnWidth : larg
 					}
 				});
 			}

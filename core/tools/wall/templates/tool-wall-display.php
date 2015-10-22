@@ -446,9 +446,13 @@ if (!empty($posts)){
 					var $isotope = $('#isotope-wall-<?php echo get_the_ID(); ?>').isotope({
 						itemSelector : '.isotope-item',
 						resizable : false, // disable normal resizing 
-						layout: 'masonry',
+						layout: 'masonry'
+					});
+					
+					var larg = $isotope.width() / $isotope.data("columns");
+					$isotope.isotope({
 						masonry : {
-							columnWidth : $(this).width() / $(this).data("columns")
+							columnWidth : larg
 						}
 					});
 
