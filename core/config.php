@@ -54,7 +54,7 @@ function custom_get_config($type, $name){
  */
 function custom_init_config(){
 	$config = array();
-	$config_file = TEMPLATEPATH."/config.xml";
+	$config_file = STYLESHEETPATH."/config.xml";
 	if (file_exists($config_file)){
 		$xml = simplexml_load_string(file_get_contents($config_file));
 		if ($xml){
