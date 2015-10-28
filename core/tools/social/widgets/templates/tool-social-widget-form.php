@@ -70,7 +70,7 @@ if (!empty($backgrounded) && $backgrounded == 'on'){
 		<td><input size="35" placeholder="http://www.domain-name.com" type="text" name="<?php echo $this->get_field_name('social-download-url'); ?>" id="<?php echo $this->get_field_id('social-download-url'); ?>" value="<?php echo $download_url; ?>" /></td>
 	</tr>
 	<tr>
-		<td><input class="<?php echo $class_social_item; ?>" type="checkbox" class="backgrounded-check" name="<?php echo $this->get_field_name('social-backgrounded'); ?>" id="<?php echo $this->get_field_id('social-backgrounded'); ?>"<?php if (!empty($backgrounded) && $backgrounded == 'on'){ echo ' checked="checked"'; } ?> /></td>
+		<td><input class="backgrounded-check" type="checkbox" name="<?php echo $this->get_field_name('social-backgrounded'); ?>" id="<?php echo $this->get_field_id('social-backgrounded'); ?>"<?php if (!empty($backgrounded) && $backgrounded == 'on'){ echo ' checked="checked"'; } ?> /></td>
 		<td><label for="<?php echo $this->get_field_id('social-backgrounded'); ?>"><?php _e("backgrounded", CUSTOM_TEXT_DOMAIN); ?></label></td>
 	</tr>
 </table>
