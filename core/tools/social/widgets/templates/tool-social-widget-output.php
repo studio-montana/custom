@@ -43,7 +43,7 @@
 	</div>
 	<?php } ?>
 	<?php if (!empty($pinterest_url)){ ?>
-	<div class="pinterest-url">
+	<div class="<?php echo $social_item_class; ?> pinterest-url">
 		<a target="_blank" href="<?php echo $pinterest_url; ?>" title="<?php echo esc_attr(__("pinterest", CUSTOM_TEXT_DOMAIN)); ?>">
 			<i class="fa fa-pinterest-p"></i>
 		</a>
