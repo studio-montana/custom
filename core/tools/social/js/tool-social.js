@@ -10,7 +10,7 @@
  * Widget background check
  */
 (function($) {
-	$(".backgrounded-check").on('click', function(e) {
+	$(".backgrounded-check").live('click', function(e) {
 		if ($(this).prop('checked')){
 			$(this).parent().parent().parent().find("label").addClass("backgrounded");
 		}else{
