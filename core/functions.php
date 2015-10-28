@@ -22,6 +22,11 @@ define('CUSTOM_JS_FOLDER', 'js/');
 define('CUSTOM_LANG_FOLDER', 'lang/');
 
 /**
+ * Github Support
+ */
+define('GITHUB_UPDATER_EXTENDED_NAMING', true);
+
+/**
  * Remove generator tag from html source code
 */
 remove_action('wp_head', 'wp_generator');
