@@ -11,7 +11,6 @@
  */
 (function($) {
 	$(".backgrounded-check").on('click', function(e) {
-		console.log("backgrounded-check : "+$(this).prop('checked'));
 		if ($(this).prop('checked')){
 			$(this).parent().parent().parent().find("label").addClass("backgrounded");
 		}else{

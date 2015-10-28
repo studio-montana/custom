@@ -25,7 +25,7 @@ $height = $wall_args['meta_wall_display_presentation_initial_height']*$wall_args
 			if (defined("META_DISPLAY_BADGED")) $badged = get_post_meta(get_the_ID(), META_DISPLAY_BADGED, true);
 			else $badged = 'off';
 			if (!empty($badged) && $badged == 'on'){ ?>
-				<div class="has-badge"><span><?php _e("new", CUSTOM_TEXT_DOMAIN); ?></span></div>
+				<div class="has-badge"><span><?php echo get_post_meta(get_the_ID(), META_DISPLAY_BADGE_TEXT, true); ?></span></div>
 			<?php } ?>
 			
 			<div class="has-mask">

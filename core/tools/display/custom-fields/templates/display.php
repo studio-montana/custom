@@ -72,6 +72,37 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				</td>
 				<td valign="middle"><em><?php _e("Add awesome badge for new stuff !", CUSTOM_TEXT_DOMAIN); ?></em></td>
 			</tr>
+			<tr valign="top" class="badge-text" style="display: none;">
+				<th class="metabox_label_column" align="left" valign="middle"><label
+					for="<?php echo META_DISPLAY_BADGE_TEXT; ?>"><?php _e("Badge's text", CUSTOM_TEXT_DOMAIN); ?> : </label>
+				</th>
+				<td valign="middle">
+					<?php 
+					$meta = get_post_meta(get_the_ID(), META_DISPLAY_BADGE_TEXT, true);
+					if (empty($meta)){
+						$meta = __("new", CUSTOM_TEXT_DOMAIN);
+					}
+					?>
+					<input type="text" size="50" id="<?php echo META_DISPLAY_BADGE_TEXT; ?>" name="<?php echo META_DISPLAY_BADGE_TEXT; ?>" value="<?php echo $meta; ?>" />
+				</td>
+				<td valign="middle"></td>
+			</tr>
 		</table>
+		<script type="text/javascript">
+			(function($) {
+				$("input[name='<?php echo META_DISPLAY_BADGED ?>']").on('click', function(e) {
+					if ($(this).prop('checked')){
+						$(".badge-text").fadeIn();
+					}else{
+						$(".badge-text").fadeOut();
+					}
+				});
+				if ($("input[name='<?php echo META_DISPLAY_BADGED ?>']").prop('checked')){
+					$(".badge-text").fadeIn();
+				}else{
+					$(".badge-text").fadeOut();
+				}
+			})(jQuery);
+		</script>
 	</div>
 </div>

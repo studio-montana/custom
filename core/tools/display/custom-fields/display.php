@@ -8,6 +8,7 @@ define('META_DISPLAY_CUSTOMTITLE', 'meta_display_customtitle');
 define('META_DISPLAY_SUBTITLE', 'meta_display_subtitle');
 define('META_DISPLAY_HIDE_THUMBNAIL', 'meta_display_hide_content');
 define('META_DISPLAY_BADGED', 'meta_display_badged');
+define('META_DISPLAY_BADGE_TEXT', 'meta_display_badge_text');
 
 if (!function_exists("display_add_inner_meta_boxes")):
 /**
@@ -62,6 +63,12 @@ function display_save_post($post_id){
 			update_post_meta($post_id, META_DISPLAY_BADGED, sanitize_text_field($_POST[META_DISPLAY_BADGED]));
 		}else{
 			delete_post_meta($post_id, META_DISPLAY_BADGED);
+		}
+		// META_DISPLAY_BADGE_TEXT
+		if (!empty($_POST[META_DISPLAY_BADGE_TEXT])){
+			update_post_meta($post_id, META_DISPLAY_BADGE_TEXT, sanitize_text_field($_POST[META_DISPLAY_BADGE_TEXT]));
+		}else{
+			delete_post_meta($post_id, META_DISPLAY_BADGE_TEXT);
 		}
 	}
 }
