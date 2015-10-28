@@ -162,8 +162,8 @@ function secure_captcha_generate_field($field_name){
 	}
 	$field .= '<span class="input-wrapper tool-secure-input-wrapper">';
 	$field .= '<input class="'.$input_classes.'" size="20" type="number" id="'.$field_name.'" name="'.$field_name.'" placeholder="'.$captcha_1." + ".$captcha_2.'" />';
-	$field .= '<span class="fa fa-info tool-secure-show-info"></span>';
-	$field .= '<span class="tool-secure-info-text">'.__("Resolve this addition and put the result in field. It's a secure field to be sure your are not a robot.", CUSTOM_TEXT_DOMAIN).'</span>';
+	$field .= '<span class="fa fa-question-circle tool-secure-show-info"></span>';
+	$field .= '<span class="tool-secure-info-text">'.__("Please solve the problem. This is an anti-spam security check.", CUSTOM_TEXT_DOMAIN).'</span>';
 	$field .= '</span>';
 	return $field;
 }
