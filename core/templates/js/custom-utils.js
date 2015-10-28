@@ -86,21 +86,30 @@ function unwait($element) {
 	});
 })(jQuery);
 
-/*******************************************************************************************************************************************************************************************************
+/**
  * Image Loader jQuery Plugin
- ******************************************************************************************************************************************************************************************************/
+ */
 (function($) {
-	$.fn.custom_image_load = function(onLoadFunc) {
-		var $img = this;
+	$.custom_image_load = function($element, on_load_function) {
 		var load_timer = null;
-		if ($img.prop("tagName") == 'IMG') {
+		if ($element.prop("tagName") == 'IMG') {
 			load_timer = setInterval(function() {
-				if ($img.get(0).complete) {
+				if ($element.get(0).complete) {
 					clearInterval(load_timer);
-					onLoadFunc.call(null);
+					on_load_function.call($element);
 				}
 			}, 200);
 		}
 		return this;
+	};
+	$.fn.custom_image_load = function(on_load_function) {
+		return this.each(function() {
+			if (!isset($(this).data('custom_image_load'))) {
+				var plugin = new $.custom_image_load($(this), on_load_function);
+				$(this).data('custom_image_load', plugin);
+			}else{
+				// already instanciated - nothing to do
+			}
+		});
 	};
 })(jQuery);
