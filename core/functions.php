@@ -130,7 +130,7 @@ function custom_scripts_styles() {
 	// -- font awesome
 	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
 	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.3.0');
+		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.4.0');
 	}
 	// -- bxslider
 	$css_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.css');
@@ -288,7 +288,7 @@ function custom_admin_scripts_styles() {
 	// LoadsAwesome specific stylesheet for admin.
 	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
 	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-admin-css-awesome', $css_awesome, array(), '4.3.0');
+		wp_enqueue_style('custom-admin-css-awesome', $css_awesome, array(), '4.4.0');
 	}
 
 	// wp.media JavaScript in Admin environement (widget, posts, ...)
@@ -307,7 +307,7 @@ function custom_login_scripts_styles() {
 	// -- font awesome
 	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
 	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.3.0');
+		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.4.0');
 	}
 
 	// Loads Utils
