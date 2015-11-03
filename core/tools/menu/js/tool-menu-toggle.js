@@ -11,10 +11,10 @@
  */
 (function($) {
 	$('.menu-toggle').on('click', function(e) {
-		if ($('.main-navigation .nav').is(':visible')) {
-			$('.main-navigation .nav').fadeOut();
-		} else {
-			$('.main-navigation .nav').fadeIn();
-		}
+		if ($("#primary-navigation").hasClass("toggled")){
+			$("#primary-navigation").removeClass("toggled");
+		}else{
+			$("#primary-navigation").addClass("toggled");
+		}i
 	});
 })(jQuery);

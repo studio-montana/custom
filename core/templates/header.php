@@ -50,7 +50,7 @@
 						<?php } ?>
 					</div>
 				</div><!-- .site-branding -->
-				<div class="site-navigation" role="navigation">
+				<div id="primary-navigation" class="site-navigation" role="navigation">
 					<div class="site-navigation-container main-navigation" role="navigation">
 						<h3 class="menu-toggle"><i class="fa fa-bars"></i></h3>
 						<?php wp_nav_menu( array('theme_location' => 'primary', 'menu_class' => 'nav')); ?>
