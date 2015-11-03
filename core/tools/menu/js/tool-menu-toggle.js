@@ -15,6 +15,6 @@
 			$("body").removeClass("menu-toggled");
 		}else{
 			$("body").addClass("menu-toggled");
-		}i
+		}
 	});
 })(jQuery);
