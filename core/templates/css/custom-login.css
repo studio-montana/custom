@@ -10,7 +10,7 @@ body.login{
 #login {
     margin: 0 auto;
     padding: 20px 0 10px 0;
-    background: #2D2D2D;
+    background-color: rgba(45, 45, 45, 1);
     -webkit-border-bottom-right-radius: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -23,7 +23,7 @@ body.login{
 .login .message{
 	background: transparent;
 	border: none;
-	color: #FFFFFF;
+    color: rgba(255, 255, 255, 1);
 	text-align: center;
     box-shadow: none;
 }
@@ -31,7 +31,7 @@ body.login{
 .login #login_error{
 	background: transparent;
 	border: none;
-	color: #FFFFFF;
+    color: rgba(255, 255, 255, 1);
 	text-align: center;
     box-shadow: none;
 }
@@ -43,7 +43,7 @@ body.login{
 }
 
 .login label{
-	color: #FFFFFF;
+    color: rgba(255, 255, 255, 1);
 }
 
 .login h1 a {

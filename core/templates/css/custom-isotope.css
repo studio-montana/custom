@@ -30,10 +30,10 @@
 	position: relative;
 	float: left;
 	display: inline-block;
-	color: #000;
+	color: rgba(0, 0, 0, 1);
+	background-color: transparent;
 	margin: 0;
 	padding: 0;
-	background-color: transparent;
 	overflow: hidden;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -95,6 +95,8 @@
 	overflow: hidden;
 	color: rgba(0, 0, 0, 1);
 	background-color: rgba(255, 255, 255, 0.75);
+	-moz-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
 	-webkit-transition: all 0.4s ease-in-out 0s;
 	transition: all 0.4s ease-in-out 0s;
 	width: 100%;
@@ -105,6 +107,8 @@
 .masonry-item a:hover .has-mask,
 .isotope-item a:hover .has-mask {
 	opacity: 1;
+	-moz-transition: all 0.8s ease-in-out 0s;
+	-ms-transition: all 0.8s ease-in-out 0s;
 	-webkit-transition: all 0.8s ease-in-out 0s;
 	transition: all 0.8s ease-in-out 0s;
 }
@@ -113,10 +117,10 @@
 .isotope-item .has-mask .title {
 	position: relative;
 	font-size: 1rem;
-	font-size: 10px;
 	font-weight: 700;
-	letter-spacing: 0.071rem;
 	text-transform: uppercase;
+	top: -webkit-calc(50% - 1rem);
+	top: -moz-calc(50% - 1rem);
 	top: calc(50% - 1rem);
 }
 
@@ -147,14 +151,12 @@
 	display: inline-block;
 	cursor: pointer;
 	width: 100%;
-	height: 2em;
-	padding: 0 0 0.5rem 0;
+	height: 2rem;
+	padding: 0;
 	margin: 0;
 	font-size: 1.2rem;
-	font-size: 12px;
-	color: rgba(0, 0, 0, 1);
-	letter-spacing: 0.071rem;
 	text-transform: uppercase;
+	color: rgba(0, 0, 0, 1);
 	text-align: left;
 	vertical-align: top;
 }
@@ -162,7 +164,7 @@
 .masonry-wall-filters li.masonry-filter,
 .isotope-wall-filters li.isotope-filter {
 	display: inline-block;
-	margin: 0 1em 0 0;
+	margin: 0 1rem 0 0;
 	padding: 0;
 }
 
@@ -176,15 +178,15 @@
 .isotope-wall-filters li.isotope-filter:hover {
 	color: rgba(0, 0, 0, 1);
 	text-decoration: none;
+	-moz-transition: all 0.4s ease-in-out 0s;
+	-ms-transition: all 0.4s ease-in-out 0s;
 	-webkit-transition: all 0.4s ease-in-out 0s;
 	transition: all 0.4s ease-in-out 0s;
 }
 
 .masonry-wall-filters li.masonry-filter.active,
 .isotope-wall-filters li.isotope-filter.active {
-	margin-left: 0;
 	color: rgba(255, 199, 64, 1);
-	border-top: none;
 }
 
 /**
@@ -194,13 +196,13 @@
 	position: absolute;
 	z-index: 800;
 	top: 0;
-	left: 36px;
+	left: 32px;
 	padding: 0 6px;
 	width: auto;
 	height: 0px;
 	font-size: 10px;
 	font-weight: bold;
-	line-height: 2px;
+	line-height: 0px;
 	text-align: right;
 	text-transform: uppercase;
 	text-decoration: none;
@@ -210,11 +212,15 @@
 	border-right: 6px solid rgba(255, 255, 255, 0);
 	-ms-transform: rotate(90deg); /* IE 9 */
     -ms-transform-origin: top left; /* IE 9 */
+    -moz-transform: rotate(90deg); /* IE 9 */
+    -moz-transform-origin: top left; /* IE 9 */
     -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
     -webkit-transform-origin: top left; /* Chrome, Safari, Opera */
 	transform: rotate(90deg);
 	transform-origin: top left;
-	box-sizing: border-box;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
 }
 
 
@@ -253,13 +259,11 @@
 	z-index: 700;
 	overflow: hidden;
 	padding: 0 6px;
-	color: #000;
+	color: rgba(0, 0, 0, 1);
+	background-color: rgba(255, 255, 255, 1);
 	font-size: 1rem;
-	font-size: 10px;
 	font-weight: 700;
-	letter-spacing: 0.071rem;
 	text-transform: uppercase;
-	background: #fff;
 }
 
 /** 
@@ -273,7 +277,7 @@
 
 .masonry-item.template-content .inner-item,
 .isotope-item.template-content .inner-item {
-	background-color: #fff;
+	background-color: rgba(255, 255, 255, 1);
 }
 
 .masonry-item.template-content .has-mask,
@@ -283,7 +287,6 @@
 
 .masonry-item.template-content a:hover .has-mask,
 .isotope-item.template-content a:hover .has-mask {
-	display: none
 }
 
 .masonry-item.template-content .has-mask .title,
@@ -302,7 +305,7 @@
 	left: 0;
 	top: 0;
 	padding: 12px;
-	color: #000;
+	color: rgba(0, 0, 0, 1);
 	text-align: center;
 	border: 1px solid rgba(0, 0, 0, 1);
 }
@@ -315,7 +318,6 @@
 .isotope-item.template-content .has-infos .title {
 	font-size: 2.4rem;
 	line-height: 1.1538;
-	letter-spacing: 0.071rem;
 	text-align: left;
 }
 
@@ -323,7 +325,6 @@
 .isotope-item.template-content .has-infos .excerpt {
 	font-size: 1.2rem;
 	font-weight: 300;
-	letter-spacing: 0.071rem;
 	line-height: 1.5rem;
 	text-align: left;
 	-webkit-hyphens: none;
@@ -356,7 +357,7 @@
 }
 .masonry-item.template-video.no-video .inner-item,
 .masonry-item.template-thumb.no-thumb .inner-item {
-	background: #000;
+	background-color: rgba(0, 0, 0, 1);
 }
 
 /** 
@@ -505,7 +506,7 @@
 	right: 0;
 	width: 100%;
 	height: 100%;
-	color: #000;
+	color: rgba(0, 0, 0, 1);
 	background: rgba(255, 255, 255, 0.75);
 }
 
@@ -513,14 +514,12 @@
 .slider-item .inner-item.content .has-infos .title {
 	font-size: 24px;
 	line-height: 1.1538;
-	letter-spacing: 0.071rem;
 }
 
 .slider-item .inner-item.content .has-mask .excerpt,
 .slider-item .inner-item.content .has-infos .excerpt {
 	font-size: 1.2rem;
 	font-weight: 300;
-	letter-spacing: 0.071rem;
 	line-height: 1.5rem;
 	text-align: left;
 	-webkit-hyphens: none;
@@ -585,13 +584,13 @@
 
 .slider-thumb-nav-control.slider-thumb-nav-prev,
 .slider-thumb-nav-control.slider-thumb-nav-next{
+	position: absolute;
 	display: block;
 	background: none;
 	text-align: center;
-	color: #000;
-	position: absolute;
+	color: rgba(0, 0, 0, 1);
+	background: rgba(255, 255, 255, 0.75);
 	top: 14px;
-	background: #fff;
 	z-index: 500;
 	cursor: pointer;
 }
