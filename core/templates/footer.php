@@ -28,6 +28,8 @@
 		</footer><!-- #colophon -->
 	</div><!-- #page -->
 
+	<?php do_action("custom_html_after_page"); ?>
+
 	<?php wp_footer(); ?>
 </body>
 </html>

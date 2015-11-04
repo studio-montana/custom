@@ -36,12 +36,12 @@ function backgroundimage_customize_register($wp_customize_manager) {
 }
 add_action('customize_register', 'backgroundimage_customize_register');
 
-if (!function_exists("backgroundimage_wp_head")):
+if (!function_exists("backgroundimage_custom_html_before_page")):
 /**
- * custom_customizer_wp_head
+ * add background image div before #page element
 */
-function backgroundimage_wp_head(){
-	
+function backgroundimage_custom_html_before_page(){
+
 	$url_backgroundimage = "";
 	$_queried_post = get_queried_object();
 	if ($_queried_post && (is_single() || is_page())){
@@ -50,25 +50,25 @@ function backgroundimage_wp_head(){
 	if (empty($url_backgroundimage)){
 		$url_backgroundimage = get_theme_mod('backgroundimage_image');
 	}
-	
+
 	if (!empty($url_backgroundimage)){
 		?>
-<style>
-body {
-	background:
-		url("<?php echo $url_backgroundimage; ?>")
-		no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	-ms-background-size: cover;
-	background-size: cover;
-}
-</style>
+<div style="background: url('<?php echo $url_backgroundimage; ?>') no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			-ms-background-size: cover;
+			background-size: cover;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -100;"></div>
 <?php
 	}
 }
-add_action('wp_head', 'backgroundimage_wp_head');
+add_action('custom_html_before_page', 'backgroundimage_custom_html_before_page');
 endif;
 
 if (!function_exists("backgroundimage_login_head")):
@@ -76,15 +76,14 @@ if (!function_exists("backgroundimage_login_head")):
  * custom_customizer_wp_head
 */
 function backgroundimage_login_head(){
-	
+
 	$url_backgroundimage = get_theme_mod('backgroundimage_image');
 	if (!empty($url_backgroundimage)){
 		?>
 <style>
 html {
-	background:
-		url("<?php echo $url_backgroundimage; ?>")
-		no-repeat center center fixed;
+	background: url("<?php echo $url_backgroundimage; ?>") no-repeat center
+		center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

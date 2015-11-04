@@ -32,6 +32,8 @@
 
 <body <?php body_class(); ?>>
 
+	<?php do_action("custom_html_before_page"); ?>
+
 	<div id="page" class="hfeed site">
 	
 		<header id="masthead" class="site-header" role="banner">
@@ -50,6 +52,7 @@
 						<?php } ?>
 					</div>
 				</div><!-- .site-branding -->
+		
 				<div class="site-navigation" role="navigation">
 					<div class="site-navigation-container main-navigation" role="navigation">
 						<h3 class="menu-toggle"><i class="fa fa-bars"></i></h3>
@@ -57,6 +60,7 @@
 						<div style="clear: both;"></div>
 					</div>
 				</div><!-- #site-navigation -->
+				
 			</div>
 		</header><!-- .site-header -->
 		
