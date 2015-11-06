@@ -43,17 +43,19 @@ if (!function_exists("backgroundimage_custom_html_before_page")):
 function backgroundimage_custom_html_before_page(){
 
 	$url_backgroundimage = "";
+	$class = "";
 	$_queried_post = get_queried_object();
 	if ($_queried_post && (is_single() || is_page())){
 		$url_backgroundimage = get_post_meta($_queried_post->ID, BACKGROUNDIMAGE_URL, true);
 	}
 	if (empty($url_backgroundimage)){
+		$class = "default";
 		$url_backgroundimage = get_theme_mod('backgroundimage_image');
 	}
 
 	if (!empty($url_backgroundimage)){
 		?>
-<div id="tool-backgroundimage" style="background: url('<?php echo $url_backgroundimage; ?>') no-repeat center center fixed;
+<div id="tool-backgroundimage" class="<?php $class; ?>" style="background: url('<?php echo $url_backgroundimage; ?>') no-repeat center center fixed;
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;
