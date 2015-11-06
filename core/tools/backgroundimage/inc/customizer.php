@@ -55,7 +55,7 @@ function backgroundimage_custom_html_before_page(){
 
 	if (!empty($url_backgroundimage)){
 		?>
-<div id="tool-backgroundimage" class="<?php $class; ?>" style="background: url('<?php echo $url_backgroundimage; ?>') no-repeat center center fixed;
+<div id="tool-backgroundimage" class="<?php echo $class; ?>" style="background: url('<?php echo $url_backgroundimage; ?>') no-repeat center center fixed;
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;
