@@ -19,6 +19,7 @@ define('CUSTOM_TEMPLATES_FOLDER', 'core/templates/');
 define('CUSTOM_TOOLS_FOLDER', 'core/tools/');
 define('CUSTOM_CSS_FOLDER', 'css/');
 define('CUSTOM_JS_FOLDER', 'js/');
+define('CUSTOM_FONTS_FOLDER', 'fonts/');
 define('CUSTOM_LANG_FOLDER', 'lang/');
 
 /**
@@ -137,12 +138,17 @@ function custom_scripts_styles() {
 	if (!empty($css_fancybox)){
 		wp_enqueue_style('custom-css-fancybox', $css_fancybox, array('custom-css-bxslider'), '2.1.5');
 	}
+	// -- fontawesome
+	$css_fontawesome = locate_web_ressource(CUSTOM_FONTS_FOLDER.'fontawesome/fontawesome-4.4.0.css');
+	if (!empty($css_fontawesome)){
+		wp_enqueue_style('custom-css-fontawesome', $css_fontawesome, array('custom-css-bxslider'), '4.4.0');
+	}
 
 	// Loads core stylesheets
 	// -- knacss
 	$css_knacss = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-knacss.css');
 	if (!empty($css_knacss))
-		wp_enqueue_style('custom-core-knacss-style', $css_knacss, array('custom-css-fancybox'), '1.0');
+		wp_enqueue_style('custom-core-knacss-style', $css_knacss, array('custom-css-fontawesome'), '1.0');
 	
 	// Action for stylesheets tools
 	do_action("custom_front_enqueue_styles_tools", array("custom-core-knacss-style"));
@@ -234,11 +240,17 @@ function custom_admin_scripts_styles() {
 
 	// jQuery DatePicker
 	wp_enqueue_script('jquery-ui-datepicker');
+	
+	// Fontawesome
+	$css_fontawesome = locate_web_ressource(CUSTOM_FONTS_FOLDER.'fontawesome/fontawesome-4.4.0.css');
+	if (!empty($css_fontawesome)){
+		wp_enqueue_style('custom-admin-css-fontawesome', $css_fontawesome, array(), '4.4.0');
+	}
 
 	// Loads jquery-ui stylesheet (used by date jquery-ui-datepicker)
 	$css_jquery_ui = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-jquery-ui.css');
 	if (!empty($css_jquery_ui))
-		wp_enqueue_style('custom-admin-css-jquery-ui', $css_jquery_ui, '1.11.2');
+		wp_enqueue_style('custom-admin-css-jquery-ui', $css_jquery_ui, array('custom-admin-css-fontawesome'), '1.11.2');
 	
 	// Action for stylesheets tools
 	do_action("custom_admin_enqueue_styles_tools", array("custom-admin-css-jquery-ui"));
@@ -301,6 +313,12 @@ add_action('admin_enqueue_scripts', 'custom_admin_scripts_styles');
  * @return void
 */
 function custom_login_scripts_styles() {
+	
+	// Fontawesome
+	$css_fontawesome = locate_web_ressource(CUSTOM_FONTS_FOLDER.'fontawesome/fontawesome-4.4.0.css');
+	if (!empty($css_fontawesome)){
+		wp_enqueue_style('custom-login-css-fontawesome', $css_fontawesome, array(), '4.4.0');
+	}
 
 	// Loads Utils
 	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');

@@ -57,13 +57,12 @@ add_action('admin_init', 'tool_shortcodes_exergue_add_editor_buttons');
 /**
  * Add shortcode button to TimyMCE
 */
-function tool_shortcodes_exergue_add_button( $page = null, $target = null ) {
+function tool_shortcodes_exergue_add_button($id_editor = null) {
 	?>
-<a id="tool-shortcodes-exergue-insert-shortcode" class="button"
-	href="#tool-shortcodes-exergue-insert-shortcode"
+<span class="tool-shortcodes-insert-shortcode tool-shortcodes-exergue-insert-shortcode button"
 	title="<?php _e('Exergue', CUSTOM_TEXT_DOMAIN); ?>"
-	data-page="<?php echo $page; ?>" data-target="<?php echo $target; ?>" style="width: 36px; text-align: center;">
+	data-id-editor="<?php echo $id_editor; ?>">
 	<i class="fa fa-star"></i>
-</a>
+</span>
 <?php
 }

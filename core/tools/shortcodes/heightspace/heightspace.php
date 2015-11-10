@@ -19,7 +19,7 @@ function tool_shortcodes_heightspace($atts, $content = null, $name='') {
 			"height"	=> '36px',
 	), $atts );
 	$height = sanitize_text_field($atts['height']);
-	$output = '<span class="line-break" style=" display: block; width: 100%; height:'.$height.';">'.do_shortcode($content).'</span>';
+	$output = '<span class="shortcode-heightspace" style=" display: block; width: 100%; height:'.$height.';">'.do_shortcode($content).'</span>';
 	return $output;
 }
 add_shortcode('heightspace', 'tool_shortcodes_heightspace');
@@ -57,13 +57,12 @@ add_action('admin_init', 'tool_shortcodes_heightspace_add_editor_buttons');
 /**
  * Add shortcode button to TimyMCE
 */
-function tool_shortcodes_heightspace_add_button( $page = null, $target = null ) {
+function tool_shortcodes_heightspace_add_button($id_editor = null) {
 	?>
-<a id="tool-shortcodes-heightspace-insert-shortcode" class="button"
-	href="#tool-shortcodes-heightspace-insert-shortcode"
-	title="<?php _e('Exergue', CUSTOM_TEXT_DOMAIN); ?>"
-	data-page="<?php echo $page; ?>" data-target="<?php echo $target; ?>" style="width: 36px; text-align: center;">
+<span class="tool-shortcodes-insert-shortcode tool-shortcodes-heightspace-insert-shortcode button"
+	title="<?php _e('Height Space', CUSTOM_TEXT_DOMAIN); ?>"
+	data-id-editor="<?php echo $id_editor; ?>">
 	<i class="fa fa-arrows-v"></i>
-</a>
+</span>
 <?php
 }
