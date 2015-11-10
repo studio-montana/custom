@@ -13,12 +13,9 @@
 define('MENU_TOOL_NAME', 'menu');
 
 /**
- * Enqueue scripts and styles for the front end.
- *
- * @since Custom 1.0
- * @return void
+ * Enqueue scripts for the front end.
 */
-function tool_menu_scripts_styles() {
+function tool_menu_custom_front_enqueue_scripts_tools($dependencies) {
 
 	/**
 	 * enqueue menu-hightlight javascript file
@@ -44,7 +41,7 @@ function tool_menu_scripts_styles() {
 			$is_post = "0";
 		}
 		$current_url = get_current_url();
-		wp_enqueue_script('tool-menu-script-menu-hightlight', $js_tool_menu_hightlight, array('jquery'), '1.0', true);
+		wp_enqueue_script('tool-menu-script-menu-hightlight', $js_tool_menu_hightlight, $dependencies, '1.0', true);
 		wp_localize_script('tool-menu-script-menu-hightlight', 'ToolMenu', array(
 			'current_url' => $current_url,
 			'home_url' => $home_url,
@@ -58,14 +55,14 @@ function tool_menu_scripts_styles() {
 	 */
 	$js_tool_menu_toggle = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-menu-toggle.js', array(CUSTOM_TOOLS_FOLDER.MENU_TOOL_NAME.'/'));
 	if (!empty($js_tool_menu_toggle)){
-		wp_enqueue_script('tool-menu-script-menu-toggle', $js_tool_menu_toggle, array('jquery'), '1.0', true);
+		wp_enqueue_script('tool-menu-script-menu-toggle', $js_tool_menu_toggle, $dependencies, '1.0', true);
 	}
 	/**
 	 * enqueue menu-fixed-on-scroll javascript file
 	 */
 	$js_tool_menu_fixed_on_scroll = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-menu-fixed-on-scroll.js', array(CUSTOM_TOOLS_FOLDER.MENU_TOOL_NAME.'/'));
 	if (!empty($js_tool_menu_fixed_on_scroll)){
-		wp_enqueue_script('tool-menu-script-fixed-on-scroll', $js_tool_menu_fixed_on_scroll, array('jquery'), '1.0', true);
+		wp_enqueue_script('tool-menu-script-fixed-on-scroll', $js_tool_menu_fixed_on_scroll, $dependencies, '1.0', true);
 	}
 }
-add_action('wp_enqueue_scripts', 'tool_menu_scripts_styles');
+add_action('custom_front_enqueue_scripts_tools', 'tool_menu_custom_front_enqueue_scripts_tools');

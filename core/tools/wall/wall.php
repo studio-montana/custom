@@ -18,32 +18,27 @@ define('WALL_TOOL_NAME', 'wall');
 require_once (locate_template(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/ajax/wall-ajax.php'));
 require_once (locate_template(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/custom-fields/wall.php'));
 
-
 /**
- * Enqueue scripts and styles for the front end.
- *
- * @since Custom 1.0
- * @return void
-*/
-function tool_wall_scripts_styles() {
+ * Enqueue styles for the front end.
+ */
+function tool_wall_custom_front_enqueue_styles_tools($dependencies) {
+
 	$css_wall = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-wall.css', array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/'));
 	if (!empty($css_wall))
-		wp_enqueue_style('tool-wall-css', $css_wall, array(), '1.0');
+		wp_enqueue_style('tool-wall-css', $css_wall, $dependencies, '1.0');
 }
-add_action('wp_enqueue_scripts', 'tool_wall_scripts_styles');
+add_action('custom_front_enqueue_styles_tools', 'tool_wall_custom_front_enqueue_styles_tools');
 
 /**
- * Enqueue scripts and styles for the back end.
- *
- * @since Custom 1.0
- * @return void
-*/
-function tool_wall_admin_scripts_styles() {
+ * Enqueue styles for the back end.
+ */
+function tool_wall_custom_admin_enqueue_styles_tools($dependencies) {
+
 	$css_wall = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-wall-admin.css', array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/'));
 	if (!empty($css_wall))
-		wp_enqueue_style('tool-wall-admin-css', $css_wall, array(), '1.0');
+		wp_enqueue_style('tool-wall-css', $css_wall, $dependencies, '1.0');
 }
-add_action('admin_enqueue_scripts', 'tool_wall_admin_scripts_styles');
+add_action('custom_admin_enqueue_styles_tools', 'tool_wall_custom_admin_enqueue_styles_tools');
 
 /**
  * called after custom_setup_theme core function

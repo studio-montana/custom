@@ -13,19 +13,15 @@
 define('COOKIES_TOOL_NAME', 'cookies');
 
 /**
- * Enqueue scripts and styles for the front end.
- *
- * @since Custom 1.0
- * @return void
+ * Enqueue styles for the front end.
  */
-function tool_cookies_scripts_styles() {
+function tool_cookies_custom_front_enqueue_styles_tools($dependencies) {
 
-	// load cookies's css
 	$css_cookies = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-cookies.css', array(CUSTOM_TOOLS_FOLDER.COOKIES_TOOL_NAME.'/'));
 	if (!empty($css_cookies))
-		wp_enqueue_style('tool-cookies-css', $css_cookies, array(), '1.0');
+		wp_enqueue_style('tool-cookies-css', $css_cookies, $dependencies, '1.0');
 }
-add_action('wp_enqueue_scripts', 'tool_cookies_scripts_styles');
+add_action('custom_front_enqueue_styles_tools', 'tool_cookies_custom_front_enqueue_styles_tools');
 
 /**
  * WP_Footer hook

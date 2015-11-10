@@ -13,18 +13,15 @@
 define('BREADCRUMB_TOOL_NAME', 'breadcrumb');
 
 /**
- * Enqueue scripts and styles for the front end.
- *
- * @return void
-*/
-function tool_breadcrumb_scripts_styles() {
+ * Enqueue styles for the front end.
+ */
+function tool_breadcrumb_custom_front_enqueue_styles_tools($dependencies) {
 
-	// load breadcrumb's css
 	$css_breadcrumb = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-breadcrumb.css', array(CUSTOM_TOOLS_FOLDER.BREADCRUMB_TOOL_NAME.'/'));
 	if (!empty($css_breadcrumb))
-		wp_enqueue_style('tool-breadcrumb-css', $css_breadcrumb, array(), '1.0');
+		wp_enqueue_style('tool-breadcrumb-css', $css_breadcrumb, $dependencies, '1.0');
 }
-add_action('wp_enqueue_scripts', 'tool_breadcrumb_scripts_styles');
+add_action('custom_front_enqueue_styles_tools', 'tool_breadcrumb_custom_front_enqueue_styles_tools');
 
 /**
  * retrieve or display breadcrumb

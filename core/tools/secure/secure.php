@@ -322,41 +322,45 @@ function secure_contactform7_form_validate($field_name){
 }
 
 /**
- * Enqueue scripts and styles for the front end.
- *
- * @since Custom 1.0.1
- * @return void
+ * Enqueue styles for the front end.
  */
-function tool_secure_scripts_styles() {
+function tool_secure_custom_front_enqueue_styles_tools($dependencies) {
 
-	// load secure's css
 	$css_secure = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-secure.css', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
 	if (!empty($css_secure))
-		wp_enqueue_style('tool-secure-css', $css_secure, array(), '1.0');
-
-	// enqueue javascript file
-	$js_tool_secure = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-secure.js', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
-	if (!empty($js_tool_secure))
-		wp_enqueue_script('tool-secure-script', $js_tool_secure, array('jquery'), '1.0', true);
+		wp_enqueue_style('tool-secure-css', $css_secure, $dependencies, '1.0');
 }
-add_action('wp_enqueue_scripts', 'tool_secure_scripts_styles');
+add_action('custom_front_enqueue_styles_tools', 'tool_secure_custom_front_enqueue_styles_tools');
 
 /**
- * Enqueue scripts and styles for the login page.
- *
- * @since Custom 1.0.1
- * @return void
+ * Enqueue scripts for the front end.
 */
-function tool_secure_login_scripts_styles() {
+function tool_secure_custom_front_enqueue_scripts_tools($dependencies) {
 
-	// load secure's css
-	$css_secure = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-secure.css', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
-	if (!empty($css_secure))
-		wp_enqueue_style('tool-secure-css', $css_secure, array(), '1.0');
-
-	// enqueue javascript file
 	$js_tool_secure = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-secure.js', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
 	if (!empty($js_tool_secure))
-		wp_enqueue_script('tool-secure-script', $js_tool_secure, array('jquery'), '1.0', true);
+		wp_enqueue_script('tool-secure-script', $js_tool_secure, $dependencies, '1.0', true);
 }
-add_action('login_enqueue_scripts', 'tool_secure_login_scripts_styles');
+add_action('custom_front_enqueue_scripts_tools', 'tool_secure_custom_front_enqueue_scripts_tools');
+
+/**
+ * Enqueue styles for the login end.
+*/
+function tool_secure_custom_login_enqueue_styles_tools($dependencies) {
+
+	$css_secure = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-secure.css', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	if (!empty($css_secure))
+		wp_enqueue_style('tool-secure-css', $css_secure, $dependencies, '1.0');
+}
+add_action('custom_login_enqueue_styles_tools', 'tool_secure_custom_login_enqueue_styles_tools');
+
+/**
+ * Enqueue scripts for the login end.
+*/
+function tool_secure_custom_login_enqueue_scripts_tools($dependencies) {
+
+	$js_tool_secure = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-secure.js', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	if (!empty($js_tool_secure))
+		wp_enqueue_script('tool-secure-script', $js_tool_secure, $dependencies, '1.0', true);
+}
+add_action('custom_login_enqueue_scripts_tools', 'tool_secure_custom_login_enqueue_scripts_tools');

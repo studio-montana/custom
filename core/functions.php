@@ -127,15 +127,10 @@ add_action('init','custom_init');
 function custom_scripts_styles() {
 
 	// Loads parts stylesheets
-	// -- font awesome
-	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
-	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.4.0');
-	}
 	// -- bxslider
 	$css_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.css');
 	if (!empty($css_bxslider)){
-		wp_enqueue_style('custom-css-bxslider', $css_bxslider, array('custom-css-awesome'), '2.1.1');
+		wp_enqueue_style('custom-css-bxslider', $css_bxslider, array(), '2.1.1');
 	}
 	// -- fancybox
 	$css_fancybox = locate_web_ressource(CUSTOM_JS_FOLDER.'fancybox/jquery.fancybox.css');
@@ -148,6 +143,11 @@ function custom_scripts_styles() {
 	$css_knacss = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-knacss.css');
 	if (!empty($css_knacss))
 		wp_enqueue_style('custom-core-knacss-style', $css_knacss, array('custom-css-fancybox'), '1.0');
+	
+	// Action for stylesheets tools
+	do_action("custom_front_enqueue_styles_tools", array("custom-core-knacss-style"));
+	
+	// Other core stylesheets
 	// -- isotope
 	$css_isotope = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-isotope.css');
 	if (!empty($css_isotope))
@@ -173,11 +173,6 @@ function custom_scripts_styles() {
 		wp_style_add_data('custom-ie', 'conditional', 'lt IE 9');
 	}
 
-	// Loads Utils
-	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');
-	if (!empty($js_utils))
-		wp_enqueue_script('custom-script-utils', $js_utils, array('jquery'), '1.0', true);
-
 	// Loads Cookies jQuery plugin
 	$js_cookies = locate_web_ressource(CUSTOM_JS_FOLDER.'cookies/jquery.cookie.js');
 	if (!empty($js_cookies))
@@ -202,6 +197,9 @@ function custom_scripts_styles() {
 	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');
 	if (!empty($js_utils))
 		wp_enqueue_script('custom-script-custom-utils', $js_utils, array('jquery'), '1.0', true);
+	
+	// Action for javascripts tools
+	do_action("custom_front_enqueue_scripts_tools", array("custom-script-custom-utils"));
 
 	// Loads Functions JavaScript file
 	$js_functions = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-functions.js');
@@ -241,27 +239,15 @@ function custom_admin_scripts_styles() {
 	$css_jquery_ui = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-jquery-ui.css');
 	if (!empty($css_jquery_ui))
 		wp_enqueue_style('custom-admin-css-jquery-ui', $css_jquery_ui, '1.11.2');
-
-	// Loads Utils
-	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');
-	if (!empty($js_utils))
-		wp_enqueue_script('custom-script-utils', $js_utils, array('jquery'), '1.0', true);
-
-	// Loads Isotope JavaScript file
-	$js_isotope = locate_web_ressource(CUSTOM_JS_FOLDER.'isotope/isotope.pkgd.min.js');
-	if (!empty($js_isotope))
-		wp_enqueue_script('custom-admin-script-isotope', $js_isotope, array('jquery'), '2.1.1', true);
+	
+	// Action for stylesheets tools
+	do_action("custom_admin_enqueue_styles_tools", array("custom-admin-css-jquery-ui"));
 
 	// Loads Isotope specific stylesheet.
 	$css_isotope = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-isotope.css');
 	if (!empty($css_isotope)){
 		wp_enqueue_style('custom-admin-css-isotope', $css_isotope, array(), '1.0');
 	}
-
-	// Loads BxSlider JavaScript file
-	$js_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.min.js');
-	if (!empty($js_bxslider))
-		wp_enqueue_script('custom-admin-script-bxslider', $js_bxslider, array('jquery'), '2.1.1', true);
 
 	// Loads BxSlider specific stylesheet
 	$css_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.css');
@@ -280,18 +266,30 @@ function custom_admin_scripts_styles() {
 	if (!empty($css_admin))
 		wp_enqueue_style('custom-admin-style', $css_admin, array('custom-admin-css-isotope', 'custom-admin-css-slider', 'custom-admin-css-jquery-ui'), '1.0');
 
+	// Loads Utils
+	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');
+	if (!empty($js_utils))
+		wp_enqueue_script('custom-script-utils', $js_utils, array('jquery'), '1.0', true);
+
+	// Loads Isotope JavaScript file
+	$js_isotope = locate_web_ressource(CUSTOM_JS_FOLDER.'isotope/isotope.pkgd.min.js');
+	if (!empty($js_isotope))
+		wp_enqueue_script('custom-admin-script-isotope', $js_isotope, array('jquery'), '2.1.1', true);
+
+	// Loads BxSlider JavaScript file
+	$js_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.min.js');
+	if (!empty($js_bxslider))
+		wp_enqueue_script('custom-admin-script-bxslider', $js_bxslider, array('jquery'), '2.1.1', true);
+	
+	// Action for javascript tools
+	do_action("custom_admin_enqueue_scripts_tools", array("custom-admin-script-bxslider"));
+
 	// Loads JavaScript file for admin.
 	$js_admin = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-admin.js');
 	if (!empty($js_admin))
 		wp_enqueue_script('custom-admin-script', $js_admin, array('jquery'), '1.0', true);
 
-	// LoadsAwesome specific stylesheet for admin.
-	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
-	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-admin-css-awesome', $css_awesome, array(), '4.4.0');
-	}
-
-	// wp.media JavaScript in Admin environement (widget, posts, ...)
+	// wp.media JavaScript in Admin environnement (widget, posts, ...)
 	wp_enqueue_media();
 
 }
@@ -303,17 +301,17 @@ add_action('admin_enqueue_scripts', 'custom_admin_scripts_styles');
  * @return void
 */
 function custom_login_scripts_styles() {
-	
-	// -- font awesome
-	$css_awesome = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-awesome.css');
-	if (!empty($css_awesome)){
-		wp_enqueue_style('custom-css-awesome', $css_awesome, array(), '4.4.0');
-	}
 
 	// Loads Utils
 	$js_utils = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-utils.js');
 	if (!empty($js_utils))
 		wp_enqueue_script('custom-script-utils', $js_utils, array('jquery'), '1.0', true);
+	
+	// Action for stylesheets tools
+	do_action("custom_login_enqueue_styles_tools", array());
+	
+	// Action for javascript tools
+	do_action("custom_login_enqueue_scripts_tools", array("custom-script-utils"));
 
 	// Loads our login stylesheet.
 	$css_login = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-login.css');
