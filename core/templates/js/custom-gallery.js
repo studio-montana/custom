@@ -4,15 +4,18 @@
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com This file, like this theme, like WordPress, is licensed under the GPL.
  */
 
+var gold_number = 1.618;
+
 (function($) {
 
 	/**
 	 * ISOTOPE & MASONRY GALLERY RESPONSIVE FUNCTION
 	 */
 	function custom_resize_isotope_items($isotope, item_selector) {
+		console.log("HERE !!!");
 		var isotope_matrice = custom_resize_gallery_matrix();
 		var isotope_data_columns = parseInt($isotope.data('columns'));
-		if (isset(isotope_data_columns)) {
+		if (isset(isotope_data_columns) && !isNaN(isotope_data_columns)) {
 			var resized = false;
 			for ( var window_size in isotope_matrice) {
 				if (isotope_matrice.hasOwnProperty(window_size) && $(window).width() < parseInt(window_size)) {
@@ -27,12 +30,15 @@
 								$(this).css("width", new_width);
 							}
 							// height
-							custom_resize_isotope_items_height($(this));
+							custom_resize_gallery_items_height($(this), window_matrice.columns);
 						});
 					}
 					// isotope columnWidth
-					var larg = $isotope.width() / window_matrice.columns
+					var larg = $isotope[0].getBoundingClientRect().width / window_matrice.columns
 					$isotope.isotope({
+						itemSelector : item_selector,
+						resizable : false,
+						layout: 'masonry',
 						masonry : {
 							columnWidth : larg
 						}
@@ -48,30 +54,28 @@
 					var new_width = (100 / isotope_data_columns) * item_data_columns;
 					$(this).css("width", new_width + '%');
 					// height
-					custom_resize_isotope_items_height($(this));
+					custom_resize_gallery_items_height($(this), isotope_data_columns);
 				});
 				// isotope columnWidth
-				var larg = $isotope.width() / $isotope.data("columns")
+				var larg = $isotope[0].getBoundingClientRect().width / isotope_data_columns
 				$isotope.isotope({
+					itemSelector : item_selector,
+					resizable : false,
+					layout: 'masonry',
 					masonry : {
 						columnWidth : larg
 					}
 				});
 			}
-		}
-	}
-
-	/**
-	 * ISOTOPE & MASONRY GALLERY HEIGHT REESIZING
-	 */
-	function custom_resize_isotope_items_height($isotope_item) {
-		if ($isotope_item.data("autoresponsive") != true) {
-			var ratio_width_height = $isotope_item.data('ratio-width-height');
-			if (!empty(ratio_width_height)) {
-				$isotope_item.css("height", Math.ceil(parseInt($isotope_item.width()) * parseFloat(ratio_width_height)) + "px");
-			} else {
-				$isotope_item.css("height", Math.ceil((parseInt($isotope_item.data("height")) * $isotope_item.width()) / parseInt($isotope_item.data("width"))) + "px");
-			}
+		}else{
+			$isotope.isotope({
+				itemSelector : item_selector,
+				resizable : false,
+				layout: 'masonry',
+				masonry : {
+					columnWidth : 1
+				}
+			});
 		}
 	}
 
@@ -81,7 +85,7 @@
 	function custom_resize_classic_items($classic, item_selector) {
 		var classic_matrice = custom_resize_gallery_matrix();
 		var classic_data_columns = parseInt($classic.data('columns'));
-		if (isset(classic_data_columns)) {
+		if (isset(classic_data_columns) && !isNaN(classic_data_columns)) {
 			var resized = false;
 			for ( var window_size in classic_matrice) {
 				if (classic_matrice.hasOwnProperty(window_size) && $(window).width() < parseInt(window_size)) {
@@ -96,11 +100,19 @@
 								$(this).css("width", new_width);
 							}
 							// height
-							custom_resize_classic_items_height($(this));
+							custom_resize_gallery_items_height($(this), window_matrice.columns);
 						});
 					}
-					// isotope reload
-					$classic.isotope();
+					// isotope columnWidth
+					var larg = $classic[0].getBoundingClientRect().width / window_matrice.columns
+					$classic.isotope({
+						itemSelector : item_selector,
+						resizable : false,
+						layout: 'masonry',
+						masonry : {
+							columnWidth : larg
+						}
+					});
 					resized = true;
 					break;
 				}
@@ -112,24 +124,68 @@
 					var new_width = (100 / classic_data_columns) * item_data_columns;
 					$(this).css("width", new_width + '%');
 					// height
-					custom_resize_classic_items_height($(this));
+					custom_resize_gallery_items_height($(this), classic_data_columns);
 				});
-				// isotope reload
-				$classic.isotope();
+				// isotope columnWidth
+				var larg = $classic[0].getBoundingClientRect().width / classic_data_columns
+				$classic.isotope({
+					itemSelector : item_selector,
+					resizable : false,
+					layout: 'masonry',
+					masonry : {
+						columnWidth : larg
+					}
+				});
 			}
+		}else{
+			$classic.isotope({
+				itemSelector : item_selector,
+				resizable : false,
+				layout: 'masonry',
+				masonry : {
+					columnWidth : 1
+				}
+			});
 		}
 	}
 
 	/**
-	 * CLASSIC GALLERY HEIGHT RESIZING
+	 * ISOTOPE & MASONRY & CLASSIC GALLERY HEIGHT RESIZING
 	 */
-	function custom_resize_classic_items_height($classic_item) {
-		if ($classic_item.data("autoresponsive") != true) {
-			var ratio_width_height = $classic_item.data('ratio-width-height');
+	function custom_resize_gallery_items_height($gallery_item, gallery_columns) {
+		if ($gallery_item.data("autoresponsive") != true) {
+			var item_width = $gallery_item[0].getBoundingClientRect().width;
+			var ratio_width_height = $gallery_item.data('ratio-width-height'); // masonry only
 			if (!empty(ratio_width_height)) {
-				$classic_item.css("height", Math.ceil(parseInt($classic_item.width()) * parseFloat(ratio_width_height)) + "px");
+				$gallery_item.css("height", Math.ceil(parseInt(item_width) * parseFloat(ratio_width_height)) + "px");
 			} else {
-				$classic_item.css("height", Math.ceil((parseInt($classic_item.data("height")) * $classic_item.width()) / parseInt($classic_item.data("width"))) + "px");
+				var format = $gallery_item.data('format'); // isotope only
+				var lines = $gallery_item.data('lines'); // isotope only
+				var columns = $gallery_item.data('columns'); // isotope only
+				var height = 0;
+				if (empty(format)) {
+					format = "square";
+				}
+				if (empty(lines)) {
+					lines = 1;
+				}
+				if (empty(columns) || columns == 0) {
+					columns = 1;
+				}
+				if (columns > gallery_columns){
+					columns = gallery_columns;
+				}
+				var width_unite = item_width / columns;
+				if (format == "portrait") {
+					height = (width_unite * gold_number) * lines;
+				} else if (format == "landscape") {
+					height = (width_unite / gold_number) * lines;
+				} else {
+					height = item_width;
+				}
+				if (height != 0) {
+					$gallery_item.css("height", Math.ceil(height) + "px");
+				}
 			}
 		}
 	}
@@ -151,7 +207,7 @@
 	var custom_resize_gallery_timer = null;
 	$(window).resize(function() {
 		clearTimeout(custom_resize_gallery_timer);
-		custom_resize_gallery_timer = setTimeout(on_custom_resize_gallery_timer, 100);
+		custom_resize_gallery_timer = setTimeout(on_custom_resize_gallery_timer, 300);
 	});
 
 	/**

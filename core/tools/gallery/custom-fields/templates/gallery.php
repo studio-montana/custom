@@ -99,7 +99,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				<td valign="middle"></td>
 			</tr>
 			
-			<tr valign="top" class="display-gallery-options display-gallery-slider-options display-gallery-grid-options">
+			<tr valign="top" class="display-gallery-options display-gallery-slider-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_GALLERY_HEIGHT; ?>"><?php _e('Height', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -111,6 +111,22 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 					<input type="text" size="4" id="<?php echo META_GALLERY_HEIGHT; ?>" name="<?php echo META_GALLERY_HEIGHT; ?>" value="<?php echo $meta; ?>" />
 				</td>
 				<td valign="middle">px</td>
+				<td valign="middle"></td>
+			</tr>
+			
+			<tr valign="top" class="display-gallery-options display-gallery-classic-options display-gallery-grid-options">
+				<th class="metabox_label_column" align="left" valign="middle"><label
+					for="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>"><?php _e('Format', CUSTOM_TEXT_DOMAIN); ?> : </label>
+				</th>
+				<td valign="middle">
+					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_FORMAT, true); ?>
+					<select id="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>" name="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>">
+						<option value="square" <?php if (empty($meta) || $meta == 'square'){ echo 'selected="selected"'; }?>><?php _e("square", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="portrait" <?php if (!empty($meta) && $meta == 'portrait'){ echo 'selected="selected"'; }?>><?php _e("portrait", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="landscape" <?php if (!empty($meta) && $meta == 'landscape'){ echo 'selected="selected"'; }?>><?php _e("landscape", CUSTOM_TEXT_DOMAIN); ?></option>
+					</select>
+				</td>
+				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
 			

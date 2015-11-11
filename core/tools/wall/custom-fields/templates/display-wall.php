@@ -197,9 +197,9 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options display-wall-specific-options display-wall-slider-options display-wall-isotope-options">
+			<tr valign="top" class="display-wall-options display-wall-specific-options display-wall-slider-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT; ?>">-&nbsp;<?php _e('Initial height', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT; ?>">-&nbsp;<?php _e('Height', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT, true); 
@@ -209,6 +209,21 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 					<input class="wall-update-presentation-setup" type="number" size="4" id="<?php echo META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT; ?>" name="<?php echo META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT; ?>" value="<?php echo $meta; ?>" />
 				</td>
 				<td valign="middle">px</td>
+				<td valign="middle"></td>
+			</tr>
+			<tr valign="top" class="display-wall-options display-wall-specific-options display-wall-isotope-options">
+				<th class="metabox_label_column" align="left" valign="middle"><label
+					for="<?php echo META_WALL_DISPLAY_PRESENTATION_FORMAT; ?>">-&nbsp;<?php _e('Format', CUSTOM_TEXT_DOMAIN); ?> : </label>
+				</th>
+				<td valign="middle">
+					<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_FORMAT, true); ?>
+					<select class="wall-update-presentation-setup" id="<?php echo META_WALL_DISPLAY_PRESENTATION_FORMAT; ?>" name="<?php echo META_WALL_DISPLAY_PRESENTATION_FORMAT; ?>">
+						<option value="square" <?php if (empty($meta) || $meta == 'square'){ echo 'selected="selected"'; }?>><?php _e("square", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="portrait" <?php if (!empty($meta) && $meta == 'portrait'){ echo 'selected="selected"'; }?>><?php _e("portrait", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="landscape" <?php if (!empty($meta) && $meta == 'landscape'){ echo 'selected="selected"'; }?>><?php _e("landscape", CUSTOM_TEXT_DOMAIN); ?></option>
+					</select>
+				</td>
+				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
 			
@@ -556,6 +571,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				var presentation_setup = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_SETUP; ?>']").val();
 				var presentation_columns = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_COLUMNS; ?>']").val();
 				var presentation_initial_height = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT; ?>']").val();
+				var presentation_format = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_FORMAT; ?>']").val();
 				var presentation_masonry_width = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH; ?>']").val();
 				var presentation_masonry_width_customized = $("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH_CUSTOMIZED; ?>']").val();
 				var presentation_masonry_height = "";
@@ -587,6 +603,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 						presentation_setup,
 						presentation_columns,
 						presentation_initial_height,
+						presentation_format,
 						presentation_masonry_width,
 						presentation_masonry_width_customized,
 						presentation_masonry_height,
@@ -617,9 +634,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 								}
 								$slider = $('.tool-wall.admin.slider').bxSlider(options);
 							}else if (presentation == 'masonry'){
-								$wall_masonry = $('#admin-masonry-wall').isotope({
-									itemSelector : '.masonry-item' 
-								});
+								$wall_masonry = $('#admin-masonry-wall');
 								$('#admin-masonry-wall-filter li').click(function() {
 									var selector = $(this).attr('data-filter');
 									$wall_masonry.isotope({
@@ -629,17 +644,9 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 									$(this).addClass('active');
 									return false;
 								});
+								$(document).trigger('gallery-isotope-ready', [$wall_masonry, '.masonry-item']); // use custom-gallery.js 
 							}else{
-								$wall_isotope = $('#admin-isotope-wall').isotope({
-									itemSelector : '.isotope-item',
-									// options...
-									resizable : false, // disable normal resizing 
-								});
-								$wall_isotope.isotope({
-									masonry : {
-										columnWidth : $wall_isotope.width() / $wall_isotope.data("columns")
-									}
-								});
+								$wall_isotope = $('#admin-isotope-wall');
 								$('#admin-isotope-wall-filter li').click(function() {
 									var selector = $(this).attr('data-filter');
 									$wall_isotope.isotope({
@@ -649,6 +656,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 									$(this).addClass('active');
 									return false;
 								});
+								$(document).trigger('gallery-isotope-ready', [$wall_isotope, '.isotope-item']); // use custom-gallery.js 
 							}
 							$("#wall-presentation-setup").fadeIn();
 						}, function(){

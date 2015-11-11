@@ -238,22 +238,9 @@ if ($meta_gallery_presentation == 'slider'){
 		</ul>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
-				var $masonry = $('#masonry-gallery-<?php echo $gallery_post_count; ?>').isotope({
-					itemSelector : '.masonry-item',
-					<?php if (!empty($data_columns)){ ?>
-						resizable : false, // disable normal resizing 
-						layout: 'masonry',
-						masonry : {
-							columnWidth : $(this).width() / $(this).data("columns")
-						}
-					<?php } ?>
-				});
 
-				// set data_width and data-height attributes (used to calculate propotional height by responsive javascript) 
-				$('#masonry-gallery-<?php echo $gallery_post_count; ?> .masonry-item').each(function(i){
-					$(this).attr('data-width', $(this).width());
-					$(this).attr('data-height', $(this).height());
-				});
+				// isotope apply after trigger by custom-gallery.js 
+				var $masonry = $('#masonry-gallery-<?php echo $gallery_post_count; ?>');
 
 				// trigger on gallery-isotope-ready event (use by custom-gallery.js)
 				$(document).trigger('gallery-isotope-ready', [$masonry, '.masonry-item']);
@@ -298,7 +285,7 @@ if ($meta_gallery_presentation == 'slider'){
 					}
 				}
 				?>
-				<li class="isotope-item wp-gallery-item<?php echo $class; ?>" style="height: <?php echo $height; ?>px; width: <?php echo $width; ?>%;" data-columns="<?php echo $rand_columns; ?>" data-lines="<?php echo $rand_lines; ?>" data-width="" data-height="<?php echo $height; ?>" >
+				<li class="isotope-item wp-gallery-item<?php echo $class; ?>" style="height: <?php echo $height; ?>px; width: <?php echo $width; ?>%;" data-format="<?php echo $meta_gallery_presentation_format; ?>" data-columns="<?php echo $rand_columns; ?>" data-lines="<?php echo $rand_lines; ?>" data-width="" data-height="<?php echo $height; ?>" >
 					<a class="<?php echo $a_class; ?>" rel="group" href="<?php echo $img[0]; ?>" title="<?php echo esc_attr($attachment->post_title); ?>" data-fancybox-title="<?php echo esc_attr($data_fancybox_title); ?>">
 						<div class="inner-item thumb" style="<?php echo $style; ?>">
 							<div class="has-mask">
@@ -326,20 +313,9 @@ if ($meta_gallery_presentation == 'slider'){
 		</ul>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
-				var $isotope = $('#isotope-gallery-<?php echo $gallery_post_count; ?>').isotope({
-					itemSelector : '.isotope-item',
-					resizable : false, // disable normal resizing 
-					layout: 'masonry',
-						masonry : {
-							columnWidth : $(this).width() / $(this).data("columns")
-						}
-				});
 
-				// set data_width and data-height attributes (used to calculate propotional height by responsive javascript) 
-				$('#isotope-gallery-<?php echo $gallery_post_count; ?> .isotope-item').each(function(i){
-					$(this).attr('data-width', $(this).width());
-					$(this).attr('data-height', $(this).height());
-				});
+				// isotope apply after trigger by custom-gallery.js 
+				var $isotope = $('#isotope-gallery-<?php echo $gallery_post_count; ?>');
 
 				// trigger on gallery-isotope-ready event (use by custom-gallery.js)
 				$(document).trigger('gallery-isotope-ready', [$isotope, '.isotope-item']);
@@ -379,7 +355,7 @@ if ($meta_gallery_presentation == 'slider'){
 					}
 				}
 				?>
-				<li class="classic-item wp-gallery-item<?php echo $class; ?>" style="width: <?php echo $width; ?>%;" data-columns="1">
+				<li class="classic-item wp-gallery-item<?php echo $class; ?>" style="width: <?php echo $width; ?>%;" data-columns="1" data-format="<?php echo $meta_gallery_presentation_format; ?>">
 					<a class="<?php echo $a_class; ?>" rel="group" href="<?php echo $img[0]; ?>" title="<?php echo esc_attr($attachment->post_title); ?>" data-fancybox-title="<?php echo esc_attr($data_fancybox_title); ?>">
 						<div class="inner-item thumb" style="<?php echo $style; ?>">
 							<div class="has-mask">
@@ -413,11 +389,8 @@ if ($meta_gallery_presentation == 'slider'){
 					$(this).css('height', $(this).width()+"px"); // square présentation 
 					$(this).attr('data-height', $(this).height());
 				});
-
-				// isotope 
-				var $classic = $('#classic-gallery-<?php echo $gallery_post_count; ?>').isotope({
-					itemSelector : '.classic-item'
-				});
+				// isotope apply after trigger by custom-gallery.js 
+				var $classic = $('#classic-gallery-<?php echo $gallery_post_count; ?>');
 				
 				// trigger on gallery-classic-ready event (use by custom-gallery.js) 
 				$(document).trigger('gallery-classic-ready', [$classic, '.classic-item']);

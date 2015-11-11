@@ -292,9 +292,19 @@ function custom_admin_scripts_styles() {
 	$js_bxslider = locate_web_ressource(CUSTOM_JS_FOLDER.'bxslider/jquery.bxslider.min.js');
 	if (!empty($js_bxslider))
 		wp_enqueue_script('custom-admin-script-bxslider', $js_bxslider, array('jquery'), '2.1.1', true);
+
+	// Loads Gallery Matrix JavaScript file
+	$js_gallery_matrix = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-gallery-matrix.js');
+	if (!empty($js_gallery_matrix))
+		wp_enqueue_script('custom-script-custom-gallery-matrix', $js_gallery_matrix, array('jquery'), '1.0', true);
+
+	// Loads Gallery JavaScript file
+	$js_gallery = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-gallery.js');
+	if (!empty($js_gallery))
+		wp_enqueue_script('custom-script-custom-gallery', $js_gallery, array('jquery', 'custom-script-custom-gallery-matrix'), '1.0', true);
 	
 	// Action for javascript tools
-	do_action("custom_admin_enqueue_scripts_tools", array("custom-admin-script-bxslider"));
+	do_action("custom_admin_enqueue_scripts_tools", array("custom-script-custom-gallery"));
 
 	// Loads JavaScript file for admin.
 	$js_admin = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-admin.js');

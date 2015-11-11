@@ -28,6 +28,7 @@ define('META_WALL_DISPLAY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN', 'meta_wall_
 define('META_WALL_DISPLAY_PRESENTATION_SLIDER_AUTOPLAY', 'meta_wall_display_presentation_slider_autoplay');
 define('META_WALL_DISPLAY_PRESENTATION_SLIDER_THUMB_NAV', 'meta_wall_display_presentation_slider_thumb_nav');
 define('META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT', 'meta_wall_display_presentation_initial_height');
+define('META_WALL_DISPLAY_PRESENTATION_FORMAT', 'meta_wall_display_presentation_format');
 define('META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH', 'meta_wall_display_presentation_masonry_width');
 define('META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH_CUSTOMIZED', 'meta_wall_display_presentation_masonry_width_customized');
 define('META_WALL_DISPLAY_PRESENTATION_MASONRY_HEIGHT', 'meta_wall_display_presentation_masonry_height');
@@ -164,6 +165,12 @@ function wall_save_post($post_id){
 			update_post_meta($post_id, META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT, sanitize_text_field($_POST[META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT]));
 		}else{
 			update_post_meta($post_id, META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT, 250);
+		}
+		// META_WALL_DISPLAY_PRESENTATION_FORMAT
+		if (!empty($_POST[META_WALL_DISPLAY_PRESENTATION_FORMAT])){
+			update_post_meta($post_id, META_WALL_DISPLAY_PRESENTATION_FORMAT, sanitize_text_field($_POST[META_WALL_DISPLAY_PRESENTATION_FORMAT]));
+		}else{
+			update_post_meta($post_id, META_WALL_DISPLAY_PRESENTATION_FORMAT, "square");
 		}
 		// META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH
 		if (!empty($_POST[META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH])){
@@ -372,6 +379,8 @@ if (!function_exists("wall_secure_meta_values")):
  * @param string $template_name
  */
 function wall_securize_meta_values($values = array()){
+	if (!isset($values['meta_wall_display_presentation_format']))
+		$values['meta_wall_display_presentation_format'] = "square";
 	if (!isset($values['meta_wall_display_presentation_initial_height']) || !is_numeric($values['meta_wall_display_presentation_initial_height']))
 		$values['meta_wall_display_presentation_initial_height'] = 250;
 	if (!isset($values['meta_wall_display_presentation_slider_carousel_item_width']) || !is_numeric($values['meta_wall_display_presentation_slider_carousel_item_width']))

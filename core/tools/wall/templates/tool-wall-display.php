@@ -27,6 +27,7 @@ if (!is_admin()){
 	$wall_args['meta_wall_display_presentation_slider_carousel_item_width'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_SLIDER_CAROUSEL_ITEM_WIDTH, true);
 	$wall_args['meta_wall_display_presentation_slider_carousel_item_margin'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN, true);
 	$wall_args['meta_wall_display_presentation_initial_height'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_INITIAL_HEIGHT, true);
+	$wall_args['meta_wall_display_presentation_format'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_FORMAT, true);
 	$wall_args['meta_wall_display_presentation_masonry_width'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH, true);
 	$wall_args['meta_wall_display_presentation_masonry_width_customized'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_MASONRY_WIDTH_CUSTOMIZED, true);
 	$wall_args['meta_wall_display_presentation_masonry_height'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_MASONRY_HEIGHT, true);
@@ -291,17 +292,8 @@ if (!empty($posts)){
 			<script type="text/javascript">
 				jQuery(document).ready(function($){
 	
-					// masonry 
-					var $masonry = $('#masonry-wall-<?php echo get_the_ID(); ?>').isotope({
-						itemSelector : '.masonry-item',
-						<?php if (!empty($data_columns)){ ?>
-							resizable : false, // disable normal resizing 
-							layout: 'masonry',
-							masonry : {
-								columnWidth : $(this).width() / $(this).data("columns")
-							}
-						<?php } ?>
-					});
+					// isotope apply after trigger by custom-gallery.js 
+					var $masonry = $('#masonry-wall-<?php echo get_the_ID(); ?>');
 					
 					// filtres 
 					$('#masonry-wall-filter-<?php echo get_the_ID(); ?> li').click(function() {
@@ -312,12 +304,6 @@ if (!empty($posts)){
 						$('#masonry-wall-filter-<?php echo get_the_ID(); ?> li').removeClass('active');
 						$(this).addClass('active');
 						return false;
-					});
-
-					// set data_width and data-height attributes (used to calculate propotional height by responsive javascript) 
-					$('#masonry-wall-<?php echo get_the_ID(); ?> .masonry-item').each(function(i){
-						$(this).attr('data-width', $(this).width());
-						$(this).attr('data-height', $(this).height());
 					});
 
 					// trigger on gallery-isotope-ready event (use by custom-gallery.js)
@@ -442,19 +428,8 @@ if (!empty($posts)){
 			<script type="text/javascript">
 				jQuery(document).ready(function($) {
 					
-					// masonry responsive 
-					var $isotope = $('#isotope-wall-<?php echo get_the_ID(); ?>').isotope({
-						itemSelector : '.isotope-item',
-						resizable : false, // disable normal resizing 
-						layout: 'masonry'
-					});
-					
-					var larg = $isotope.width() / $isotope.data("columns");
-					$isotope.isotope({
-						masonry : {
-							columnWidth : larg
-						}
-					});
+					// isotope apply after trigger by custom-gallery.js 
+					var $isotope = $('#isotope-wall-<?php echo get_the_ID(); ?>');
 
 					// filtres 
 					$('#isotope-wall-filter-<?php echo get_the_ID(); ?> li').click(function() {
@@ -465,12 +440,6 @@ if (!empty($posts)){
 						$('#isotope-wall-filter-<?php echo get_the_ID(); ?> li').removeClass('active');
 						$(this).addClass('active');
 						return false;
-					});
-
-					// set data_width and data-height attributes (used to calculate propotional height by responsive javascript) 
-					$('#isotope-wall-<?php echo get_the_ID(); ?> .isotope-item').each(function(i){
-						$(this).attr('data-width', $(this).width());
-						$(this).attr('data-height', $(this).height());
 					});
 
 					// trigger on gallery-isotope-ready event (use by custom-gallery.js)

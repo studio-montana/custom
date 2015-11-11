@@ -26,6 +26,7 @@ function get_wall_presentation_results(
 		meta_wall_display_presentation_setup, 
 		meta_wall_display_presentation_columns, 
 		meta_wall_display_presentation_initial_height, 
+		meta_wall_display_presentation_format, 
 		meta_wall_display_presentation_masonry_width,  
 		meta_wall_display_presentation_masonry_width_customized, 
 		meta_wall_display_presentation_masonry_height, 
@@ -53,6 +54,7 @@ function get_wall_presentation_results(
 		'meta_wall_display_presentation_setup' : meta_wall_display_presentation_setup,
 		'meta_wall_display_presentation_columns' : meta_wall_display_presentation_columns,
 		'meta_wall_display_presentation_initial_height' : meta_wall_display_presentation_initial_height,
+		'meta_wall_display_presentation_format' : meta_wall_display_presentation_format,
 		'meta_wall_display_presentation_masonry_width' : meta_wall_display_presentation_masonry_width,
 		'meta_wall_display_presentation_masonry_width_customized' : meta_wall_display_presentation_masonry_width_customized,
 		'meta_wall_display_presentation_masonry_height' : meta_wall_display_presentation_masonry_height

@@ -13,9 +13,9 @@ $class = join(' ', get_post_class($class));
 $class = wall_sanitize_wall_item_classes($class);
 
 $width = 100/$wall_args['meta_wall_display_presentation_columns']*$wall_args['wall_item_width_selected'];
-$height = $wall_args['meta_wall_display_presentation_initial_height']*$wall_args['wall_item_height_selected'];
+$height = 250*$wall_args['wall_item_height_selected']; /* override by js */
 ?>
-<li class="isotope-item template-content <?php echo $class; ?>"style="height: <?php echo $height; ?>px; width: <?php echo $width; ?>%;" data-columns="<?php echo $wall_args['wall_item_width_selected']; ?>" data-lines="<?php echo $wall_args['wall_item_height_selected']; ?>">
+<li class="isotope-item template-content <?php echo $class; ?>"style="height: <?php echo $height; ?>px; width: <?php echo $width; ?>%;" data-format="<?php echo $wall_args['meta_wall_display_presentation_format']; ?>" data-columns="<?php echo $wall_args['wall_item_width_selected']; ?>" data-lines="<?php echo $wall_args['wall_item_height_selected']; ?>">
 	<?php if (!is_admin()){ ?>
 	<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr(get_the_title()); ?>">
 	<?php } ?>

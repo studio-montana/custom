@@ -19,6 +19,7 @@ $gallery_post_count = 0;
 define('META_GALLERY_PRESENTATION', 'meta_gallery_presentation');
 define('META_GALLERY_HEIGHT', 'meta_gallery_initial_height');
 define('META_GALLERY_DISABLE_FANCYBOX', 'meta_gallery_disable_fancybox');
+define('META_GALLERY_PRESENTATION_FORMAT', 'meta_gallery_presentation_format');
 define('META_GALLERY_PRESENTATION_SLIDER_CAROUSEL', 'meta_gallery_presentation_slider_carousel');
 define('META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_WIDTH', 'meta_gallery_presentation_slider_carousel_item_width');
 define('META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN', 'meta_gallery_presentation_slider_carousel_item_margin');
@@ -67,6 +68,12 @@ function gallery_save_post($post_id){
 			update_post_meta($post_id, META_GALLERY_HEIGHT, sanitize_text_field($_POST[META_GALLERY_HEIGHT]));
 		}else{
 			delete_post_meta($post_id, META_GALLERY_HEIGHT);
+		}
+		// META_GALLERY_PRESENTATION_FORMAT
+		if (!empty($_POST[META_GALLERY_PRESENTATION_FORMAT])){
+			update_post_meta($post_id, META_GALLERY_PRESENTATION_FORMAT, sanitize_text_field($_POST[META_GALLERY_PRESENTATION_FORMAT]));
+		}else{
+			update_post_meta($post_id, META_GALLERY_PRESENTATION_FORMAT, "square");
 		}
 		// META_GALLERY_PRESENTATION_MASONRY_WIDTH
 		if (!empty($_POST[META_GALLERY_PRESENTATION_MASONRY_WIDTH]) && is_numeric($_POST[META_GALLERY_PRESENTATION_MASONRY_WIDTH])){
@@ -151,6 +158,7 @@ function gallery_post_gallery($output, $attr) {
 	if (in_array(get_post_type(get_the_ID()), get_displayed_post_types())){
 		$meta_gallery_presentation = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION, true);
 		$meta_gallery_presentation_height = get_post_meta(get_the_ID(), META_GALLERY_HEIGHT, true);
+		$meta_gallery_presentation_format = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_FORMAT, true);
 		$meta_gallery_disable_fancybox = get_post_meta(get_the_ID(), META_GALLERY_DISABLE_FANCYBOX, true);
 		$meta_gallery_presentation_slider_autoplay = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_AUTOPLAY, true);
 		$meta_gallery_presentation_slider_thumb_nav = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_THUMB_NAV, true);
