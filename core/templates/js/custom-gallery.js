@@ -12,7 +12,6 @@ var gold_number = 1.618;
 	 * ISOTOPE & MASONRY GALLERY RESPONSIVE FUNCTION
 	 */
 	function custom_resize_isotope_items($isotope, item_selector) {
-		console.log("HERE !!!");
 		var isotope_matrice = custom_resize_gallery_matrix();
 		var isotope_data_columns = parseInt($isotope.data('columns'));
 		if (isset(isotope_data_columns) && !isNaN(isotope_data_columns)) {
@@ -70,7 +69,6 @@ var gold_number = 1.618;
 		}else{
 			$isotope.isotope({
 				itemSelector : item_selector,
-				resizable : false,
 				layout: 'masonry',
 				masonry : {
 					columnWidth : 1
@@ -140,7 +138,6 @@ var gold_number = 1.618;
 		}else{
 			$classic.isotope({
 				itemSelector : item_selector,
-				resizable : false,
 				layout: 'masonry',
 				masonry : {
 					columnWidth : 1

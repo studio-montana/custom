@@ -22,7 +22,7 @@ function display_add_inner_meta_boxes($post){
 		include(locate_template('/'.CUSTOM_TOOLS_FOLDER.DISPLAY_TOOL_NAME.'/custom-fields/templates/display.php'));
 	}
 }
-add_action("customfields_add_inner_meta_boxes", "display_add_inner_meta_boxes");
+add_action("customfields_add_inner_meta_boxes", "display_add_inner_meta_boxes", 1);
 endif;
 
 if (!function_exists("display_save_post")):

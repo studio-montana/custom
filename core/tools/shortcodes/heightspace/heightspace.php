@@ -23,6 +23,7 @@ function tool_shortcodes_heightspace($atts, $content = null, $name='') {
 	return $output;
 }
 add_shortcode('heightspace', 'tool_shortcodes_heightspace');
+add_shortcode('lineheight', 'tool_shortcodes_heightspace'); /* old version compatibility */
 
 /**
  * Is edit screen

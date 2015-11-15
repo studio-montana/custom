@@ -9,7 +9,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 ?>
 <div id="tool-display-general" class="custom-fields-section">
 	<header class="custom-fields-section-header">
-		<h3>General options</h3>
+		<h3><?php _e("General options", CUSTOM_TEXT_DOMAIN); ?></h3>
 	</header>
 	<div class="custom-fields-section-content">
 		<table class="fields">
