@@ -32,12 +32,12 @@ function seo_add_inner_meta_boxes($post){
 add_action("customfields_add_inner_meta_boxes", "seo_add_inner_meta_boxes", 1000);
 endif;
 
-if (!function_exists("display_save_post")):
+if (!function_exists("seo_save_post")):
 /**
  * This action is called by Custom when post-type is saved
 * @param int $post_id
 */
-function display_save_post($post_id){
+function seo_save_post($post_id){
 	$available_posttypes = get_displayed_post_types();
 	$available_posttypes = apply_filters("tool_seo_available_posttypes", $available_posttypes);
 	if (in_array($_POST['post_type'], $available_posttypes)){
@@ -84,7 +84,7 @@ function display_save_post($post_id){
 		}
 	}
 }
-add_action("customfields_save_post", "display_save_post");
+add_action("customfields_save_post", "seo_save_post");
 endif;
 
 

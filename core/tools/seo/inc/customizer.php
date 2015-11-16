@@ -379,6 +379,13 @@ function seo_get_meta_opengraph_image($display = true) {
 							$opengraph_content = $thumb_src;
 						}
 					}
+				}else{ // default (site logo)
+					$url_logo = get_theme_mod('logo_image');
+					if (!empty($url_logo)){
+						$opengraph_content = $url_logo;
+					}else{ // default (tool-seo-default-og-image.png)
+						$opengraph_content = locate_web_ressource("tool-seo-default-og-image.png", array(CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/img/'));
+					}
 				}
 			}
 		}
