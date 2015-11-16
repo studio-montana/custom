@@ -1,5 +1,32 @@
 @CHARSET "UTF-8";
 
+/* Placeholder text color -- selectors need to be separate to work. */
+
+::-webkit-input-placeholder {
+	color: rgba(174, 174, 174, 1);
+	font-weight: lighter;
+	font-style: italic;
+}
+
+:-moz-placeholder {
+	color: rgba(174, 174, 174, 1);
+	font-weight: lighter;
+	font-style: italic;
+}
+
+::-moz-placeholder {
+	color: rgba(174, 174, 174, 1);
+	font-weight: lighter;
+	font-style: italic;
+	opacity: 1; /* Since FF19 lowers the opacity of the placeholder by default */
+}
+
+:-ms-input-placeholder {
+	color: rgba(174, 174, 174, 1);
+	font-weight: lighter;
+	font-style: italic;
+}
+
 /**
 	* CUSTOM FIELDS
 */
@@ -24,6 +51,14 @@
 .custom-fields-section-content .fields {
 	width: auto;
 	margin-left: 24px;
+}
+
+.custom-fields-section-content .fields.full-width {
+	width: 100%;
+}
+
+.custom-fields-section-content .fields th.metabox_label_column {
+	width: 225px;
 }
 
 .custom-fields-section-content .fields td,.custom-fields-section-content .fields th	{

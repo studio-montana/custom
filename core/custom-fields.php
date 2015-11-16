@@ -19,7 +19,7 @@ if (!function_exists("customfields_admin_init")):
 function customfields_admin_init() {
 	$customfields_posttypes_available = get_displayed_post_types();
 	foreach ($customfields_posttypes_available as $post_type){
-		add_meta_box('customfields', __( 'Customize', CUSTOM_TEXT_DOMAIN), 'customfields_add_inner_meta_boxes', $post_type, 'normal', 'high');
+		add_meta_box('customfields', '<i class="fa fa-gears" style="margin-right: 6px; font-size: 1.3rem;"></i>'.__( 'Customize', CUSTOM_TEXT_DOMAIN), 'customfields_add_inner_meta_boxes', $post_type, 'normal', 'high');
 	}
 }
 add_action('admin_init', 'customfields_admin_init');

@@ -18,7 +18,7 @@ define('SEO_DEFAULT_METAKEYWORDS', 'seo-default-metakeywords');
  * @since Custom SEO 1.0
  *
  * @param WP_Customize_Manager $wp_customize_manager Customizer object.
- */
+*/
 function seo_customize_register( $wp_customize_manager ) {
 
 	// SEO section
@@ -50,38 +50,31 @@ function seo_customize_register( $wp_customize_manager ) {
 			'section'    => 'seo_customizer',
 			'settings'   => SEO_DEFAULT_METAKEYWORDS,
 	));
-	
-	
+
+
 }
 add_action('customize_register', 'seo_customize_register');
-
-
 
 if (!function_exists("seo_wp_title")):
 /**
  * Filter the page title.
-*
-* @since Custom SEO 1.0
-* @param string $title Default title text for current view.
-* @param string $sep   Optional separator.
-* @return string the filtered title.
 */
-function seo_wp_title( $title, $sep, $seplocation ) {
+function seo_wp_title($title, $sep, $seplocation) {
+	return seo_get_metatitle($sep, false);
+}
+add_filter('wp_title', 'seo_wp_title', 100, 3);
+endif;
+
+if (!function_exists("seo_get_metatitle")):
+/**
+ * seo_get_metadescription
+*/
+function seo_get_metatitle($sep = " | ", $display = true) {
 	global $paged, $page;
-
 	$title = "";
-
-	$has_title = false;
-
 	$prefix = " $sep ";
-
 	$queried_object = get_queried_object();
-
 	$blogname = get_bloginfo('name');
-
-	// note : le title arrive avec le nom de la page courante (post / categorie / ...)
-	// soit on écrase avec les meta_data définies, soit, on concatène avec le nom du site et, si elle existe, la description
-
 	if (is_category() || is_tax()){
 		if (is_category()){
 			$categories = get_the_category();
@@ -93,43 +86,25 @@ function seo_wp_title( $title, $sep, $seplocation ) {
 			$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_METATITLE));
 			if (!empty($meta_data_cat)){
 				$title = $meta_data_cat;
-				$has_title = true;
 			}
 		}
-		// blog name
-		if (!empty($blogname)){
-			if ($has_title == true)
-				$title .= "$sep$blogname";
-		}
 	}
-	// other title
 	else{
-		// meta_title du post courant
-		$has_title = false;
 		if ($queried_object){
 			// meta title
 			$meta_data = get_post_meta($queried_object->ID, SEO_CUSTOMFIELD_METATITLE, true);
 			if (!empty($meta_data)){
 				$title = $meta_data;
-				$has_title = true;
 			}
 			// post title
 			else{
 				$post_title = get_the_title($queried_object->ID);
 				if (!empty($post_title)){
 					$title = $post_title;
-					$has_title = true;
 				}
 			}
 		}
-
-		// blog name
-		if (!empty($blogname)){
-			if ($has_title == true)
-				$title .= "$sep$blogname";
-		}
 	}
-
 	// default value
 	if (empty($title)){
 		$meta_data_default = stripslashes(get_theme_mod(SEO_DEFAULT_METATITLE));
@@ -144,26 +119,29 @@ function seo_wp_title( $title, $sep, $seplocation ) {
 			}
 		}
 	}
-
+	if (empty($title)){
+		$title = "$blogname";
+	}else{
+		$title .= "$sep$blogname";
+	}
 	// Add a page number if necessary.
 	if ($paged >= 2 || $page >= 2 )
-		$title = "$title $sep " . sprintf( __( 'Page %s', CUSTOM_TEXT_DOMAIN ), max( $paged, $page ) );
-
-	return $title;
+		$title = "$title$sep" . sprintf( __( 'page %s', CUSTOM_TEXT_DOMAIN ), max( $paged, $page ) );
+	// result
+	if ($display)
+		echo $title;
+	else
+		return $title;
 }
-add_filter('wp_title', 'seo_wp_title', 100, 3);
+add_action("get_metatitle", "seo_get_metatitle");
 endif;
 
 if (!function_exists("seo_get_metadescription")):
 /**
  * seo_get_metadescription
-*
-* @since Custom 1.0
-* @return void
 */
-function seo_get_metadescription() {
+function seo_get_metadescription($display = true) {
 	$description = '';
-
 	if (is_category() || is_tax()){
 		if (is_category()){
 			$categories = get_the_category();
@@ -198,7 +176,11 @@ function seo_get_metadescription() {
 		}
 	}
 
-	echo esc_attr($description);
+	// result
+	if ($display)
+		echo esc_attr($description);
+	else
+		return esc_attr($description);
 }
 add_action("get_metadescription", "seo_get_metadescription");
 endif;
@@ -206,13 +188,9 @@ endif;
 if (!function_exists("seo_get_metakeywords")):
 /**
  * seo_get_metakeywords
-*
-* @since Custom SEO 1.0
-* @return void
 */
-function seo_get_metakeywords() {
+function seo_get_metakeywords($display = true) {
 	$keywords = '';
-
 	if (is_category() || is_tax()){
 		if (is_category()){
 			$categories = get_the_category();
@@ -245,17 +223,194 @@ function seo_get_metakeywords() {
 		}
 	}
 
-	echo esc_attr($keywords);
+	// result
+	if ($display)
+		echo esc_attr($keywords);
+	else
+		return esc_attr($keywords);
 }
 add_action("get_metakeywords", "seo_get_metakeywords");
+endif;
+
+if (!function_exists("seo_get_meta_opengraph_title")):
+/**
+ * seo_get_meta_opengraph_title
+*/
+function seo_get_meta_opengraph_title($display = true) {
+	$opengraph_content = '';
+	$sep = " | ";
+	if (is_category() || is_tax()){
+		if (is_category()){
+			$categories = get_the_category();
+			$term_id = $categories[0]->cat_ID;
+		}else if(is_tax()){
+			$queried_object = get_queried_object();
+			$term_id =  (int) $queried_object->term_id;
+		}
+		if (!empty($term_id)){
+			$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE));
+			if (!empty($meta_data_cat)){
+				$opengraph_content = $meta_data_cat;
+			}else{ // default
+				$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_METATITLE));
+				if (!empty($meta_data_cat)){
+					$opengraph_content = $meta_data_cat;
+				}
+			}
+		}
+	}else{
+		$_queried_post = get_queried_object();
+		if ($_queried_post){
+			$meta_data = get_post_meta($_queried_post->ID, SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE, true);
+			if (!empty($meta_data)){
+				$opengraph_content = $meta_data;
+			}else{ // default
+				$meta_data = get_post_meta($_queried_post->ID, SEO_CUSTOMFIELD_METATITLE, true);
+				if (!empty($meta_data)){
+					$opengraph_content = $meta_data;
+				}
+			}
+		}
+	}
+	// default
+	if (empty($opengraph_content)){
+		$opengraph_content = seo_get_metatitle($sep, false);
+	}else{
+		$blogname = get_bloginfo('name');
+		if (!empty($blogname))
+			$opengraph_content .= $sep.$blogname;
+	}
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("get_meta_opengraph_title", "seo_get_meta_opengraph_title");
+endif;
+
+if (!function_exists("seo_get_meta_opengraph_description")):
+/**
+ * seo_get_meta_opengraph_description
+*/
+function seo_get_meta_opengraph_description($display = true) {
+	$opengraph_content = '';
+	if (is_category() || is_tax()){
+		if (is_category()){
+			$categories = get_the_category();
+			$term_id = $categories[0]->cat_ID;
+		}else if(is_tax()){
+			$queried_object = get_queried_object();
+			$term_id =  (int) $queried_object->term_id;
+		}
+		if (!empty($term_id)){
+			$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION));
+			if (!empty($meta_data_cat)){
+				$opengraph_content = $meta_data_cat;
+			}else{ // default
+				$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_METADESCRIPTION));
+				if (!empty($meta_data_cat)){
+					$opengraph_content = $meta_data_cat;
+				}
+			}
+		}
+	}else{
+		$_queried_post = get_queried_object();
+		if ($_queried_post){
+			$meta_data = get_post_meta($_queried_post->ID, SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION, true);
+			if (!empty($meta_data)){
+				$opengraph_content = $meta_data;
+			}else{ // default
+				$meta_data = get_post_meta($_queried_post->ID, SEO_CUSTOMFIELD_METADESCRIPTION, true);
+				if (!empty($meta_data)){
+					$opengraph_content = $meta_data;
+				}
+			}
+		}
+	}
+	// default
+	if (empty($opengraph_content)){
+		$opengraph_content = get_bloginfo('description', 'display');
+	}
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("get_meta_opengraph_description", "seo_get_meta_opengraph_description");
+endif;
+
+if (!function_exists("seo_get_meta_opengraph_image")):
+/**
+ * seo_get_meta_opengraph_image
+*/
+function seo_get_meta_opengraph_image($display = true) {
+	$opengraph_content = '';
+	if (is_category() || is_tax()){
+		if (is_category()){
+			$categories = get_the_category();
+			$term_id = $categories[0]->cat_ID;
+		}else if(is_tax()){
+			$queried_object = get_queried_object();
+			$term_id =  (int) $queried_object->term_id;
+		}
+		if (!empty($term_id)){
+			$meta_data_cat = stripslashes(get_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE));
+			if (!empty($meta_data_cat)){
+				$opengraph_content = $meta_data_cat;
+			}
+		}
+	}else{
+		$_queried_post = get_queried_object();
+		if ($_queried_post){
+			$meta_data = get_post_meta($_queried_post->ID, SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE, true);
+			if (!empty($meta_data)){
+				$opengraph_content = $meta_data;
+			}else{ // default (post thumbnail)
+				if (has_post_thumbnail($_queried_post->ID)){
+					$thumb_id = get_post_thumbnail_id($_queried_post->ID);
+					$thumb = wp_get_attachment_image_src($thumb_id, 'tool-seo-thumb');
+					if ($thumb) {
+						list($thumb_src, $thumb_width, $thumb_height) = $thumb;
+						if (!empty($thumb_src)){
+							$opengraph_content = $thumb_src;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("get_meta_opengraph_image", "seo_get_meta_opengraph_image");
 endif;
 
 function seo_header(){
 	?>
 <meta
-	name="description" content="<?php do_action('get_metadescription'); ?>">
+	name="description"
+	content="<?php do_action('get_metadescription', true); ?>">
 <meta
-	name="keywords" content="<?php do_action('get_metakeywords'); ?>">
+	name="keywords" content="<?php do_action('get_metakeywords', true); ?>">
+<meta property="og:type"
+	content="website" />
+<meta
+	property="og:title"
+	content="<?php do_action('get_meta_opengraph_title', true); ?>">
+<meta
+	property="og:description"
+	content="<?php do_action('get_meta_opengraph_description', true); ?>">
+<meta
+	property="og:image"
+	content="<?php do_action('get_meta_opengraph_image', true); ?>">
 <?php
 }
 add_action('wp_head', 'seo_header');

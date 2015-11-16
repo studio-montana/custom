@@ -13,84 +13,78 @@ define('SEO_OPTIONS_NAME', 'seo-options');
 define('SEO_CUSTOMFIELD_METATITLE', 'seo-meta-title');
 define('SEO_CUSTOMFIELD_METADESCRIPTION', 'seo-meta-description');
 define('SEO_CUSTOMFIELD_METAKEYWORDS', 'seo-meta-keywords');
-
-if (!function_exists("seo_admin_init")):
-/**
- * Hooks the WP admin_init action to add metaboxe seo on post-type
-*
-* @return void
-*/
-function seo_admin_init() {
-	$seo_posttypes_available = get_displayed_post_types();
-	foreach ($seo_posttypes_available as $post_type){
-		add_meta_box('seo', __( 'SEO', CUSTOM_TEXT_DOMAIN), 'seo_add_inner_meta_boxes', $post_type);
-	}
-}
-add_action('admin_init', 'seo_admin_init');
-endif;
+define('SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE', 'seo-meta-og-title');
+define('SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION', 'seo-meta-og-description');
+define('SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE', 'seo-meta-og-image');
 
 if (!function_exists("seo_add_inner_meta_boxes")):
 /**
- * include seo template
+ * This action is called by Custom when metabox is display on post-type
 * @param unknown $post
 */
-function seo_add_inner_meta_boxes($post) {
-	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/custom-fields/templates/seo.php'));
+function seo_add_inner_meta_boxes($post){
+	$available_posttypes = get_displayed_post_types();
+	$available_posttypes = apply_filters("tool_seo_available_posttypes", $available_posttypes);
+	if (in_array(get_post_type($post), $available_posttypes)){
+		include(locate_template('/'.CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/custom-fields/templates/seo.php'));
+	}
 }
+add_action("customfields_add_inner_meta_boxes", "seo_add_inner_meta_boxes", 1000);
 endif;
 
-if (!function_exists("seo_save_post")):
+if (!function_exists("display_save_post")):
 /**
- * save SEO fields on post type
-* @param unknown $post_id
+ * This action is called by Custom when post-type is saved
+* @param int $post_id
 */
-function seo_save_post($post_id){
-	$seo_posttypes_available = get_displayed_post_types();
-
-	// verify if this is an auto save routine.
-	// If it is our form has not been submitted, so we dont want to do anything
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-		return;
-	// verify if this post-type is available and editable.
-	$is_post_available = false;
-	$post_type = null;
-	if (isset($_POST['post_type']) && !empty($_POST['post_type']) && in_array($_POST['post_type'], $seo_posttypes_available)){
-		$post_type = $_POST['post_type'];
-	}
-	if (empty($post_type))
-		return;
-	if ($post_type == 'page') {
-		if (!current_user_can('edit_page', $post_id))
-			return;
-	} else {
-		if (!current_user_can('edit_post', $post_id ))
-			return;
-	}
-	if (!isset($_POST[SEO_NONCE_SEO_ACTION]) || !wp_verify_nonce($_POST[SEO_NONCE_SEO_ACTION], SEO_NONCE_SEO_ACTION))
-		return;
-
-	// SEO_CUSTOMFIELD_METATITLE
-	if (!empty($_POST[SEO_CUSTOMFIELD_METATITLE])){
-		update_post_meta($post_id, SEO_CUSTOMFIELD_METATITLE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METATITLE]));
-	}else{
-		delete_post_meta($post_id, SEO_CUSTOMFIELD_METATITLE);
-	}
-
-	// SEO_CUSTOMFIELD_METADESCRIPTION
-	if (!empty($_POST[SEO_CUSTOMFIELD_METADESCRIPTION])){
-		update_post_meta($post_id, SEO_CUSTOMFIELD_METADESCRIPTION, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METADESCRIPTION]));
-	}else{
-		delete_post_meta($post_id, SEO_CUSTOMFIELD_METADESCRIPTION);
-	}
-
-	// SEO_CUSTOMFIELD_METAKEYWORDS
-	if (!empty($_POST[SEO_CUSTOMFIELD_METAKEYWORDS])){
-		update_post_meta($post_id, SEO_CUSTOMFIELD_METAKEYWORDS, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METAKEYWORDS]));
-	}else{
-		delete_post_meta($post_id, SEO_CUSTOMFIELD_METAKEYWORDS);
+function display_save_post($post_id){
+	$available_posttypes = get_displayed_post_types();
+	$available_posttypes = apply_filters("tool_seo_available_posttypes", $available_posttypes);
+	if (in_array($_POST['post_type'], $available_posttypes)){
+		// SEO_CUSTOMFIELD_METATITLE
+		if (!empty($_POST[SEO_CUSTOMFIELD_METATITLE])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_METATITLE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METATITLE]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_METATITLE);
+		}
+		
+		// SEO_CUSTOMFIELD_METADESCRIPTION
+		if (!empty($_POST[SEO_CUSTOMFIELD_METADESCRIPTION])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_METADESCRIPTION, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METADESCRIPTION]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_METADESCRIPTION);
+		}
+		
+		// SEO_CUSTOMFIELD_METAKEYWORDS
+		if (!empty($_POST[SEO_CUSTOMFIELD_METAKEYWORDS])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_METAKEYWORDS, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METAKEYWORDS]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_METAKEYWORDS);
+		}
+		
+		// SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE
+		if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE);
+		}
+		
+		// SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION
+		if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION);
+		}
+		
+		// SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE
+		if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE])){
+			update_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE]));
+		}else{
+			delete_post_meta($post_id, SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE);
+		}
 	}
 }
-add_action('save_post', 'seo_save_post');
+add_action("customfields_save_post", "display_save_post");
 endif;
 
 
@@ -127,6 +121,24 @@ function seo_save_taxonomy_fields($term_id) {
 		update_option("term_".$term_id."_".SEO_CUSTOMFIELD_METAKEYWORDS, sanitize_text_field($_POST[SEO_CUSTOMFIELD_METAKEYWORDS]));
 	}else{
 		delete_option("term_".$term_id."_".SEO_CUSTOMFIELD_METAKEYWORDS);
+	}
+	// SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE
+	if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE])){
+		update_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE]));
+	}else{
+		delete_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_TITLE);
+	}
+	// SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION
+	if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION])){
+		update_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION]));
+	}else{
+		delete_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_DESCRIPTION);
+	}
+	// SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE
+	if (!empty($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE])){
+		update_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE, sanitize_text_field($_POST[SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE]));
+	}else{
+		delete_option("term_".$term_id."_".SEO_CUSTOMFIELD_META_OPENGRAPH_IMAGE);
 	}
 }
 endif;
