@@ -10,7 +10,7 @@
 /**
  * Constantes
  */
-define('CUSTOM_THEME_NAME', 'Custom');
+define('CUSTOM_THEME_NAME', 'custom');
 define('CUSTOM_TEXT_DOMAIN', 'custom');
 define('CUSTOM_OPTIONS_NAME', 'custom_options');
 
