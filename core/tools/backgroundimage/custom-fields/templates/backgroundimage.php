@@ -15,8 +15,17 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 <?php 
 $meta_backgroundimage_url = @get_post_meta(get_the_ID(), BACKGROUNDIMAGE_URL, true);
 $meta_backgroundimage_id = @get_post_meta(get_the_ID(), BACKGROUNDIMAGE_ID, true);
+$meta_backgroundcolor_code = @get_post_meta(get_the_ID(), BACKGROUNDCOLOR_CODE, true);
+$meta_backgroundcolor_opacity = @get_post_meta(get_the_ID(), BACKGROUNDCOLOR_OPACITY, true);
+if (empty($meta_backgroundcolor_code)){
+	$meta_backgroundcolor_code = "#ffffff";
+}
+if (empty($meta_backgroundcolor_opacity)){
+	$meta_backgroundcolor_opacity = 0;
+}
 ?>
 <div class="backgroundimage-box background-image-preview" style="
+			position: relative;
 			<?php if (!empty($meta_backgroundimage_url)){ ?>
 			background:	url('<?php echo $meta_backgroundimage_url; ?>') no-repeat center center;
 			-webkit-background-size: cover;
@@ -30,21 +39,49 @@ $meta_backgroundimage_id = @get_post_meta(get_the_ID(), BACKGROUNDIMAGE_ID, true
 			width: 100%;
 			height: 120px;
 			overflow: hidden;">
-	<table class="backgroundimage-input">
-		<tr>
-			<td style="height: 120px;">
-				<input type="hidden" name="<?php echo BACKGROUNDIMAGE_URL; ?>" id="<?php echo BACKGROUNDIMAGE_URL; ?>" value="<?php echo $meta_backgroundimage_url; ?>" />
-				<input type="hidden" name="<?php echo BACKGROUNDIMAGE_ID; ?>" id="<?php echo BACKGROUNDIMAGE_ID; ?>" value="<?php echo $meta_backgroundimage_id; ?>" />
-				<button class="choose-backgroundimage button button-large"><?php _e("Choose image", CUSTOM_TEXT_DOMAIN); ?></button>
-				<button class="delete-backgroundimage button button-large" style="<?php if (empty($meta_backgroundimage_url)){ echo 'display: none;'; } ?>"><?php _e("Delete", CUSTOM_TEXT_DOMAIN); ?></button>
-			</td>
-		</tr>
-	</table>
+	<div class="background-color-preview" style="
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%; ">
+		<table class="backgroundimage-input">
+			<tr>
+				<td style="height: 120px;">
+					<input type="hidden" name="<?php echo BACKGROUNDIMAGE_URL; ?>" id="<?php echo BACKGROUNDIMAGE_URL; ?>" value="<?php echo $meta_backgroundimage_url; ?>" />
+					<input type="hidden" name="<?php echo BACKGROUNDIMAGE_ID; ?>" id="<?php echo BACKGROUNDIMAGE_ID; ?>" value="<?php echo $meta_backgroundimage_id; ?>" />
+					<button class="choose-backgroundimage button button-large"><?php _e("Choose image", CUSTOM_TEXT_DOMAIN); ?></button>
+					<button class="delete-backgroundimage button button-large" style="<?php if (empty($meta_backgroundimage_url)){ echo 'display: none;'; } ?>"><?php _e("Delete", CUSTOM_TEXT_DOMAIN); ?></button>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
+<table class="backgroundcolor-input">
+	<tr>
+		<td valign="middle">
+			<label for="<?php echo BACKGROUNDCOLOR_CODE; ?>">Color</label>
+		</td>
+		<td valign="middle">
+			<input type="color" name="<?php echo BACKGROUNDCOLOR_CODE; ?>" id="<?php echo BACKGROUNDCOLOR_CODE; ?>" value="<?php echo $meta_backgroundcolor_code; ?>" />
+		</td>
+	</tr>
+	<tr>
+		<td valign="middle">
+			<label for="<?php echo BACKGROUNDCOLOR_OPACITY; ?>">Opacity</label>
+		</td>
+		<td valign="middle">
+			<input type="range" min="0" max="100" name="<?php echo BACKGROUNDCOLOR_OPACITY; ?>" id="<?php echo BACKGROUNDCOLOR_OPACITY; ?>" value="<?php echo $meta_backgroundcolor_opacity; ?>" />
+		</td>
+		<td valign="middle">
+			<input type="text" disabled="disabled" size="3" name="<?php echo BACKGROUNDCOLOR_OPACITY; ?>-preview" value="<?php echo $meta_backgroundcolor_opacity; ?>%" />
+		</td>
+	</tr>
+</table>
 
 
 <script type="text/javascript">
-	jQuery(document).ready(function($){
+	jQuery(document).ready(function($){		
 		$('.choose-backgroundimage').click(function(e) {
 			var custom_uploader;
 	        e.preventDefault();
@@ -80,5 +117,27 @@ $meta_backgroundimage_id = @get_post_meta(get_the_ID(), BACKGROUNDIMAGE_ID, true
 			$(".background-image-preview").css('background', 'none');
 			$(this).fadeOut(0);
 		});
+		$("input[name='<?php echo BACKGROUNDCOLOR_CODE; ?>']").on('change', function(e){
+			background_change_color($);
+		});
+		$("input[name='<?php echo BACKGROUNDCOLOR_OPACITY; ?>']").on('change', function(e){
+			background_change_color($);
+		});
+		background_change_color($);
 	});
+	function background_change_color($){
+		var opacity = $("input[name='<?php echo BACKGROUNDCOLOR_OPACITY; ?>']").val();
+		$("input[name='<?php echo BACKGROUNDCOLOR_OPACITY; ?>-preview']").val(opacity+"%");
+		if (opacity == 100){
+			opacity = "1";
+		}else{
+			opacity = "0."+opacity;
+		}
+		var color_rgb = hexToRgb($("input[name='<?php echo BACKGROUNDCOLOR_CODE; ?>']").val());
+		if (color_rgb != null){
+			var color_css_rgb = color_rgb.r+", "+color_rgb.g+", "+color_rgb.b;
+			var css_bg_color = "rgba("+color_css_rgb+", "+opacity+")";
+			$(".background-color-preview").css("background-color", css_bg_color);
+		}
+	}
 </script>

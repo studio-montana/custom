@@ -11,6 +11,8 @@ define('BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION', 'backgroundimage_action')
 
 define('BACKGROUNDIMAGE_URL', 'backgroundimage-url');
 define('BACKGROUNDIMAGE_ID', 'backgroundimage-id');
+define('BACKGROUNDCOLOR_CODE', 'backgroundcolor-code');
+define('BACKGROUNDCOLOR_OPACITY', 'backgroundcolor-opacity');
 
 if (!function_exists("backgroundimage_admin_init")):
 /**
@@ -81,6 +83,20 @@ function backgroundimage_save_post($post_id){
 		update_post_meta($post_id, BACKGROUNDIMAGE_ID, sanitize_text_field($_POST[BACKGROUNDIMAGE_ID]));
 	}else{
 		delete_post_meta($post_id, BACKGROUNDIMAGE_ID);
+	}
+
+	// BACKGROUNDCOLOR_CODE
+	if (!empty($_POST[BACKGROUNDCOLOR_CODE])){
+		update_post_meta($post_id, BACKGROUNDCOLOR_CODE, sanitize_text_field($_POST[BACKGROUNDCOLOR_CODE]));
+	}else{
+		delete_post_meta($post_id, BACKGROUNDCOLOR_CODE);
+	}
+
+	// BACKGROUNDCOLOR_OPACITY
+	if (!empty($_POST[BACKGROUNDCOLOR_OPACITY])){
+		update_post_meta($post_id, BACKGROUNDCOLOR_OPACITY, sanitize_text_field($_POST[BACKGROUNDCOLOR_OPACITY]));
+	}else{
+		delete_post_meta($post_id, BACKGROUNDCOLOR_OPACITY);
 	}
 }
 add_action('save_post', 'backgroundimage_save_post');

@@ -41,16 +41,40 @@ if (!function_exists("backgroundimage_custom_html_before_page")):
  * add background image div before #page element
 */
 function backgroundimage_custom_html_before_page(){
+	$_queried_post = get_queried_object();
+	$id_post = $_queried_post->ID;
+	if (is_home()){ // blog page
+		$id_post = get_option('page_for_posts');
+	}
 
+	// background image
 	$url_backgroundimage = "";
 	$class = "";
-	$_queried_post = get_queried_object();
-	if ($_queried_post && (is_single() || is_page())){
-		$url_backgroundimage = get_post_meta($_queried_post->ID, BACKGROUNDIMAGE_URL, true);
+	if ($id_post && (is_single() || is_page() || is_home())){
+		$url_backgroundimage = get_post_meta($id_post, BACKGROUNDIMAGE_URL, true);
 	}
 	if (empty($url_backgroundimage)){
 		$class = "default";
 		$url_backgroundimage = get_theme_mod('backgroundimage_image');
+	}
+
+	// background color
+	$background_color_code = "";
+	$background_color_opacity = "";
+	if ($id_post && (is_single() || is_page() || is_home())){
+		$background_color_code = get_post_meta($id_post, BACKGROUNDCOLOR_CODE, true);
+		$background_color_opacity = get_post_meta($id_post, BACKGROUNDCOLOR_OPACITY, true);
+	}
+
+	if (!empty($background_color_code)){
+		$background_color_code = hex_to_rgb($background_color_code, true);
+		if (empty($background_color_opacity))
+			$background_color_opacity = 0;
+		if ($background_color_opacity == 100){
+			$background_color_opacity = "1";
+		}else{
+			$background_color_opacity = "0.".$background_color_opacity;
+		}
 	}
 
 	if (!empty($url_backgroundimage)){
@@ -66,7 +90,19 @@ function backgroundimage_custom_html_before_page(){
 			left: 0;
 			width: 100%;
 			height: 100%;
-			z-index: -100;"></div>
+			z-index: -100;">
+	<?php
+	if (!empty($background_color_code)){
+?>
+	<div id="tool-backgroundimage-color"
+		style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(<?php echo $background_color_code; ?>, <?php echo $background_color_opacity; ?>);"></div>
+	<?php } ?>
+</div>
+<?php
+	}else if (!empty($background_color_code)){
+		?>
+<div id="tool-backgroundimage-color"
+		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(<?php echo $background_color_code; ?>, <?php echo $background_color_opacity; ?>); z-index: -100;"></div>
 <?php
 	}
 }
