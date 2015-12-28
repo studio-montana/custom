@@ -15,6 +15,7 @@ define('CUSTOM_TEXT_DOMAIN', 'custom');
 define('CUSTOM_OPTIONS_NAME', 'custom_options');
 
 define('CUSTOM_CORE_FOLDER', 'core/');
+define('CUSTOM_COMMONS_FOLDER', 'core/commons/');
 define('CUSTOM_TEMPLATES_FOLDER', 'core/templates/');
 define('CUSTOM_TOOLS_FOLDER', 'core/tools/');
 define('CUSTOM_CSS_FOLDER', 'css/');
@@ -44,35 +45,40 @@ function custom_setup() {
 	/*
 	 * Config (doit être appeler avant tout autre chose)
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'config.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'config.php'));
 
 	/*
 	 * Utils
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'session.php'));
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'comparators.php'));
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'utils.php'));
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'utils.secure.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'session.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'comparators.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'utils.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'utils.secure.php'));
 
 	/*
 	 * templates
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'templates.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'templates.php'));
 
 	/*
 	 * custom fields
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'custom-fields.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'custom-fields.php'));
+
+	/*
+	 * postpicker
+	*/
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'postpicker/postpicker.php'));
 
 	/*
 	 * Tools
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'tools.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'tools.php'));
 
 	/*
 	 * Theme Customizer
 	*/
-	require_once (locate_template('/'.CUSTOM_CORE_FOLDER.'customizer.php'));
+	require_once (locate_template('/'.CUSTOM_COMMONS_FOLDER.'customizer.php'));
 
 	/*
 	 * Makes Custom available for translation.
@@ -350,7 +356,7 @@ function custom_login_scripts_styles() {
 	$js_login = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-login.js');
 	if (!empty($js_login)){
 		wp_enqueue_script('custom-login-script', $js_login, array('jquery'), '1.0', true );
-		wp_localize_script('custom-login-script', 'CustomLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => ''));
+		wp_localize_script('custom-login-script', 'CustomLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_TEXT_DOMAIN)));
 	}
 
 }

@@ -11,6 +11,7 @@ if (!is_admin()){
 	$wall_args = array();
 	$wall_args['meta_wall_display_current_post_id'] = get_the_ID();
 	$wall_args['meta_wall_display_post_type'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_POST_TYPE, true);
+	$wall_args['meta_wall_display_ids'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_IDS, true);
 	$wall_args['meta_wall_display_tax'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_TAX, true);
 	$wall_args['meta_wall_display_term_slug'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_TERM_SLUG, true);
 	$wall_args['meta_wall_display_orderby'] = get_post_meta(get_the_ID(), META_WALL_DISPLAY_ORDERBY, true);
@@ -42,7 +43,7 @@ $wall_args = wall_securize_meta_values($wall_args);
 
 $posts = array();
 
-if (post_type_exists($wall_args['meta_wall_display_post_type'])){
+if (post_type_exists($wall_args['meta_wall_display_post_type'])){ // dynamic list
 	$args = array("post_type" => $wall_args['meta_wall_display_post_type'], "orderby" => $wall_args['meta_wall_display_orderby'], "order" => $wall_args['meta_wall_display_order']);
 	if (!empty($wall_args['meta_wall_display_tax']) && !empty($wall_args['meta_wall_display_term_slug']) && $wall_args['meta_wall_display_term_slug'] != '0'){
 		$args['tax_query'] = array(
@@ -62,6 +63,19 @@ if (post_type_exists($wall_args['meta_wall_display_post_type'])){
 	// exclude current post-type
 	$args['exclude'] = array($wall_args['meta_wall_display_current_post_id']);
 	$posts = get_posts($args);
+}else if($wall_args['meta_wall_display_post_type'] == "-1"){ // static list
+	$ids = $wall_args['meta_wall_display_ids'];
+	if (!empty($ids)){
+		$ids_tab = split(",", $ids);
+		if(($key = array_search($wall_args['meta_wall_display_current_post_id'], $ids_tab)) !== false) {
+			unset($ids_tab[$key]);
+		}
+		if (!empty($ids_tab)){
+			$args = array("posts_per_page" => -1, "post_type" => "any", "post__in" => $ids_tab, "orderby" => "post__in");
+			$get_any_posts = new WP_Query;
+			$posts = $get_any_posts->query($args);
+		}
+	}
 }
 
 if (!empty($posts)){

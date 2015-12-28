@@ -31,14 +31,19 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 							$post_type_label = get_post_type_labels(get_post_type_object($post_type));
 							$hierarchical = is_post_type_hierarchical($post_type) ? 'true' : 'false';
 							?>
-							<option value="<?php echo $post_type; ?>" <?php if (!empty($meta) && $meta == $post_type){ echo 'selected="selected"'; }?> data-hierarchical="<?php echo $hierarchical; ?>"><?php echo $post_type_label->name; ?></option>
+							<option value="<?php echo $post_type; ?>" <?php if (!empty($meta) && $meta == $post_type){ echo 'selected="selected"'; }?> data-list="dynamic" data-hierarchical="<?php echo $hierarchical; ?>"><?php echo $post_type_label->name; ?></option>
 						<?php } ?>
+						<option value="-1" <?php if (!empty($meta) && $meta == '-1'){ echo 'selected="selected"'; }?> data-list="static"><?php _e("customized…", CUSTOM_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
-				<td valign="middle"></td>
+				<td valign="middle">
+					<span id="choose-wall-elements" class="button display-wall-options display-wall-options-list display-wall-options-list-static">
+						<i class="fa fa-search" style="margin-right: 6px;"></i><?php _e("manage your elements"); ?>
+					</span>
+				</td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options">
+			<tr valign="top" class="display-wall-options display-wall-options-list display-wall-options-list-dynamic">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_WALL_DISPLAY_TERM_SLUG; ?>">-&nbsp;<?php _e('Type', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -81,7 +86,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options">
+			<tr valign="top" class="display-wall-options display-wall-options-list display-wall-options-list-dynamic">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_WALL_DISPLAY_ORDERBY; ?>">-&nbsp;<?php _e('Order by', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -101,7 +106,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options">
+			<tr valign="top" class="display-wall-options display-wall-options-list display-wall-options-list-dynamic">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_WALL_DISPLAY_ORDER; ?>">-&nbsp;<?php _e('Order', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -115,7 +120,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options">
+			<tr valign="top" class="display-wall-options display-wall-options-list display-wall-options-list-dynamic">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_WALL_DISPLAY_NUMBER; ?>">-&nbsp;<?php _e('Number limit', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -126,7 +131,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				<td valign="middle"></td>
 				<td valign="middle"></td>
 			</tr>
-			<tr valign="top" class="display-wall-options">
+			<tr valign="top" class="display-wall-options display-wall-options-list display-wall-options-list-dynamic">
 				<th class="metabox_label_column" align="left" valign="middle"><label
 					for="<?php echo META_WALL_DISPLAY_PARENT; ?>">-&nbsp;<?php _e('Children of', CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
@@ -240,7 +245,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 						<option value="4" <?php if (empty($meta) || $meta == '4'){ echo 'selected="selected"'; }?>><?php _e("25%", CUSTOM_TEXT_DOMAIN); ?></option>
 						<option value="5" <?php if (!empty($meta) && $meta == '5'){ echo 'selected="selected"'; }?>><?php _e("20%", CUSTOM_TEXT_DOMAIN); ?></option>
 						<option value="6" <?php if (!empty($meta) && $meta == '6'){ echo 'selected="selected"'; }?>><?php _e("16%", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="customized" <?php if (!empty($meta) && $meta == 'customized'){ echo 'selected="selected"'; }?>><?php _e("customized", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="customized" <?php if (!empty($meta) && $meta == 'customized'){ echo 'selected="selected"'; }?>><?php _e("customized…", CUSTOM_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
 				<td valign="middle" class="display-wall-masonry-options-customized-width">
@@ -362,29 +367,99 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 		</table>
 		<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_TAX, true); ?>
 		<input type="hidden" name="<?php echo META_WALL_DISPLAY_TAX; ?>" value="<?php echo $meta; ?>" /><!-- updated by javascript when META_WALL_DISPLAY_TERM_SLUG option change -->
+		<div id="wall-elements" class="custom-modal-box" style="display: none;">
+			<div class="custom-modal-box-content wall-elements-content">
+				<div id="wall-elements-close" class="custom-modal-box-close"><i class="fa fa-times"></i></div>
+				<div class="column column-left">
+					<p>
+						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("you can drag and drop element to order them.", CUSTOM_TEXT_DOMAIN); ?>
+					</p>
+					<hr />
+					<p>
+						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("use", CUSTOM_TEXT_DOMAIN); ?>&nbsp;<i class="fa fa-plus-square"></i>&nbsp;<?php _e("to add element.", CUSTOM_TEXT_DOMAIN); ?>
+					</p>
+					<hr />
+					<p>
+						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("use", CUSTOM_TEXT_DOMAIN); ?>&nbsp;<i class="fa fa-minus-square"></i>&nbsp;<?php _e("to remove element.", CUSTOM_TEXT_DOMAIN); ?>
+					</p>
+				</div>
+				<div class="column column-right">
+					<ul id="wall-elements-list">
+					</ul>
+					<ul id="wall-elements-new">
+						<li class="add-new-element"><div class="add-new-element-content"><i class="fa fa-plus"></i></div></li>
+					</ul>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="custom-modal-box-footer">
+					<span id="wall-elements-update" class="button button-primary button-large"><?php _e("Update wall"); ?></span>
+				</div>
+			</div>
+		</div>
 		<hr />
 		<div class="display-wall-options">
 			<div id="wall-presentation-setup" style="min-height: 400px;">
 				<!-- content set by ajax call -->
 			</div>
 		</div>
+		
 		<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_PRESENTATION_SETUP, true);
 		if (!empty($meta)){
 			$meta = htmlentities($meta);
 		}
 		?>
 		<input type="hidden" id="<?php echo META_WALL_DISPLAY_PRESENTATION_SETUP; ?>" name="<?php echo META_WALL_DISPLAY_PRESENTATION_SETUP; ?>" value="<?php echo $meta; ?>" />
+		
+		<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_IDS, true);
+		?>
+		<input type="hidden" id="<?php echo META_WALL_DISPLAY_IDS; ?>" name="<?php echo META_WALL_DISPLAY_IDS; ?>" value="<?php echo $meta; ?>" />
+		
 		<script type="text/javascript">
 		(function($) {
 			$wall_masonry = null;
 			$wall_isotope = null;
 			$(document).ready(function(){
+				// manage customized wall elements 
+				var postpicker = null;
+				$("#choose-wall-elements").on("click", function(e){
+					var exclude_ids = "<?php echo get_the_ID(); ?>";
+					var selected_ids = $("input[name='<?php echo META_WALL_DISPLAY_IDS; ?>']").val();
+					if (postpicker == null){
+						postpicker = $("body").postpicker({
+								selected : selected_ids,
+								exclude : exclude_ids,
+								multi_select : true,
+								order : true,
+								onopen : function(){},
+								oncontentupdated : function(){},
+								oncontentupdatefail : function(){},
+								onclose : function(){},
+								done_button_text : "<?php _e("Update wall", CUSTOM_TEXT_DOMAIN); ?>",
+								order_button_text : "<?php _e("Order elements", CUSTOM_TEXT_DOMAIN); ?>",
+								ondone : function(post_ids){
+									$("input[name='<?php echo META_WALL_DISPLAY_IDS; ?>']").val(post_ids.join(","));
+									update_wall_presentation_setup();
+								}
+							});
+						postpicker.open();
+					}else{
+						postpicker.options({
+							selected : selected_ids,
+							ondone : function(post_ids){
+								$("input[name='<?php echo META_WALL_DISPLAY_IDS; ?>']").val(post_ids.join(","));
+								update_wall_presentation_setup();
+							}
+						});
+						postpicker.open();
+					}
+				});
 				// post type change 
 				$("#<?php echo META_WALL_DISPLAY_POST_TYPE; ?>").on("change", function(e){
 					if ($(this).val() != "0"){
 						$(".display-wall-options").fadeIn();
 						update_wall_term_options();
 						update_wall_parent_options();
+						update_wall_list_options();
 						update_wall_specific_options();
 					}else{
 						$(".display-wall-options").fadeOut();
@@ -413,11 +488,12 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				// masonry max height 
 				$("#display-wall-masonry-auto-height").on("click", function(e){
 					update_wall_masonry_options();
-					
 				});
+				// presentation setup on change 
 				$(".wall-update-presentation-setup").on("change", function(e){
 					update_wall_presentation_setup();
 				});
+				// save presentation on change 
 				$(document).on("change", ".save-presentation-setup", function(e){
 					save_wall_presentation_setup();
 					update_wall_presentation_setup();
@@ -425,6 +501,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				// init 
 				if ($("#<?php echo META_WALL_DISPLAY_POST_TYPE; ?>").val() != "0"){
 					$(".display-wall-options").fadeIn(0);
+					update_wall_list_options();
 					update_wall_specific_options();
 					update_wall_term_options();
 					update_wall_parent_options();
@@ -478,6 +555,10 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 			function update_wall_specific_options(){
 				$(".display-wall-specific-options").fadeOut(0);
 				$(".display-wall-"+$("*[name='<?php echo META_WALL_DISPLAY_PRESENTATION; ?>']").val()+"-options").fadeIn();
+			}
+			function update_wall_list_options(){
+				$(".display-wall-options-list").fadeOut(0);
+				$(".display-wall-options-list-"+$("*[name='<?php echo META_WALL_DISPLAY_POST_TYPE; ?>'] option:selected").data('list')).fadeIn();
 			}
 			function update_wall_filtering(){
 				// display filtering option only in masonry presentation and if no tax is selected 
@@ -542,6 +623,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 			}
 			function update_wall_presentation_setup(){
 				var post_type = $("*[name='<?php echo META_WALL_DISPLAY_POST_TYPE; ?>']").val();
+				var ids = $("*[name='<?php echo META_WALL_DISPLAY_IDS; ?>']").val();
 				var tax = $("*[name='<?php echo META_WALL_DISPLAY_TAX; ?>']").val();
 				var term_slug = $("*[name='<?php echo META_WALL_DISPLAY_TERM_SLUG; ?>']").val();
 				var orderby = $("*[name='<?php echo META_WALL_DISPLAY_ORDERBY; ?>']").val();
@@ -586,6 +668,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				get_wall_presentation_results(
 						current_post_id,
 						post_type,
+						ids,
 						tax,
 						term_slug,
 						orderby,

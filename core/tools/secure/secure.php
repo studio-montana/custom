@@ -32,6 +32,7 @@ if ($captcha_enable == 1 && class_exists("WPCF7_ContactForm")){
  * WP uses this action to generate login form
 */
 add_action('login_form', 'secure_login_form');
+add_filter('login_form_middle', 'secure_login_form', 10, 1);
 
 /**
  * WooCommerce uses this action to generate login form

@@ -12,7 +12,6 @@
  */
 define('PORTFOLIO_TOOL_NAME', 'portfolio');
 
-
 /**
  * ajoute le post-type 'portfolio'
 */

@@ -55,7 +55,10 @@ function secure_captcha_register_form(){
 function secure_captcha_validate_login_form($args){
 	if (isset($_POST['log']) && isset($_POST['pwd'])){
 		if (!secure_captcha_validate_result(SECURE_CAPTCHA_FIELD.'-login')){
-			header('Location: '.get_current_url(true));
+			$redirect_to = "";
+			if (isset($_REQUEST['redirect_to']))
+				$redirect_to = $_REQUEST['redirect_to'];
+			header('Location: '.get_current_url()."?redirect_to=".urlencode($redirect_to));
 			exit;
 		}
 	}

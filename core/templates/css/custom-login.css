@@ -1,23 +1,55 @@
 @CHARSET "UTF-8";
 
+/* Placeholder text color -- selectors need to be separate to work. */
+
+::-webkit-input-placeholder {
+	color: rgba(124, 124, 124, 1);
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1rem;
+}
+
+:-moz-placeholder {
+	color: rgba(124, 124, 124, 1);
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1rem
+}
+
+::-moz-placeholder {
+	color: rgba(124, 124, 124, 1);
+	opacity: 1; /* Since FF19 lowers the opacity of the placeholder by default */
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1rem
+}
+
+:-ms-input-placeholder {
+	color: rgba(124, 124, 124, 1);
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1rem;
+}
+
 html{
+	background: #000;
 }
 
 body.login{
-	background: transparent;
+	background: none;
+	padding: 0 0 0 0;
+	height: auto;
 }
 
 #login {
-    margin: 0 auto;
-    padding: 20px 0 10px 0;
-    background-color: rgba(45, 45, 45, 1);
-    -webkit-border-bottom-right-radius: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	border-bottom-right-radius: 20px;
-	border-bottom-left-radius: 20px;
-	position: relative;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	margin: 0 0 0 -160px;
+	padding: 0;
+	width: 320px;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .login .message{
@@ -26,6 +58,7 @@ body.login{
     color: rgba(255, 255, 255, 1);
 	text-align: center;
     box-shadow: none;
+    padding: 24px 24px 0 24px;
 }
 
 .login #login_error{
@@ -34,39 +67,117 @@ body.login{
     color: rgba(255, 255, 255, 1);
 	text-align: center;
     box-shadow: none;
+    padding: 24px 24px 0 24px;
 }
 
 .login form {
     background: transparent;
     box-shadow: none;
     margin-top: 0;
+	padding: 17px 24px 0 24px;
+}
+
+.login form input[type='text'],
+.login form input[type='password'],
+.login form input[type='number'],
+.login form input[type='submit'].button-large{
+    height: 60px;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+	width: 100%;
+	padding: 3px;
+	margin: 0 0 3px 0;
+	text-align: center;
+	border: none;
+	font-weight: 300;
+	background: #fff;
+}
+.login form input[type='text']:focus,
+.login form input[type='password']:focus,
+.login form input[type='number']:focus,
+.login form input[type='submit'].button-large:focus{
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.login form input[type='submit'].button-large{
+	background: #000;
+	border: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	text-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	text-transform: uppercase;
+}
+
+.login form .button.active, .login form .button.active:hover, .login form .button:active {
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+}
+
+.login form p{
 }
 
 .login label{
     color: rgba(255, 255, 255, 1);
 }
 
-.login h1 a {
-    background: none;
-    color: #999999;
-    display: block;
-    font-size: 1em;
-    font-weight: 400;
-    line-height: 1em;
-    margin: 12px auto;
-    outline: 0 none;
-    overflow: hidden;
-    padding: 0;
-    text-decoration: none;
-    text-indent: 0;
-    width: 100%;
-    height: auto;
+.login h1{
+	display: none;
 }
 
-.login #nav, .login #backtoblog{
-	text-align: center;
+.login #nav,
+.login form .forgetmenot{
+	position: absolute;
+	bottom: 6px;
+	left: 24px;
+	right: 24px;
+}
+
+.login form .forgetmenot{
+	right: auto;
+	text-align: left;
+	padding: 0;
+	margin: 0;
+}
+
+.login #nav{
+	left: auto;
+	text-align: right;
+	padding: 0;
+	margin: 0;
+}
+
+.login #nav a{
+	color: #777;
+	font-size: 10px;
+}
+
+.login #nav a:hover, .login #nav a:focus, .login #nav a:active{
+	color: #777;
+	text-decoration: underline;
 }
 
 .login #backtoblog{
 	display: none;
 }
+.login form .forgetmenot label{
+	color: #777;
+	font-size: 10px;
+}
+.login form .forgetmenot input{
+	background-color: #999;
+	border-color: #777;
+}
+
+#login form p.captcha-error{
+	text-align: center;
+	color: #fff;
+	margin-bottom: 3px;
+}
+

@@ -24,7 +24,7 @@
 }
 
 .login .tool-secure-input-wrapper {
-	padding-bottom: 12px;
+	padding-bottom: 0;
 }
 
 .tool-secure-input-wrapper .tool-secure-input {
@@ -47,7 +47,7 @@
 }
 
 .login .tool-secure-input-wrapper .tool-secure-show-info {
-	padding: 11px 0 0 0;
+	padding: 20px 0 0 0;
 	font-size: 1.3rem;
 }
 
@@ -57,4 +57,5 @@
 
 .login .tool-secure-input-wrapper .tool-secure-info-text {
 	color: #fff;
+	padding-bottom: 3px;
 }

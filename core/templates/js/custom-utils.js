@@ -39,48 +39,59 @@ function empty(variable) {
 	return false;
 }
 
+function indexOf(value, array) {
+	var res = -1;
+	if (!empty(array)) {
+		for ( var i = 0; i < array.length; i++) {
+			if (array[i] === value)
+				res = i;
+		}
+	}
+	return res;
+}
+
 /**
  * Show wait box
  */
 function wait($element) {
-	if ($element.find('.custom-wait').length <= 0) {
-		$element.append('<div class="custom-wait" style="display: none;">loading...</div>');
-		$element.find('.custom-wait').css('position', 'absolute');
-		$element.find('.custom-wait').css('top', '0');
-		$element.find('.custom-wait').css('left', '0');
-		$element.find('.custom-wait').css('background', '#e2e2e2');
-		$element.find('.custom-wait').css('opacity', '0.5');
-		$element.find('.custom-wait').css('width', '100%');
-		$element.find('.custom-wait').css('height', '100%');
-		$element.find('.custom-wait').css('text-align', 'center');
-		$element.find('.custom-wait').css('padding', '70px');
-		$element.find('.custom-wait').css('z-index', '10000');
-		$element.find('.custom-wait').css('box-sizing', 'border-box');
-		$element.find('.custom-wait').css('-moz-box-sizing', 'border-box');
-		$element.find('.custom-wait').css('-webkit-box-sizing', 'border-box');
+	if ($element.children('.custom-wait').length <= 0) {
+		$element.append('<div class="custom-wait">loading...</div>');
+		$element.children('.custom-wait').css('position', 'absolute');
+		$element.children('.custom-wait').css('top', '0');
+		$element.children('.custom-wait').css('left', '0');
+		$element.children('.custom-wait').css('background', '#e2e2e2');
+		$element.children('.custom-wait').css('opacity', '0.5');
+		$element.children('.custom-wait').css('width', '100%');
+		$element.children('.custom-wait').css('height', '100%');
+		$element.children('.custom-wait').css('text-align', 'center');
+		$element.children('.custom-wait').css('padding', '70px');
+		$element.children('.custom-wait').css('z-index', '200000');
+		$element.children('.custom-wait').css('box-sizing', 'border-box');
+		$element.children('.custom-wait').css('-moz-box-sizing', 'border-box');
+		$element.children('.custom-wait').css('-webkit-box-sizing', 'border-box');
 	}
-	$element.find('.custom-wait').fadeIn(0);
 }
 
 /**
  * hide wait box
  */
 function unwait($element) {
-	$element.find('.custom-wait').fadeOut(0);
+	$element.children('.custom-wait').remove();
 }
 
 /**
  * convert hexadecimal color to rgb
+ * 
  * @param hex
  * @returns
  */
 function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r : parseInt(result[1], 16),
+		g : parseInt(result[2], 16),
+		b : parseInt(result[3], 16)
+	} : null;
 }
 
 /**
@@ -121,7 +132,7 @@ function hexToRgb(hex) {
 			if (!isset($(this).data('custom_image_load'))) {
 				var plugin = new $.custom_image_load($(this), on_load_function);
 				$(this).data('custom_image_load', plugin);
-			}else{
+			} else {
 				// already instanciated - nothing to do
 			}
 		});

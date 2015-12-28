@@ -13,7 +13,7 @@
 function video_ajax_admin_enqueue_scripts(){
 	$video_ajax_js_file = locate_web_ressource(CUSTOM_TOOLS_FOLDER.VIDEO_TOOL_NAME.'/ajax/video-ajax.js');
 	if (!empty($video_ajax_js_file)){
-		wp_enqueue_script('video-ajax', $video_ajax_js_file, array('jquery'));
+		wp_enqueue_script('video-ajax', $video_ajax_js_file, array('jquery'), "1.0");
 		wp_localize_script('video-ajax', 'VideoAjax', array(
 		'ajaxUrl' => admin_url('admin-ajax.php'),
 		'ajaxNonce' => wp_create_nonce('video-ajax-nonce'),

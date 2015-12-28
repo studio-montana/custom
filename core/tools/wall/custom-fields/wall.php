@@ -11,6 +11,7 @@
  * CONSTANTS
  */
 define('META_WALL_DISPLAY_POST_TYPE', 'meta_wall_display_post_type');
+define('META_WALL_DISPLAY_IDS', 'meta_wall_display_ids');
 define('META_WALL_DISPLAY_POSITION', 'meta_wall_display_position');
 define('META_WALL_DISPLAY_TAX', 'meta_wall_display_tax');
 define('META_WALL_DISPLAY_TERM_SLUG', 'mate_wall_display_term_slug');
@@ -69,6 +70,12 @@ function wall_save_post($post_id){
 			update_post_meta($post_id, META_WALL_DISPLAY_POST_TYPE, sanitize_text_field($_POST[META_WALL_DISPLAY_POST_TYPE]));
 		}else{
 			delete_post_meta($post_id, META_WALL_DISPLAY_POST_TYPE);
+		}
+		// META_WALL_DISPLAY_IDS
+		if (!empty($_POST[META_WALL_DISPLAY_IDS])){
+			update_post_meta($post_id, META_WALL_DISPLAY_IDS, sanitize_text_field($_POST[META_WALL_DISPLAY_IDS]));
+		}else{
+			delete_post_meta($post_id, META_WALL_DISPLAY_IDS);
 		}
 		// META_WALL_DISPLAY_POSITION
 		if (!empty($_POST[META_WALL_DISPLAY_POSITION])){

@@ -36,11 +36,11 @@ function backgroundimage_customize_register($wp_customize_manager) {
 }
 add_action('customize_register', 'backgroundimage_customize_register');
 
-if (!function_exists("backgroundimage_custom_html_before_page")):
+if (!function_exists("backgroundimage_display")):
 /**
  * add background image div before #page element
 */
-function backgroundimage_custom_html_before_page(){
+function backgroundimage_display(){
 	$_queried_post = get_queried_object();
 	$id_post = $_queried_post->ID;
 	if (is_home()){ // blog page
@@ -106,32 +106,6 @@ function backgroundimage_custom_html_before_page(){
 <?php
 	}
 }
-add_action('custom_html_before_page', 'backgroundimage_custom_html_before_page');
+add_action('custom_html_before_page', 'backgroundimage_display');
+add_action('login_footer', 'backgroundimage_display');
 endif;
-
-if (!function_exists("backgroundimage_login_head")):
-/**
- * custom_customizer_wp_head
-*/
-function backgroundimage_login_head(){
-
-	$url_backgroundimage = get_theme_mod('backgroundimage_image');
-	if (!empty($url_backgroundimage)){
-		?>
-<style>
-html {
-	background: url("<?php echo $url_backgroundimage; ?>") no-repeat center
-		center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	-ms-background-size: cover;
-	background-size: cover;
-}
-</style>
-<?php
-	}
-}
-add_action('login_head', 'backgroundimage_login_head');
-endif;
-

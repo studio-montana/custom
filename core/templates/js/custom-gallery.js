@@ -178,7 +178,7 @@ var gold_number = 1.618;
 				} else if (format == "landscape") {
 					height = (width_unite / gold_number) * lines;
 				} else {
-					height = item_width;
+					height = width_unite * lines;
 				}
 				if (height != 0) {
 					$gallery_item.css("height", Math.ceil(height) + "px");

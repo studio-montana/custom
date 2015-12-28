@@ -21,7 +21,7 @@ function custom_sitemap_get_node($post_type, $posts, $is_hierarchical = false){
 		<li><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr(get_the_title()); ?>"><?php the_title(); ?></a></li>
 		<?php
 		if ($is_hierarchical){
-			$sub_posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => get_the_ID()));
+			$sub_posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => get_the_ID(), "suppress_filters" => false));
 			if (!empty($sub_posts)){
 				custom_sitemap_get_node($post_type, $sub_posts, $is_hierarchical);
 			}
@@ -42,9 +42,9 @@ function custom_sitemap_get_node($post_type, $posts, $is_hierarchical = false){
 				if ($post_type != 'wpcf7_contact_form'){
 					$is_hierarchical = is_post_type_hierarchical($post_type);
 					if ($is_hierarchical)
-						$posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => 0));
+						$posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => 0, "suppress_filters" => false));
 					else
-						$posts = get_posts(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC"));
+						$posts = get_posts(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "suppress_filters" => false));
 					if (!empty($posts)){
 						$current_post_type_label = get_post_type_labels(get_post_type_object($post_type));
 						?>
