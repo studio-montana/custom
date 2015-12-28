@@ -38,7 +38,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 				</td>
 				<td valign="middle">
 					<span id="choose-wall-elements" class="button display-wall-options display-wall-options-list display-wall-options-list-static">
-						<i class="fa fa-search" style="margin-right: 6px;"></i><?php _e("manage your elements"); ?>
+						<i class="fa fa-search" style="margin-right: 6px;"></i><?php _e("manage your elements", CUSTOM_TEXT_DOMAIN); ?>
 					</span>
 				</td>
 				<td valign="middle"></td>
@@ -367,35 +367,6 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 		</table>
 		<?php $meta = get_post_meta(get_the_ID(), META_WALL_DISPLAY_TAX, true); ?>
 		<input type="hidden" name="<?php echo META_WALL_DISPLAY_TAX; ?>" value="<?php echo $meta; ?>" /><!-- updated by javascript when META_WALL_DISPLAY_TERM_SLUG option change -->
-		<div id="wall-elements" class="custom-modal-box" style="display: none;">
-			<div class="custom-modal-box-content wall-elements-content">
-				<div id="wall-elements-close" class="custom-modal-box-close"><i class="fa fa-times"></i></div>
-				<div class="column column-left">
-					<p>
-						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("you can drag and drop element to order them.", CUSTOM_TEXT_DOMAIN); ?>
-					</p>
-					<hr />
-					<p>
-						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("use", CUSTOM_TEXT_DOMAIN); ?>&nbsp;<i class="fa fa-plus-square"></i>&nbsp;<?php _e("to add element.", CUSTOM_TEXT_DOMAIN); ?>
-					</p>
-					<hr />
-					<p>
-						<i class="fa fa-info-circle" style="font-size: 1rem;"></i>&nbsp;<?php _e("use", CUSTOM_TEXT_DOMAIN); ?>&nbsp;<i class="fa fa-minus-square"></i>&nbsp;<?php _e("to remove element.", CUSTOM_TEXT_DOMAIN); ?>
-					</p>
-				</div>
-				<div class="column column-right">
-					<ul id="wall-elements-list">
-					</ul>
-					<ul id="wall-elements-new">
-						<li class="add-new-element"><div class="add-new-element-content"><i class="fa fa-plus"></i></div></li>
-					</ul>
-					<div style="clear: both;"></div>
-				</div>
-				<div class="custom-modal-box-footer">
-					<span id="wall-elements-update" class="button button-primary button-large"><?php _e("Update wall"); ?></span>
-				</div>
-			</div>
-		</div>
 		<hr />
 		<div class="display-wall-options">
 			<div id="wall-presentation-setup" style="min-height: 400px;">
