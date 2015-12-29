@@ -62,6 +62,7 @@ function tool_private_settings_save() {
 	}
 
 	// TOOL_PRIVATE_OPTIONS_ITEMS
+	$key = TOOL_PRIVATE_OPTIONS_ITEMS."-".get_current_lang();
 	$items = "";
 	foreach ($_POST as $k => $v){
 		if (startsWith($k, "tool-private-item-")){
@@ -74,21 +75,22 @@ function tool_private_settings_save() {
 		}
 	}
 	if (!empty($items)){
-		if (!get_option(TOOL_PRIVATE_OPTIONS_ITEMS))
-			add_option(TOOL_PRIVATE_OPTIONS_ITEMS, $items);
+		if (!get_option($key))
+			add_option($key, $items);
 		else
-			update_option(TOOL_PRIVATE_OPTIONS_ITEMS, $items);
+			update_option($key, $items);
 	}else{
-		delete_option(TOOL_PRIVATE_OPTIONS_ITEMS);
+		delete_option($key);
 	}
 	
 	// TOOL_PRIVATE_OPTIONS_MESSAGE
-	if (isset($_POST[TOOL_PRIVATE_OPTIONS_MESSAGE]) && !empty($_POST[TOOL_PRIVATE_OPTIONS_MESSAGE])){
-		if (!get_option(TOOL_PRIVATE_OPTIONS_MESSAGE))
-			add_option(TOOL_PRIVATE_OPTIONS_MESSAGE, sanitize_text_field($_POST[TOOL_PRIVATE_OPTIONS_MESSAGE]));
+	$key = TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang();
+	if (isset($_POST[$key]) && !empty($_POST[$key])){
+		if (!get_option($key))
+			add_option($key, sanitize_text_field($_POST[$key]));
 		else
-			update_option(TOOL_PRIVATE_OPTIONS_MESSAGE, sanitize_text_field($_POST[TOOL_PRIVATE_OPTIONS_MESSAGE]));
+			update_option($key, sanitize_text_field($_POST[$key]));
 	}else{
-		delete_option(TOOL_PRIVATE_OPTIONS_MESSAGE);
+		delete_option($key);
 	}
 }

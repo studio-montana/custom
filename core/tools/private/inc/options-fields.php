@@ -23,7 +23,7 @@ function tool_private_get_node($post_type, $posts, $is_hierarchical = false){
 		</li>
 		<?php
 		if ($is_hierarchical){
-			$sub_posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => get_the_ID()));
+			$sub_posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => get_the_ID(), "suppress_filters" => false));
 			if (!empty($sub_posts)){
 				tool_private_get_node($post_type, $sub_posts, $is_hierarchical);
 			}
@@ -60,13 +60,13 @@ function tool_private_get_node($post_type, $posts, $is_hierarchical = false){
 			</tr>
 			<tr valign="top" class="private-options private-options-1 private-options-2">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE; ?>"><?php _e("Message", CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(); ?>"><?php _e("Message", CUSTOM_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php 
-					$meta = get_option(TOOL_PRIVATE_OPTIONS_MESSAGE, "");
+					$meta = get_option(TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(), "");
 					?>
-					<input type="text" id="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE; ?>" name="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE; ?>" value="<?php echo esc_attr($meta); ?>" size="40" placeholder="<?php _e("Private area"); ?>..." />
+					<input type="text" id="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(); ?>" name="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(); ?>" value="<?php echo esc_attr($meta); ?>" size="40" placeholder="<?php _e("Private area"); ?>..." />
 				</td>
 				<td valign="middle"></td>
 			</tr>
@@ -78,9 +78,9 @@ function tool_private_get_node($post_type, $posts, $is_hierarchical = false){
 					foreach ($available_posttypes as $post_type){
 						$is_hierarchical = is_post_type_hierarchical($post_type);
 						if ($is_hierarchical)
-							$posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => 0));
+							$posts = get_pages(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "parent" => 0, "suppress_filters" => false));
 						else
-							$posts = get_posts(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC"));
+							$posts = get_posts(array("post_type" => $post_type, 'numberposts' => -1, "orderby" => "name", "order" => "ASC", "suppress_filters" => false));
 						if (!empty($posts)){
 							$current_post_type_label = get_post_type_labels(get_post_type_object($post_type));
 							?>
