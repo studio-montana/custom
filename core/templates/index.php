@@ -16,7 +16,7 @@ get_header();?>
 		<?php 
 		// display blog page title 
 		$blog_page = get_page(get_option('page_for_posts'));
-		if ($blog_page){
+		if (is_numeric($blog_page)){
 			global $post;
 			$post = $blog_page;
 			setup_postdata($post);

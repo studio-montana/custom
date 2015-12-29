@@ -9,7 +9,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 ?>
 <div id="tool-display-general" class="custom-fields-section">
 	<header class="custom-fields-section-header">
-		<h3><?php _e("SEO", CUSTOM_TEXT_DOMAIN); ?></h3>
+		<h3><?php _e("SEO", CUSTOM_TEXT_DOMAIN); ?>&nbsp;(<em><a href="<?php echo seo_get_xmlsitemap_url(); ?>" target="_blank"><?php _e("look at sitemap.xml", CUSTOM_TEXT_DOMAIN); ?></a></em>)</h3>
 	</header>
 	<div class="custom-fields-section-content">
 		<table class="fields full-width">

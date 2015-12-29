@@ -7,13 +7,13 @@
  * @since Custom SEO 1.0
  */
 
-add_action("save_post", "SEO_auto_update_xmlsitemap");
-function SEO_auto_update_xmlsitemap(){
+function seo_auto_update_xmlsitemap(){
 	$availables_post_types = get_displayed_post_types();
-	SEO_update_xmlsitemap($availables_post_types);
+	seo_update_xmlsitemap($availables_post_types);
 }
+add_action("save_post", "seo_auto_update_xmlsitemap");
 
-function SEO_get_xmlsitemap_url($params = ""){
+function seo_get_xmlsitemap_url($params = ""){
 	return get_bloginfo('url').'/sitemap.xml'.$params;
 }
 
@@ -22,7 +22,7 @@ function SEO_get_xmlsitemap_url($params = ""){
  * @param array $availables_post_types
  * @return true if success, false otherwise
  */
-function SEO_update_xmlsitemap($availables_post_types){
+function seo_update_xmlsitemap($availables_post_types){
 	$success = false;
 	
 	// $xmlsitemappath = trailingslashit(get_home_path()) . "sitemap.xml"; makes error with woocommerce payplug/paypal purchase method

@@ -12,49 +12,6 @@ define('SEO_DEFAULT_METADESCRIPTION', 'seo-default-metadescription');
 define('SEO_DEFAULT_METAKEYWORDS', 'seo-default-metakeywords');
 
 
-/**
- * Add postMessage support for site title and description for the Customizer.
- *
- * @since Custom SEO 1.0
- *
- * @param WP_Customize_Manager $wp_customize_manager Customizer object.
-*/
-function seo_customize_register( $wp_customize_manager ) {
-
-	// SEO section
-	$wp_customize_manager->add_section('seo_customizer', array(
-			'title' => 'SEO',
-			'description' => '<a href="'.SEO_get_xmlsitemap_url().'" target="_blank">look at sitemap.xml</a><hr />'.__("Default values are used when nothing is recoverable (blog page for example)", CUSTOM_TEXT_DOMAIN).' '
-	));
-
-	// meta title
-	$wp_customize_manager->add_setting(SEO_DEFAULT_METATITLE, array('type' => 'theme_mod', 'transport'=>'postMessage'));
-	$wp_customize_manager->add_control(SEO_DEFAULT_METATITLE, array(
-			'label'      => __('Default meta-title', CUSTOM_TEXT_DOMAIN ),
-			'section'    => 'seo_customizer',
-			'settings'   => SEO_DEFAULT_METATITLE,
-	));
-
-	// meta description
-	$wp_customize_manager->add_setting(SEO_DEFAULT_METADESCRIPTION, array('type' => 'theme_mod', 'transport'=>'postMessage'));
-	$wp_customize_manager->add_control(SEO_DEFAULT_METADESCRIPTION, array(
-			'label'      => __('Default meta-description', CUSTOM_TEXT_DOMAIN ),
-			'section'    => 'seo_customizer',
-			'settings'   => SEO_DEFAULT_METADESCRIPTION,
-	));
-
-	// meta keywords
-	$wp_customize_manager->add_setting(SEO_DEFAULT_METAKEYWORDS, array('type' => 'theme_mod', 'transport'=>'postMessage'));
-	$wp_customize_manager->add_control(SEO_DEFAULT_METAKEYWORDS, array(
-			'label'      => __('Default meta-keywords', CUSTOM_TEXT_DOMAIN ),
-			'section'    => 'seo_customizer',
-			'settings'   => SEO_DEFAULT_METAKEYWORDS,
-	));
-
-
-}
-add_action('customize_register', 'seo_customize_register');
-
 if (!function_exists("seo_wp_title")):
 /**
  * Filter the page title.
@@ -107,20 +64,7 @@ function seo_get_metatitle($sep = " | ", $display = true) {
 	}
 	// default value
 	if (empty($title)){
-		$meta_data_default = stripslashes(get_theme_mod(SEO_DEFAULT_METATITLE));
-		if (!empty($meta_data_default)){
-			$title = $meta_data_default;
-			if (!empty($blogname)){
-				$title .= "$sep$blogname";
-			}
-		}else{
-			if (!empty($blogname)){
-				$title = $blogname;
-			}
-		}
-	}
-	if (empty($title)){
-		$title = "$blogname";
+		$title = $blogname;
 	}else{
 		$title .= "$sep$blogname";
 	}
@@ -168,12 +112,7 @@ function seo_get_metadescription($display = true) {
 
 	// default value
 	if (empty($description)){
-		$meta_data_default = stripslashes(get_theme_mod(SEO_DEFAULT_METADESCRIPTION));
-		if (!empty($meta_data_default)){
-			$description = $meta_data_default;
-		}else{
-			$description = get_bloginfo('description', 'display');
-		}
+		$description = get_bloginfo('description', 'display');
 	}
 
 	// result
@@ -217,10 +156,7 @@ function seo_get_metakeywords($display = true) {
 
 	// default value
 	if (empty($keywords)){
-		$meta_data_default = stripslashes(get_theme_mod(SEO_DEFAULT_METAKEYWORDS));
-		if (!empty($meta_data_default)){
-			$keywords = $meta_data_default;
-		}
+		// none
 	}
 
 	// result
@@ -379,15 +315,17 @@ function seo_get_meta_opengraph_image($display = true) {
 							$opengraph_content = $thumb_src;
 						}
 					}
-				}else{ // default (site logo)
-					$url_logo = get_theme_mod('logo_image');
-					if (!empty($url_logo)){
-						$opengraph_content = $url_logo;
-					}else{ // default (tool-seo-default-og-image.png)
-						$opengraph_content = locate_web_ressource("tool-seo-default-og-image.png", array(CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/img/'));
-					}
 				}
 			}
+		}
+	}
+
+	if (empty($opengraph_content)){
+		$url_logo = get_theme_mod('logo_image'); // site-logo
+		if (!empty($url_logo)){
+			$opengraph_content = $url_logo;
+		}else{ // default (tool-seo-default-og-image.png)
+			$opengraph_content = locate_web_ressource("tool-seo-default-og-image.png", array(CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/img/'));
 		}
 	}
 
