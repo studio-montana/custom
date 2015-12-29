@@ -432,6 +432,7 @@ $current_post_type_label = get_post_type_labels(get_post_type_object(get_post_ty
 						update_wall_parent_options();
 						update_wall_list_options();
 						update_wall_specific_options();
+						update_wall_masonry_options();
 					}else{
 						$(".display-wall-options").fadeOut();
 					}
