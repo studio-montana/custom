@@ -15,8 +15,12 @@ define('SECURE_FAILTOBAN_FIELD', 'secure-failtoban-field');
 /**
  * called to generate WP login form
 */
-function secure_failtoban_login_form(){
-	echo secure_failtoban_generate_field();
+function secure_failtoban_login_form($display = true){
+	$field = secure_failtoban_generate_field();
+	if ($display)
+		echo $field;
+	else
+		return $field;
 }
 
 /**

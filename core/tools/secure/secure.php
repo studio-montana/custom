@@ -32,7 +32,7 @@ if ($captcha_enable == 1 && class_exists("WPCF7_ContactForm")){
  * WP uses this action to generate login form
 */
 add_action('login_form', 'secure_login_form');
-add_filter('login_form_middle', 'secure_login_form', 10, 1);
+add_filter('login_form_middle', 'secure_login_form_filter', 10, 1);
 
 /**
  * WooCommerce uses this action to generate login form
@@ -111,6 +111,22 @@ function secure_login_form(){
 	if ($captcha_enable == 1){
 		secure_captcha_login_form();
 	}
+}
+
+/**
+ * called by filter to generate WP login form
+ */
+function secure_login_form_filter(){
+	$field = "";
+	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
+	if ($failtoban_enable == 1){
+		$field .= secure_failtoban_login_form(false);
+	}
+	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
+	if ($captcha_enable == 1){
+		$field .= secure_captcha_login_form(false);
+	}
+	return $field;
 }
 
 /**

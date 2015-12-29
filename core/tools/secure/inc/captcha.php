@@ -16,8 +16,12 @@ define('SECURE_CAPTCHA_RESULT', 'secure-captcha-result');
 /**
  * called to generate WP login form
 */
-function secure_captcha_login_form(){
-	echo secure_captcha_generate_field(SECURE_CAPTCHA_FIELD.'-login');
+function secure_captcha_login_form($display = true){
+	$field = secure_captcha_generate_field(SECURE_CAPTCHA_FIELD.'-login');
+	if ($display)
+		echo $field;
+	else
+		return $field;
 }
 
 /**
