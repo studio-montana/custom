@@ -75,6 +75,10 @@
 	-webkit-box-sizing: border-box;
 }
 
+.custom-fields-section-side .custom-fields-section-content .fields select,.custom-fields-section-side .custom-fields-section-content .fields input[type='text'] {
+	min-width: 50px;
+}
+
 
 /**
 	* GALLERY

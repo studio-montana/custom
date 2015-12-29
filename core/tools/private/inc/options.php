@@ -11,7 +11,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 /**
  * CONSTANTS
 */
-define('TOOL_PRIVATE_OPTIONS_NONCE_ACTION');
+define('TOOL_PRIVATE_OPTIONS_NONCE_ACTION', 'tool-private-options-nonce-action');
 define('TOOL_PRIVATE_OPTIONS_GO_PRIVATE', 'tool-private-option-go-private');
 define('TOOL_PRIVATE_OPTIONS_ITEMS', 'tool-private-option-items');
 define('TOOL_PRIVATE_OPTIONS_MESSAGE', 'tool-private-option-message');
@@ -20,7 +20,7 @@ define('TOOL_PRIVATE_OPTIONS_MESSAGE', 'tool-private-option-message');
  * create admin menu for private settings
 */
 function tool_private_create_menu() {
-	add_menu_page('Private settings', 'Private site', 'administrator', "tool-private-settings-page", 'tool_private_settings_template' , 'dashicons-lock');
+	add_menu_page(__('Private settings', CUSTOM_TEXT_DOMAIN), __('Private site', CUSTOM_TEXT_DOMAIN), 'administrator', "tool-private-settings-page", 'tool_private_settings_template' , 'dashicons-lock');
 }
 add_action('admin_menu', 'tool_private_create_menu');
 

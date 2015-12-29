@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Custom\n"
-"POT-Creation-Date: 2015-12-28 12:48+0100\n"
-"PO-Revision-Date: 2015-12-28 12:48+0100\n"
+"POT-Creation-Date: 2015-12-28 15:26+0100\n"
+"PO-Revision-Date: 2015-12-28 15:27+0100\n"
 "Last-Translator: Sébastien Chandonay <sebastien.chandonay@gmail.com>\n"
 "Language-Team: Sébastien Chandonay / Cyril Tissot <sebastien.chandonay@gmail."
 "com artcyril@gmail.com>\n"
@@ -787,9 +787,9 @@ msgid "unknown account"
 msgstr "compte inconnu"
 
 #: ../core/tools/private/inc/options-fields.php:41
-#, fuzzy
+#: ../core/tools/private/inc/options.php:23
 msgid "Private settings"
-msgstr "Site privé"
+msgstr "Paramètres espace privé"
 
 #: ../core/tools/private/inc/options-fields.php:47
 msgid "You want to"
@@ -812,6 +812,11 @@ msgstr "rendre privé quelques éléments"
 #: ../core/tools/private/inc/options-fields.php:69
 #, fuzzy
 msgid "Private area"
+msgstr "Site privé"
+
+#: ../core/tools/private/inc/options.php:23
+#, fuzzy
+msgid "Private site"
 msgstr "Site privé"
 
 #: ../core/tools/private/templates/tool-private-template.php:75

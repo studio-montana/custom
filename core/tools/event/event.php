@@ -15,8 +15,31 @@ define('EVENT_NONCE_ACTION', 'event_nonce_action');
 
 /**
  * WIDGETS
- */
+*/
 require_once (locate_template('/'.CUSTOM_TOOLS_FOLDER.EVENT_TOOL_NAME.'/widgets/tool-event-widget.class.php'));
+
+if (!function_exists("tool_event_admin_init")):
+/**
+ * Hooks the WP admin_init action to add metaboxe customfields on post-type
+*
+* @return void
+*/
+function tool_event_admin_init() {
+	add_meta_box('tool-event-properties', '<i class="dashicons dashicons-calendar-alt" style="margin-right: 6px; font-size: 1.3rem;"></i>'.__( 'Event properties', CUSTOM_TEXT_DOMAIN), 'tool_event_add_inner_meta_boxes', 'event', 'side', 'high');
+}
+add_action('admin_init', 'tool_event_admin_init');
+endif;
+
+if (!function_exists("tool_event_add_inner_meta_boxes")):
+/**
+ * Hooks the WP admin_init action to add metaboxe customfields on post-type
+*
+* @return void
+*/
+function tool_event_add_inner_meta_boxes() {
+	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.EVENT_TOOL_NAME.'/templates/template-event-fields.php'));
+}
+endif;
 
 if (!function_exists("event_add_inner_meta_boxes")):
 /**
@@ -31,7 +54,7 @@ function event_add_inner_meta_boxes($post){
 		}
 	}
 }
-add_action("customfields_add_inner_meta_boxes", "event_add_inner_meta_boxes");
+//add_action("customfields_add_inner_meta_boxes", "event_add_inner_meta_boxes");
 endif;
 
 if (!function_exists("add_event_post_type")):

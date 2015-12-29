@@ -9,17 +9,16 @@
 
 if (!defined ('ABSPATH')) die ('No direct access allowed');
 ?>
-<div id="tool-gallery-display-gallery" class="custom-fields-section">
-	<header class="custom-fields-section-header">
-		<h3><?php _e('Event properties', CUSTOM_TEXT_DOMAIN); ?></h3>
-	</header>
+<div id="tool-gallery-display-gallery" class="custom-fields-section custom-fields-section-side">
 	<div class="custom-fields-section-content">
 		<input type="hidden" name="<?php echo EVENT_NONCE_ACTION; ?>" value="<?php echo wp_create_nonce(EVENT_NONCE_ACTION);?>" />
 		<table class="fields">
 			<tr valign="top">
-				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="meta_event_date_begin"><?php _e('Begin', CUSTOM_TEXT_DOMAIN); ?> : </label>
+				<th colspan="2" class="metabox_label_column" align="left" valign="middle"><label
+					for="meta_event_date_begin"><?php _e('Begin', CUSTOM_TEXT_DOMAIN); ?></label>
 				</th>
+			</tr>
+			<tr valign="top">
 				<?php 
 				$meta_date_begin = get_post_meta($post->ID, "meta_event_date_begin", true);
 				$meta_date_begin_s = "";
@@ -39,10 +38,11 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						$meta_minute_begin = "00";
 				}
 				?>
-				<td valign="middle">
-					<input type="text" class="datepicker" name="meta_event_date_begin" id="meta_event_date_begin" value="<?php echo $meta_date_begin_s; ?>"/>
+				<td colspan="2" valign="middle">
+					<input type="text" class="datepicker" name="meta_event_date_begin" id="meta_event_date_begin" value="<?php echo $meta_date_begin_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>"/>
 				</td>
-				<td valign="middle">(<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>)</td>
+			</tr>
+			<tr valign="top">
 				<td valign="middle">
 					<select name="meta_event_hour_begin" id="meta_event_hour_begin">
 						<option value="00" <?php if ($meta_hour_begin == '00'){ echo ' selected="selected"'; } ?>>00</option>
@@ -71,7 +71,6 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						<option value="23" <?php if ($meta_hour_begin == '23'){ echo ' selected="selected"'; } ?>>23</option>
 					</select>
 				</td>
-				<td valign="middle"> : </td>
 				<td valign="middle">
 					<select name="meta_event_minute_begin" id="meta_event_minute_begin">
 						<option value="00" <?php if ($meta_minute_begin == '00'){ echo ' selected="selected"'; } ?>>00</option>
@@ -80,12 +79,18 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						<option value="45" <?php if ($meta_minute_begin == '45'){ echo ' selected="selected"'; } ?>>45</option>
 					</select>
 				</td>
-				<td valign="middle">(<?php _e('hh:mm', CUSTOM_TEXT_DOMAIN); ?>)</td>
 			</tr>
 			<tr valign="top">
-				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="meta_event_date_end"><?php _e('End', CUSTOM_TEXT_DOMAIN); ?> : </label>
+				<td colspan="2">
+					<hr />
+				</td>
+			</tr>
+			<tr valign="top">
+				<th colspan="2" class="metabox_label_column" align="left" valign="middle"><label
+					for="meta_event_date_end"><?php _e('End', CUSTOM_TEXT_DOMAIN); ?></label>
 				</th>
+			</tr>
+			<tr valign="top">
 				<?php 
 				$meta_date_end = get_post_meta($post->ID, "meta_event_date_end", true);
 				$meta_date_end_s = "";
@@ -105,10 +110,11 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						$meta_minute_end = "00";
 				}
 				?>
-				<td valign="middle">
-					<input type="text" class="datepicker" name="meta_event_date_end" id="meta_event_date_end" value="<?php echo $meta_date_end_s; ?>"/>
+				<td colspan="2" valign="middle">
+					<input type="text" class="datepicker" name="meta_event_date_end" id="meta_event_date_end" value="<?php echo $meta_date_end_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>"/>
 				</td>
-				<td valign="middle">(<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>)</td>
+			</tr>
+			<tr valign="top">
 				<td valign="middle">
 					<select name="meta_event_hour_end" id="meta_event_hour_end">
 						<option value="00" <?php if ($meta_hour_end == '00'){ echo ' selected="selected"'; } ?>>00</option>
@@ -137,7 +143,6 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						<option value="23" <?php if ($meta_hour_end == '23'){ echo ' selected="selected"'; } ?>>23</option>
 					</select>
 				</td>
-				<td valign="middle"> : </td>
 				<td valign="middle">
 					<select name="meta_event_minute_end" id="meta_event_minute_end">
 						<option value="00" <?php if ($meta_minute_end == '00'){ echo ' selected="selected"'; } ?>>00</option>
@@ -146,7 +151,6 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 						<option value="45" <?php if ($meta_minute_end == '45'){ echo ' selected="selected"'; } ?>>45</option>
 					</select>
 				</td>
-				<td valign="middle">(<?php _e('hh:mm', CUSTOM_TEXT_DOMAIN); ?>)</td>
 			</tr>
 		</table>
 	</div>
