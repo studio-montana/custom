@@ -15,6 +15,11 @@
 	z-index: 9999;
 }
 
+.cookies-legislation-container a {
+	color: #fff;
+	text-decoration: underline;
+} 
+
 .cookies-legislation-container #cookies-accept-condition {
 	position: absolute;
 	right: 12px;
@@ -22,14 +27,10 @@
 	font-size: 1em;
 	font-weight: normal;
 	border: 1px solid #fff;
+	color: #000;
 }
 
 .cookies-legislation-container #cookies-accept-condition:hover {
 	background: #fff;
 	color: #000;
 }
-
-.cookies-legislation-container a {
-	color: #fff;
-	text-decoration: underline;
-} 

@@ -132,6 +132,9 @@ add_action('init','custom_init');
  * @return void
 */
 function custom_scripts_styles() {
+	
+	// Action before custom enqueue styles
+	do_action("custom_front_enqueue_styles_before");
 
 	// Loads parts stylesheets
 	// -- bxslider
@@ -184,6 +187,12 @@ function custom_scripts_styles() {
 		wp_enqueue_style('custom-ie', $css_ie, array('custom-style'), '1.0');
 		wp_style_add_data('custom-ie', 'conditional', 'lt IE 9');
 	}
+	
+	// Action after custom enqueue styles
+	do_action("custom_front_enqueue_styles_after");
+	
+	// Action before custom enqueue scripts
+	do_action("custom_front_enqueue_scripts_before");
 
 	// Loads Cookies jQuery plugin
 	$js_cookies = locate_web_ressource(CUSTOM_JS_FOLDER.'cookies/jquery.cookie.js');
@@ -232,6 +241,9 @@ function custom_scripts_styles() {
 	$js_slider = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-slider.js');
 	if (!empty($js_slider))
 		wp_enqueue_script('custom-script-custom-slider', $js_slider, array('jquery'), '1.0', true);
+	
+	// Action after custom enqueue scripts
+	do_action("custom_front_enqueue_scripts_after");
 
 }
 add_action('wp_enqueue_scripts', 'custom_scripts_styles');
@@ -346,18 +358,6 @@ function custom_login_scripts_styles() {
 	
 	// Action for javascript tools
 	do_action("custom_login_enqueue_scripts_tools", array("custom-script-utils"));
-
-	// Loads our login stylesheet.
-	$css_login = locate_web_ressource(CUSTOM_CSS_FOLDER.'custom-login.css');
-	if (!empty($css_login))
-		wp_enqueue_style('custom-login-css', $css_login, array(), '1.0');
-
-	// Loads login JavaScript file
-	$js_login = locate_web_ressource(CUSTOM_JS_FOLDER.'custom-login.js');
-	if (!empty($js_login)){
-		wp_enqueue_script('custom-login-script', $js_login, array('jquery'), '1.0', true );
-		wp_localize_script('custom-login-script', 'CustomLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_TEXT_DOMAIN)));
-	}
 
 }
 add_action('login_enqueue_scripts', 'custom_login_scripts_styles');

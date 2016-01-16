@@ -36,6 +36,107 @@ function backgroundimage_customize_register($wp_customize_manager) {
 }
 add_action('customize_register', 'backgroundimage_customize_register');
 
+if (!function_exists("backgroundimage_get_url")):
+/**
+ * retrieve backgroundimage url
+* @param string $id_post - current post if null
+*/
+function backgroundimage_get_url($id_post = null){
+	$url_backgroundimage = "";
+	if (empty($id_post) || !is_numeric($id_post)){
+		$_queried_post = get_queried_object();
+		$id_post = $_queried_post->ID;
+		if (is_home()){ // blog page
+			$id_post = get_option('page_for_posts');
+		}
+	}
+	if ($id_post && (is_single() || is_page() || is_home())){
+		$url_backgroundimage = get_post_meta($id_post, BACKGROUNDIMAGE_URL, true);
+	}
+	if (empty($url_backgroundimage)){
+		$url_backgroundimage = get_theme_mod('backgroundimage_image');
+	}
+
+	return $url_backgroundimage;
+}
+endif;
+
+if (!function_exists("backgroundimage_is_default")):
+/**
+ * retrieve backgroundimage url
+* @param string $id_post - current post if null
+*/
+function backgroundimage_is_default($id_post = null){
+	$default = true;
+	if (empty($id_post) || !is_numeric($id_post)){
+		$_queried_post = get_queried_object();
+		$id_post = $_queried_post->ID;
+		if (is_home()){ // blog page
+			$id_post = get_option('page_for_posts');
+		}
+	}
+	// background image
+	if ($id_post && (is_single() || is_page() || is_home())){
+		if (!empty(get_post_meta($id_post, BACKGROUNDIMAGE_URL, true))){
+			$default = false;
+		}
+	}
+	return $default;
+}
+endif;
+
+if (!function_exists("backgroundimage_get_color")):
+/**
+ * retrieve backgroundimage color
+* @param string $id_post - current post if null
+*/
+function backgroundimage_get_color($id_post = null){
+	$background_color_code = "";
+	if (empty($id_post) || !is_numeric($id_post)){
+		$_queried_post = get_queried_object();
+		$id_post = $_queried_post->ID;
+		if (is_home()){ // blog page
+			$id_post = get_option('page_for_posts');
+		}
+	}
+	if ($id_post && (is_single() || is_page() || is_home())){
+		$background_color_code = get_post_meta($id_post, BACKGROUNDCOLOR_CODE, true);
+		if (!empty($background_color_code)){
+			$background_color_code = hex_to_rgb($background_color_code, true);
+		}
+	}
+	return $background_color_code;
+}
+endif;
+
+if (!function_exists("backgroundimage_get_color_opacity")):
+/**
+ * retrieve backgroundimage color's opacity
+* @param string $id_post - current post if null
+*/
+function backgroundimage_get_color_opacity($id_post = null){
+	$background_color_opacity = "";
+	if (empty($id_post) || !is_numeric($id_post)){
+		$_queried_post = get_queried_object();
+		$id_post = $_queried_post->ID;
+		if (is_home()){ // blog page
+			$id_post = get_option('page_for_posts');
+		}
+	}
+	if ($id_post && (is_single() || is_page() || is_home())){
+		$background_color_opacity = get_post_meta($id_post, BACKGROUNDCOLOR_OPACITY, true);
+	}
+	if (empty($background_color_opacity))
+		$background_color_opacity = 0;
+	if ($background_color_opacity == 100){
+		$background_color_opacity = "1";
+	}else{
+		$background_color_opacity = "0.".$background_color_opacity;
+	}
+	return $background_color_opacity;
+}
+endif;
+
 if (!function_exists("backgroundimage_display")):
 /**
  * add background image div before #page element
@@ -48,34 +149,18 @@ function backgroundimage_display(){
 	}
 
 	// background image
-	$url_backgroundimage = "";
-	$class = "";
-	if ($id_post && (is_single() || is_page() || is_home())){
-		$url_backgroundimage = get_post_meta($id_post, BACKGROUNDIMAGE_URL, true);
-	}
-	if (empty($url_backgroundimage)){
-		$class = "default";
-		$url_backgroundimage = get_theme_mod('backgroundimage_image');
-	}
+	$url_backgroundimage = backgroundimage_get_url($id_post);
 
 	// background color
-	$background_color_code = "";
-	$background_color_opacity = "";
-	if ($id_post && (is_single() || is_page() || is_home())){
-		$background_color_code = get_post_meta($id_post, BACKGROUNDCOLOR_CODE, true);
-		$background_color_opacity = get_post_meta($id_post, BACKGROUNDCOLOR_OPACITY, true);
-	}
+	$background_color_code = backgroundimage_get_color($id_post);
+	
+	// background color opacity
+	$background_color_opacity = backgroundimage_get_color_opacity($id_post);
 
-	if (!empty($background_color_code)){
-		$background_color_code = hex_to_rgb($background_color_code, true);
-		if (empty($background_color_opacity))
-			$background_color_opacity = 0;
-		if ($background_color_opacity == 100){
-			$background_color_opacity = "1";
-		}else{
-			$background_color_opacity = "0.".$background_color_opacity;
-		}
-	}
+	// default ?
+	$class = "";
+	if (backgroundimage_is_default($id_post))
+		$class = "default";
 
 	if (!empty($url_backgroundimage)){
 		?>
@@ -107,5 +192,4 @@ function backgroundimage_display(){
 	}
 }
 add_action('custom_html_before_page', 'backgroundimage_display');
-add_action('login_footer', 'backgroundimage_display');
 endif;
