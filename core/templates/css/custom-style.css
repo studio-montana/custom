@@ -706,6 +706,13 @@ input[type="radio"] {
 }
 
 /**
+ * SEARCH FORM
+ */
+.screen-reader-text{
+	display: none;
+}
+
+/**
  * GALLERY
 */
 .gallery {
@@ -1003,6 +1010,14 @@ a.post-thumbnail:focus {
     text-transform: uppercase;
 }
 
+/**
+ * 404 PAGE
+ */
+body.error404{}
+
+body.error404 ul.causes{
+	margin-bottom: 1.5rem;
+}
 
 
 /**
