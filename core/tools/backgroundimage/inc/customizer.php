@@ -77,7 +77,8 @@ function backgroundimage_is_default($id_post = null){
 	}
 	// background image
 	if ($id_post && (is_single() || is_page() || is_home())){
-		if (!empty(get_post_meta($id_post, BACKGROUNDIMAGE_URL, true))){
+		$post_meta = get_post_meta($id_post, BACKGROUNDIMAGE_URL, true);
+		if (!empty($post_meta)){
 			$default = false;
 		}
 	}
