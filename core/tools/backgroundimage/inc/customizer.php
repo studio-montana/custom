@@ -45,9 +45,10 @@ function backgroundimage_get_url($id_post = null){
 	$url_backgroundimage = "";
 	if (empty($id_post) || !is_numeric($id_post)){
 		$_queried_post = get_queried_object();
-		$id_post = $_queried_post->ID;
 		if (is_home()){ // blog page
 			$id_post = get_option('page_for_posts');
+		}else if (!is_404() && $_queried_post){
+			$id_post = $_queried_post->ID;
 		}
 	}
 	if ($id_post && (is_single() || is_page() || is_home())){
@@ -70,9 +71,10 @@ function backgroundimage_is_default($id_post = null){
 	$default = true;
 	if (empty($id_post) || !is_numeric($id_post)){
 		$_queried_post = get_queried_object();
-		$id_post = $_queried_post->ID;
 		if (is_home()){ // blog page
 			$id_post = get_option('page_for_posts');
+		}else if (!is_404() && $_queried_post){
+			$id_post = $_queried_post->ID;
 		}
 	}
 	// background image
@@ -95,9 +97,10 @@ function backgroundimage_get_color($id_post = null){
 	$background_color_code = "";
 	if (empty($id_post) || !is_numeric($id_post)){
 		$_queried_post = get_queried_object();
-		$id_post = $_queried_post->ID;
 		if (is_home()){ // blog page
 			$id_post = get_option('page_for_posts');
+		}else if (!is_404() && $_queried_post){
+			$id_post = $_queried_post->ID;
 		}
 	}
 	if ($id_post && (is_single() || is_page() || is_home())){
@@ -119,9 +122,10 @@ function backgroundimage_get_color_opacity($id_post = null){
 	$background_color_opacity = "";
 	if (empty($id_post) || !is_numeric($id_post)){
 		$_queried_post = get_queried_object();
-		$id_post = $_queried_post->ID;
 		if (is_home()){ // blog page
 			$id_post = get_option('page_for_posts');
+		}else if (!is_404() && $_queried_post){
+			$id_post = $_queried_post->ID;
 		}
 	}
 	if ($id_post && (is_single() || is_page() || is_home())){
@@ -143,10 +147,13 @@ if (!function_exists("backgroundimage_display")):
  * add background image div before #page element
 */
 function backgroundimage_display(){
-	$_queried_post = get_queried_object();
-	$id_post = $_queried_post->ID;
+	$id_post = null;
 	if (is_home()){ // blog page
 		$id_post = get_option('page_for_posts');
+	}else if (!is_404()){
+		$_queried_post = get_queried_object();
+		if ($_queried_post)
+			$id_post = $_queried_post->ID;
 	}
 
 	// background image
@@ -154,7 +161,7 @@ function backgroundimage_display(){
 
 	// background color
 	$background_color_code = backgroundimage_get_color($id_post);
-	
+
 	// background color opacity
 	$background_color_opacity = backgroundimage_get_color_opacity($id_post);
 
