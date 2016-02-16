@@ -52,10 +52,13 @@ body.login{
     background: rgba(0, 0, 0, 0.5);
 }
 
-.login-interim #login {
+.login-interim #login,
+.interim-login #login,
+iframe #login {
 	left: 0;
 	margin: 0;
 	padding: 0;
+	width: 100%;
 }
 
 .login .message{
