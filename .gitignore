@@ -4,5 +4,3 @@ log/*
 # exclude mac files
 .DS_Store
 
-#exclude config.xml file (must be specified on each project)
-config.xml
