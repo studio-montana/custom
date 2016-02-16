@@ -2,9 +2,9 @@
 
 /**
  * Plugin Name: Custom
- * Plugin URI: http://www.studio-montana.com/produits/custom/
+ * Plugin URI: https://github.com/studio-montana/custom
  * Description: Multitool experience on WP
- * Version: 2.0
+ * Version: 2.0.1.1
  * Author: Studio Montana
  * Author URI: http://www.studio-montana.com/
  * License: GPL2
@@ -34,13 +34,16 @@ defined('ABSPATH') or die("Go Away!");
  * Custom PLUGIN CONSTANTS
 */
 define('CUSTOM_PLUGIN_NAME', "custom");
+define('CUSTOM_PLUGIN_FILE', __FILE__);
 define('CUSTOM_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('CUSTOM_PLUGIN_URI', plugin_dir_url(__FILE__));
+define('CUSTOM_PLUGIN_SLUG_INSTALLER', 'custom');
 
 define('CUSTOM_PLUGIN_TEXT_DOMAIN', 'custom');
 define('CUSTOM_PLUGIN_CORE_FOLDER', 'core/');
 define('CUSTOM_PLUGIN_COMMONS_FOLDER', 'core/commons/');
 define('CUSTOM_PLUGIN_CONFIG_FOLDER', 'core/commons/config/');
+define('CUSTOM_PLUGIN_INSTALLER_FOLDER', 'core/commons/installer/');
 define('CUSTOM_PLUGIN_TEMPLATES_FOLDER', 'core/templates/');
 define('CUSTOM_PLUGIN_TEMPLATES_DASHBOARD_FOLDER', 'core/templates/dashboard/');
 define('CUSTOM_PLUGIN_TOOLS_FOLDER', 'core/tools/');
@@ -70,6 +73,9 @@ if(!class_exists('Custom')){
 			require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_COMMONS_FOLDER.'session.php');
 			require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_COMMONS_FOLDER.'comparators.php');
 			require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_COMMONS_FOLDER.'utils.php');
+				
+			/** installer */
+			require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_INSTALLER_FOLDER.'installer.class.php');
 
 			/** config */
 			require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_CONFIG_FOLDER.'config.php');
