@@ -1,4 +1,26 @@
-<?php 
+<?php
+/**
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+defined('ABSPATH') or die("Go Away!");
 
 // Creating the widget
 class tool_social_widget extends WP_Widget {
@@ -9,10 +31,10 @@ class tool_social_widget extends WP_Widget {
 				'tool-social',
 
 				// Widget name will appear in UI
-				__("Social", CUSTOM_TEXT_DOMAIN),
+				__("Social", CUSTOM_PLUGIN_TEXT_DOMAIN),
 
 				// Widget description
-				array('description' => __("Show socials links", CUSTOM_TEXT_DOMAIN),)
+				array('description' => __("Show socials links", CUSTOM_PLUGIN_TEXT_DOMAIN),)
 		);
 	}
 
@@ -111,9 +133,7 @@ class tool_social_widget extends WP_Widget {
 			echo $args['after_title'];
 		}
 
-		$template = locate_ressource("tool-social-widget-output.php");
-		if (empty($template))
-			$template = locate_template('/'.CUSTOM_TOOLS_FOLDER.SOCIAL_TOOL_NAME.'/widgets/templates/tool-social-widget-output.php');
+		$template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SOCIAL_TOOL_NAME.'/widgets/templates/tool-social-widget-output.php');
 		if (!empty($template))
 			include($template);
 
@@ -208,7 +228,7 @@ class tool_social_widget extends WP_Widget {
 			$backgrounded = "";
 
 		// Widget admin form
-		$template = locate_template('/'.CUSTOM_TOOLS_FOLDER.SOCIAL_TOOL_NAME.'/widgets/templates/tool-social-widget-form.php');
+		$template = locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.SOCIAL_TOOL_NAME.'/widgets/templates/tool-social-widget-form.php');
 		if (!empty($template))
 			include($template);
 	}

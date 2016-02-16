@@ -1,11 +1,26 @@
 <?php
-
 /**
- * Custom SEO utilities for Site Map Generator (sitemap.xml)
- * @package WordPress
- * @subpackage Custom SEO
- * @since Custom SEO 1.0
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 function seo_auto_update_xmlsitemap(){
 	$availables_post_types = get_displayed_post_types();
@@ -31,7 +46,7 @@ function seo_update_xmlsitemap($availables_post_types){
 	if(($fp = @fopen($xmlsitemappath, 'w')) !== FALSE){
 		$xml_sitemap = "";
 		$xml_sitemap.='<?xml version="1.0" encoding="UTF-8"?>';
-		$xsl = locate_web_ressource(CUSTOM_TOOLS_FOLDER.SEO_TOOL_NAME.'/xmlsitemap/xmlsitemap.xsl');
+		$xsl = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SEO_TOOL_NAME.'/xmlsitemap/xmlsitemap.xsl');
 		if (!empty($xsl))
 			$xml_sitemap.="\n".'<?xml-stylesheet type="text/xsl" href="'.$xsl.'"?>';
 		$xml_sitemap.="\n".'<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';

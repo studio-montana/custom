@@ -1,12 +1,26 @@
 <?php
 /**
- * PRIVATE Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * CONSTANTS
@@ -20,7 +34,7 @@ define('TOOL_PRIVATE_OPTIONS_MESSAGE', 'tool-private-option-message');
  * create admin menu for private settings
 */
 function tool_private_create_menu() {
-	add_menu_page(__('Private settings', CUSTOM_TEXT_DOMAIN), __('Private site', CUSTOM_TEXT_DOMAIN), 'administrator', "tool-private-settings-page", 'tool_private_settings_template' , 'dashicons-lock');
+	add_menu_page(__('Private settings', CUSTOM_PLUGIN_TEXT_DOMAIN), __('Private site', CUSTOM_PLUGIN_TEXT_DOMAIN), 'administrator', "tool-private-settings-page", 'tool_private_settings_template' , 'dashicons-lock');
 }
 add_action('admin_menu', 'tool_private_create_menu');
 
@@ -35,7 +49,7 @@ function tool_private_settings_template() {
 		name="<?php echo TOOL_PRIVATE_OPTIONS_NONCE_ACTION; ?>"
 		value="<?php echo wp_create_nonce(TOOL_PRIVATE_OPTIONS_NONCE_ACTION);?>" />
 	<?php
-	require_once (locate_template(CUSTOM_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/inc/options-fields.php'));
+	require_once (locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/inc/options-fields.php'));
 	submit_button();
 	?>
 </form>

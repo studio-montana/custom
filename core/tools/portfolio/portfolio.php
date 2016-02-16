@@ -1,16 +1,26 @@
 <?php
 /**
- * PORTFOLIO Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-/**
- * CONSTANTS
- */
-define('PORTFOLIO_TOOL_NAME', 'portfolio');
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * ajoute le post-type 'portfolio'
@@ -19,16 +29,16 @@ function add_portfolio_post_type(){
 
 	// custom post type
 	$labels = array(
-			'name'               => __('Portfolios', CUSTOM_TEXT_DOMAIN),
-			'singular_name'      => __('Portfolio', CUSTOM_TEXT_DOMAIN),
-			'add_new_item'       => __('Add Portfolio', CUSTOM_TEXT_DOMAIN),
-			'edit_item'          => __('Edit Portfolio', CUSTOM_TEXT_DOMAIN),
-			'new_item'           => __('New Portfolio', CUSTOM_TEXT_DOMAIN),
-			'all_items'          => __('Portfolios', CUSTOM_TEXT_DOMAIN),
-			'view_item'          => __('Look Portfolio', CUSTOM_TEXT_DOMAIN),
-			'search_items'       => __('Search Portfolios', CUSTOM_TEXT_DOMAIN),
-			'not_found'          => __('No Portfolio found', CUSTOM_TEXT_DOMAIN),
-			'not_found_in_trash' => __('No Portfolio found in trash', CUSTOM_TEXT_DOMAIN)
+			'name'               => __('Portfolios', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'singular_name'      => __('Portfolio', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'add_new_item'       => __('Add Portfolio', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'edit_item'          => __('Edit Portfolio', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'new_item'           => __('New Portfolio', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'all_items'          => __('Portfolios', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'view_item'          => __('Look Portfolio', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'search_items'       => __('Search Portfolios', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'not_found'          => __('No Portfolio found', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'not_found_in_trash' => __('No Portfolio found in trash', CUSTOM_PLUGIN_TEXT_DOMAIN)
 	);
 	$args = array(
 			'labels'             => $labels,
@@ -40,23 +50,23 @@ function add_portfolio_post_type(){
 			'capability_type' => 'post',
 			'hierarchical' => true,
 			'supports' => array('title', 'editor', 'thumbnail', 'page-attributes'),
-			'rewrite'           => array('slug' => _x('portfolio', 'URL slug', CUSTOM_TEXT_DOMAIN))
+			'rewrite'           => array('slug' => _x('portfolio', 'URL slug', CUSTOM_PLUGIN_TEXT_DOMAIN))
 	);
 	register_post_type('portfolio', $args);
 
 	// custom taxonomy
 	$labels = array(
-			'name'              => __('Portfolio Types', CUSTOM_TEXT_DOMAIN),
-			'singular_name'     => __('Portfolio Type', CUSTOM_TEXT_DOMAIN),
-			'search_items'      => __('Search Portfolio Type', CUSTOM_TEXT_DOMAIN),
-			'all_items'         => __('All Portfolio Types', CUSTOM_TEXT_DOMAIN),
-			'parent_item'       => __("Portfolio Type's parent", CUSTOM_TEXT_DOMAIN),
-			'parent_item_colon' => __("Portfolio Type's parent", CUSTOM_TEXT_DOMAIN),
-			'edit_item'         => __('Edit Portfolio Type', CUSTOM_TEXT_DOMAIN),
-			'update_item'       => __('Update Portfolio Type', CUSTOM_TEXT_DOMAIN),
-			'add_new_item'      => __('Add Portfolio Type', CUSTOM_TEXT_DOMAIN),
-			'new_item_name'     => __('Name', CUSTOM_TEXT_DOMAIN),
-			'menu_name'         => __('Portfolio Type', CUSTOM_TEXT_DOMAIN)
+			'name'              => __('Portfolio Types', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'singular_name'     => __('Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'search_items'      => __('Search Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'all_items'         => __('All Portfolio Types', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'parent_item'       => __("Portfolio Type's parent", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'parent_item_colon' => __("Portfolio Type's parent", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'edit_item'         => __('Edit Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'update_item'       => __('Update Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'add_new_item'      => __('Add Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'new_item_name'     => __('Name', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'menu_name'         => __('Portfolio Type', CUSTOM_PLUGIN_TEXT_DOMAIN)
 	);
 	$args = array(
 			'hierarchical'      => false,
@@ -64,7 +74,7 @@ function add_portfolio_post_type(){
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array('slug' => _x('portfolio-type', 'URL slug', CUSTOM_TEXT_DOMAIN))
+			'rewrite'           => array('slug' => _x('portfolio-type', 'URL slug', CUSTOM_PLUGIN_TEXT_DOMAIN))
 	);
 	register_taxonomy('portfoliotype', array( 'portfolio' ), $args);
 }
@@ -75,7 +85,7 @@ if (!function_exists("define_portfolio_columns")):
  * custom listing columns
 */
 function define_portfolio_columns($columns){
-	$columns["portfolio-thumb"] = __("Thumb", CUSTOM_TEXT_DOMAIN);
+	$columns["portfolio-thumb"] = __("Thumb", CUSTOM_PLUGIN_TEXT_DOMAIN);
 	return $columns;
 }
 add_filter('manage_edit-portfolio_columns', 'define_portfolio_columns' );

@@ -1,21 +1,31 @@
 <?php
 /**
- * LOGIN Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-/**
- * CONSTANTS
- */
-define('LOGIN_TOOL_NAME', 'login');
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * REQUIREMENTS
 */
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/inc/customizer.php'));
+require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/inc/customizer.php');
 
 
 if (!function_exists("tool_login_enqueue_styles_tools")):
@@ -23,7 +33,7 @@ if (!function_exists("tool_login_enqueue_styles_tools")):
  * login template styles
 */
 function tool_login_enqueue_styles_tools(){
-	$css_login = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-login.css', array(CUSTOM_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/'));
+	$css_login = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/css/tool-login.css');
 	if (!empty($css_login))
 		wp_enqueue_style('tool-login-css', $css_login, array(), '1.0');
 }
@@ -35,10 +45,10 @@ if (!function_exists("tool_login_enqueue_scripts_tools")):
  * login template scripts
 */
 function tool_login_enqueue_scripts_tools(){
-	$js_login = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-login.js', array(CUSTOM_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/'));
+	$js_login = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/js/tool-login.js');
 	if (!empty($js_login)){
 		wp_enqueue_script('tool-login-script', $js_login, array('jquery'), '1.0', true );
-		wp_localize_script('tool-login-script', 'ToolLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_TEXT_DOMAIN)));
+		wp_localize_script('tool-login-script', 'ToolLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_PLUGIN_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_PLUGIN_TEXT_DOMAIN)));
 	}
 }
 add_action("custom_login_enqueue_scripts_tools", "tool_login_enqueue_scripts_tools");
@@ -51,7 +61,7 @@ if (!function_exists("tool_login_display_background")):
 function tool_login_display_background(){
 	$url_background = get_theme_mod("login_backgroundimage");
 	
-	if (empty($url_background) && is_registered_custom_tool("backgroundimage")){
+	if (empty($url_background) && custom_is_registered_tool("backgroundimage")){
 		$url_background = get_theme_mod('backgroundimage_image');
 	}
 

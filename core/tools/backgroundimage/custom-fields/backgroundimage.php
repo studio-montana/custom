@@ -1,11 +1,26 @@
 <?php
-
 /**
- * Propose des champs BACKGROUNDIMAGE sur les Posts Type du site
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 define('BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION', 'backgroundimage_action');
 
@@ -24,7 +39,7 @@ function backgroundimage_admin_init() {
 	$available_posttypes = get_displayed_post_types();
 	$available_posttypes = apply_filters("tool_backgroundimage_available_posttypes", $available_posttypes);
 	foreach ($available_posttypes as $post_type){
-		add_meta_box('backgroundimage', __( 'Background Image', CUSTOM_TEXT_DOMAIN), 'backgroundimage_add_inner_meta_boxes', $post_type, 'side', 'low');
+		add_meta_box('backgroundimage', __( 'Background Image', CUSTOM_PLUGIN_TEXT_DOMAIN), 'backgroundimage_add_inner_meta_boxes', $post_type, 'side', 'low');
 	}
 }
 add_action('admin_init', 'backgroundimage_admin_init');
@@ -36,7 +51,7 @@ if (!function_exists("backgroundimage_add_inner_meta_boxes")):
 * @param unknown $post
 */
 function backgroundimage_add_inner_meta_boxes($post) {
-	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.BACKGROUNDIMAGE_TOOL_NAME.'/custom-fields/templates/backgroundimage.php'));
+	include(CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.BACKGROUNDIMAGE_TOOL_NAME.'/custom-fields/templates/backgroundimage.php');
 }
 endif;
 

@@ -1,4 +1,27 @@
 <?php
+/**
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+defined('ABSPATH') or die("Go Away!");
+
 if (!function_exists("pagination")):
 /**
  * construct HTML link of previous and next posts from current post
@@ -14,7 +37,7 @@ if (!function_exists("pagination")):
 * @param string $after_next_link : displayed after next a tag
 * @return string : HTML link
 */
-function pagination($args = array(), $display = true, $before_links = '', $after_links = '', $text_link_previous = '', $text_link_next = '', $before_previous_link = '', $after_previous_link = '', $before_next_link = '', $after_next_link = ''){
+function custom_pagination($args = array(), $display = true, $before_links = '', $after_links = '', $text_link_previous = '', $text_link_next = '', $before_previous_link = '', $after_previous_link = '', $before_next_link = '', $after_next_link = ''){
 	$meta_display_pagination = get_post_meta(get_the_ID(), META_PAGINATION_DISPLAY_PAGINATION, true);
 	if (empty($meta_display_pagination) || $meta_display_pagination == 'on'){
 		$res = '';

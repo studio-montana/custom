@@ -1,12 +1,26 @@
 <?php
 /**
- * PRIVATE Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 
 function tool_private_get_node($post_type, $posts, $is_hierarchical = false){
 	$go_private = get_option(TOOL_PRIVATE_OPTIONS_GO_PRIVATE, "0");
@@ -38,29 +52,29 @@ function tool_private_get_node($post_type, $posts, $is_hierarchical = false){
 
 <div id="tool-private-settings" class="custom-settings-section">
 	<header class="custom-settings-section-header">
-		<h3><?php _e("Private settings", CUSTOM_TEXT_DOMAIN); ?></h3>
+		<h3><?php _e("Private settings", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></h3>
 	</header>
 	<div class="custom-settings-section-content">
 		<table class="settings">
 			<tr valign="top">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo TOOL_PRIVATE_OPTIONS_GO_PRIVATE; ?>"><?php _e('You want to', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo TOOL_PRIVATE_OPTIONS_GO_PRIVATE; ?>"><?php _e('You want to', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php 
 					$meta = get_option(TOOL_PRIVATE_OPTIONS_GO_PRIVATE, "0");
 					?>
 					<select id="<?php echo TOOL_PRIVATE_OPTIONS_GO_PRIVATE; ?>" name="<?php echo TOOL_PRIVATE_OPTIONS_GO_PRIVATE; ?>">
-						<option value="0" <?php if (empty($meta) || $meta == "0"){ echo ' selected="selected"'; } ?>><?php _e("do nothing", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="1"<?php if (!empty($meta) && $meta == "1"){ echo ' selected="selected"'; } ?>><?php _e("go private this site", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="2"<?php if (!empty($meta) && $meta == "2"){ echo ' selected="selected"'; } ?>><?php _e("go private few elements", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="0" <?php if (empty($meta) || $meta == "0"){ echo ' selected="selected"'; } ?>><?php _e("do nothing", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="1"<?php if (!empty($meta) && $meta == "1"){ echo ' selected="selected"'; } ?>><?php _e("go private this site", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="2"<?php if (!empty($meta) && $meta == "2"){ echo ' selected="selected"'; } ?>><?php _e("go private few elements", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
 				<td valign="middle"></td>
 			</tr>
 			<tr valign="top" class="private-options private-options-1 private-options-2">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(); ?>"><?php _e("Message", CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo TOOL_PRIVATE_OPTIONS_MESSAGE."-".get_current_lang(); ?>"><?php _e("Message", CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php 

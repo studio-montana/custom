@@ -1,11 +1,26 @@
 <?php
 /**
- * GALLERY Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * GLOBALS
@@ -41,7 +56,7 @@ function gallery_add_inner_meta_boxes($post){
 		$available_posttypes = get_displayed_post_types();
 		$available_posttypes = apply_filters("tool_gallery_available_posttypes", $available_posttypes);
 		if (in_array(get_post_type($post), $available_posttypes)){
-			include(locate_template('/'.CUSTOM_TOOLS_FOLDER.GALLERY_TOOL_NAME.'/custom-fields/templates/gallery.php'));
+			include(locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.GALLERY_TOOL_NAME.'/custom-fields/templates/gallery.php'));
 		}
 	}
 }
@@ -203,7 +218,7 @@ function gallery_post_gallery($output, $attr) {
 		if (!empty($attachments)){
 			$gallery_post_count ++;
 			ob_start();
-			$gallery_template = locate_ressource("tool-gallery-display.php", array(CUSTOM_TOOLS_FOLDER.GALLERY_TOOL_NAME.'/templates/'));
+			$gallery_template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.GALLERY_TOOL_NAME.'/templates/tool-gallery-display.php');
 			if (!empty($gallery_template))
 				include($gallery_template);
 			$output = ob_get_contents();

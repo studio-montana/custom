@@ -1,11 +1,26 @@
 <?php
-
 /**
- * Propose des champs VIDEO sur les Posts Type du site
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 define('VIDEO_NONCE_VIDEO_ACTION', 'video_action');
 
@@ -22,7 +37,7 @@ function video_admin_init() {
 	$available_posttypes = get_displayed_post_types();
 	$available_posttypes = apply_filters("tool_video_available_posttypes", $available_posttypes);
 	foreach ($available_posttypes as $post_type){
-		add_meta_box('video', __( 'Featured Video', CUSTOM_TEXT_DOMAIN), 'video_add_inner_meta_boxes', $post_type, 'side', 'low');
+		add_meta_box('video', __( 'Featured Video', CUSTOM_PLUGIN_TEXT_DOMAIN), 'video_add_inner_meta_boxes', $post_type, 'side', 'low');
 	}
 }
 add_action('admin_init', 'video_admin_init');
@@ -34,7 +49,7 @@ if (!function_exists("video_add_inner_meta_boxes")):
 * @param unknown $post
 */
 function video_add_inner_meta_boxes($post) {
-	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.VIDEO_TOOL_NAME.'/custom-fields/templates/featured-video.php'));
+	include(locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.VIDEO_TOOL_NAME.'/custom-fields/templates/featured-video.php'));
 }
 endif;
 

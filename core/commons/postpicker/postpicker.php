@@ -1,24 +1,39 @@
 <?php
 /**
- * Post-picker
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.1
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * register JS
  */
 function postpicker_ajax_admin_enqueue_scripts(){
-	$postpicker_ajax_js_file = locate_web_ressource(CUSTOM_COMMONS_FOLDER.'postpicker/postpicker.js');
+	$postpicker_ajax_js_file = locate_web_ressource(CUSTOM_PLUGIN_COMMONS_FOLDER.'postpicker/postpicker.js');
 	if (!empty($postpicker_ajax_js_file)){
 		wp_enqueue_script('postpicker-ajax', $postpicker_ajax_js_file, array('jquery'), "1.0");
 		wp_localize_script('postpicker-ajax', 'Postpicker', array(
 		'ajaxUrl' => admin_url('admin-ajax.php'),
 		'ajaxNonce' => wp_create_nonce('postpicker-ajax-nonce'),
-		'doneButtonText' => __("Done", CUSTOM_TEXT_DOMAIN),
-		'orderButtonText' => __("Order", CUSTOM_TEXT_DOMAIN),
+		'doneButtonText' => __("Done", CUSTOM_PLUGIN_TEXT_DOMAIN),
+		'orderButtonText' => __("Order", CUSTOM_PLUGIN_TEXT_DOMAIN),
 		)
 		);
 	}
@@ -40,16 +55,16 @@ function postpicker_ajax_postpicker_get_posts() {
 
 	$postypes = null;
 	if (isset($_POST['postypes']) && !empty($_POST['postypes'])){
-		$postypes = split(",", $_POST['postypes']);
+		$postypes = explode(",", $_POST['postypes']);
 	}
 
 	$exclude = null;
 	if (isset($_POST['exclude']) && !empty($_POST['exclude'])){
-		$exclude = split(",", $_POST['exclude']);
+		$exclude = explode(",", $_POST['exclude']);
 	}
 
 	ob_start();
-	$postpick_items_template = locate_ressource("postpicker-items.php", array(CUSTOM_COMMONS_FOLDER.'/postpicker/templates/'));
+	$postpick_items_template = locate_ressource(CUSTOM_PLUGIN_COMMONS_FOLDER.'/postpicker/templates/postpicker-items.php');
 	if (!empty($postpick_items_template))
 		include($postpick_items_template);
 	$results = ob_get_contents();
@@ -91,7 +106,7 @@ function postpicker_ajax_postpicker_get_post() {
 		$post = $asked_post;
 		setup_postdata($post);
 		ob_start();
-		$postpick_item_template = locate_ressource("postpicker-item.php", array(CUSTOM_COMMONS_FOLDER.'/postpicker/templates/'));
+		$postpick_item_template = locate_ressource(CUSTOM_PLUGIN_COMMONS_FOLDER.'/postpicker/templates/postpicker-item.php');
 		if (!empty($postpick_item_template))
 			include($postpick_item_template);
 		$results = ob_get_contents();

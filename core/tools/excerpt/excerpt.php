@@ -1,18 +1,28 @@
 <?php
 /**
- * DISPLAY Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-/**
- * CONSTANTS
-*/
-define('EXCERPT_TOOL_NAME', 'excerpt');
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * REQUIREMENTS
  */
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.EXCERPT_TOOL_NAME.'/custom-fields/excerpt.php'));
+require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.EXCERPT_TOOL_NAME.'/custom-fields/excerpt.php');

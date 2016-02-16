@@ -1,11 +1,26 @@
 <?php
 /**
- * WALL Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * CONSTANTS
@@ -49,7 +64,7 @@ function wall_add_inner_meta_boxes($post){
 		$available_posttypes = get_displayed_post_types();
 		$available_posttypes = apply_filters("tool_wall_available_posttypes", $available_posttypes);
 		if (in_array(get_post_type($post), $available_posttypes)){
-			include(locate_template('/'.CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/custom-fields/templates/display-wall.php'));
+			include(locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.WALL_TOOL_NAME.'/custom-fields/templates/display-wall.php'));
 		}
 	}
 }
@@ -222,7 +237,7 @@ function wall_filter_the_content($content){
 		if (!empty($meta_wall_display_post_type) && $meta_wall_display_post_type != '0'){
 			$content = '<div class="content-with-wall-wrapper"><div class="content-with-wall">'.$content.'</div></div>';
 			ob_start();
-			$wall_template = locate_ressource("tool-wall-display.php", array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/'));
+			$wall_template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/tool-wall-display.php');
 			if (!empty($wall_template))
 				include($wall_template);
 			if (empty($meta_wall_display_position) || $meta_wall_display_position == 'before-content')
@@ -355,7 +370,7 @@ if (!function_exists("wall_get_available_templates")):
 */
 function wall_get_available_templates(){
 	$templates = array("thumb", "content");
-	if (is_registered_custom_tool('video'))
+	if (custom_is_registered_tool('video'))
 		$templates[] = "video";
 	return $templates;
 }
@@ -371,7 +386,7 @@ function wall_get_default_template($post_id = null){
 	if ($post_id == null)
 		$post_id = get_the_ID();
 	$template = "content";
-	if (is_registered_custom_tool('video') && video_has_featured_video($post_id)){
+	if (custom_is_registered_tool('video') && video_has_featured_video($post_id)){
 		$template = "video";
 	}else if (has_post_thumbnail($post_id)){
 		$template = "thumb";
@@ -414,8 +429,8 @@ if (!function_exists("wall_secure_meta_values")):
 * @param string $classes - sainitized classes
 */
 function wall_sanitize_wall_item_classes($classes){
-	$classes = str_replace(" post ", " ", $classes);
-	$classes = str_replace(" hentry ", " ", $classes);
+	$classes = str_replace("post", " ", $classes);
+	$classes = str_replace("hentry", " ", $classes);
 	return $classes;
 }
 endif;

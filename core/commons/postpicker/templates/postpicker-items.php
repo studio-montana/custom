@@ -1,12 +1,26 @@
 <?php
 /**
- * Post-picker items template
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.1
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 
 if (empty($postypes)){
 	$postypes = get_displayed_post_types(true);
@@ -37,7 +51,7 @@ if (!empty($postypes)){
 				?>
 				<div class="postype-section" data-type="<?php echo $postype; ?>" style="display: none;">
 					<?php if (empty($posts)){ ?>
-						<h2><?php _e("No entry", CUSTOM_TEXT_DOMAIN); ?></h2>
+						<h2><?php _e("No entry", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></h2>
 					<?php }else{ ?>
 						<ul>
 							<?php
@@ -46,7 +60,7 @@ if (!empty($postypes)){
 								?>
 								<li class="post-item" data-id="<?php echo get_the_ID()?>">
 									<?php 
-									$postpick_item_template = locate_ressource("postpicker-item.php", array(CUSTOM_COMMONS_FOLDER.'/postpicker/templates/'));
+									$postpick_item_template = locate_ressource(CUSTOM_PLUGIN_COMMONS_FOLDER.'/postpicker/templates/postpicker-item.php');
 									if (!empty($postpick_item_template))
 										include($postpick_item_template);
 									?>

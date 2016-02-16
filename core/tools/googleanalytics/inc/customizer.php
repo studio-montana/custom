@@ -1,11 +1,26 @@
 <?php
 /**
- * GOOGLE ANALYTICS Customizer
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * Add GoogleAnalytics fields for the Customizer.
@@ -23,7 +38,7 @@ function googleanalytics_customize_register($wp_customize_manager) {
 	// meta title
 	$wp_customize_manager->add_setting('googleanalytics_code', array('type' => 'theme_mod', 'transport'=>'postMessage'));
 	$wp_customize_manager->add_control('googleanalytics_code', array(
-			'label'      => __('Code', CUSTOM_TEXT_DOMAIN ),
+			'label'      => __('Code', CUSTOM_PLUGIN_TEXT_DOMAIN ),
 			'section'    => 'googleanalytics_customizer',
 			'settings'   => 'googleanalytics_code',
 	));

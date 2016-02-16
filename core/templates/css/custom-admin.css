@@ -28,6 +28,44 @@
 }
 
 /**
+ * CUSTOM CONFIG OPTIONS
+ */
+.settings_page_custom_options form{
+	max-width: 900px;
+}
+
+.settings_page_custom_options form h2{
+	padding: 24px 0 0 0;
+	border-top: 1px solid #ddd;
+}
+
+.settings_page_custom_options form h2 .tool-documentation{
+	margin-right: 24px;
+	float: right;
+}
+
+.settings_page_custom_options form .tool-description{
+	font-size: 0.8rem;
+}
+
+.settings_page_custom_options form .form-table{
+	background: #fff;
+}
+
+.settings_page_custom_options form .form-table .field-description{
+	font-size: 0.8rem;
+}
+
+.settings_page_custom_options form .form-table td, .settings_page_custom_options form .form-table th{
+	vertical-align: baseline;
+	padding: 12px;
+}
+
+.settings_page_custom_options form .form-table th{
+	font-weight: normal;
+}
+
+/**
 	* CUSTOM FIELDS
 */
 .custom-fields-section {

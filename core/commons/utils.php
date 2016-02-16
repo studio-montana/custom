@@ -1,42 +1,46 @@
 <?php
-
 /**
- * Custom utilities
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 if (!function_exists("locate_web_ressource")):
 /**
  * Retrieve the URI of the highest priority template file which exists.
 *
 * Searches in order in :
-* 	- STYLESHEET_URI
-*	- TEMPLATE_URI
-*	- CUSTOM_TEMPLATE_URI
-*	- TEMPLATE_URI/$additionnal_paths[]
+* 	- STYLESHEET_URI/custom/
+*	- TEMPLATE_URI/custom/
+*	- CUSTOM_PLUGIN_URI/
 * @return string (empty if template not found)
 */
-function locate_web_ressource($ressource_name, $additionnal_paths = array()) {
+function locate_web_ressource($ressource_name) {
 	$located = '';
 	if (!empty($ressource_name)){
-		if (file_exists(STYLESHEETPATH . '/' . $ressource_name)) {
-			$located = get_stylesheet_directory_uri() . '/' . $ressource_name;
-		} else if (file_exists(TEMPLATEPATH . '/' . $ressource_name)) {
-			$located = get_template_directory_uri() . '/' . $ressource_name;
-		} else if (file_exists(TEMPLATEPATH . '/'. CUSTOM_TEMPLATES_FOLDER . $ressource_name)) {
-			$located = get_template_directory_uri() . '/'. CUSTOM_TEMPLATES_FOLDER . $ressource_name;
-		}else if (!empty($additionnal_paths)){
-			foreach ($additionnal_paths as $path){
-				if(!endsWith($path, "/"))
-					$path .= "/";
-				if (file_exists(TEMPLATEPATH . '/'. $path . $ressource_name)) {
-					$located = get_template_directory_uri() . '/'. $path . $ressource_name;
-					break;
-				}
-			}
+		if (file_exists(STYLESHEETPATH . '/custom/' . $ressource_name)) {
+			$located = get_stylesheet_directory_uri() . '/custom/' . $ressource_name;
+		} else if (file_exists(TEMPLATEPATH . '/custom/' . $ressource_name)) {
+			$located = get_template_directory_uri() . '/custom/' . $ressource_name;
+		} else if (file_exists(CUSTOM_PLUGIN_PATH.'/'. $ressource_name)) {
+			$located = CUSTOM_PLUGIN_URI . $ressource_name;
 		}
 	}
 	return $located;
@@ -48,30 +52,20 @@ if (!function_exists("locate_ressource")):
  * Retrieve the PATH of the highest priority template file which exists.
 *
 * Searches in order in :
-* 	- STYLESHEET_PATH
-*	- TEMPLATE_PATH
-*	- CUSTOM_TEMPLATE_PATH
-*	- TEMPLATE_PATH/$additionnal_paths[]
+* 	- STYLESHEET_PATH/custom/
+*	- TEMPLATE_PATH/custom/
+*	- CUSTOM_PLUGIN_PATH/
 * @return string (empty if template not found)
 */
-function locate_ressource($ressource_name, $additionnal_paths = array()) {
+function locate_ressource($ressource_name) {
 	$located = '';
 	if (!empty($ressource_name)){
-		if (file_exists(STYLESHEETPATH . '/' . $ressource_name)) {
-			$located = STYLESHEETPATH . '/' . $ressource_name;
-		} else if (file_exists(TEMPLATEPATH . '/' . $ressource_name)) {
-			$located = TEMPLATEPATH . '/' . $ressource_name;
-		} else if (file_exists(TEMPLATEPATH . '/'. CUSTOM_TEMPLATES_FOLDER . $ressource_name)) {
-			$located = TEMPLATEPATH . '/'. CUSTOM_TEMPLATES_FOLDER . $ressource_name;
-		}else if (!empty($additionnal_paths)){
-			foreach ($additionnal_paths as $path){
-				if(!endsWith($path, "/"))
-					$path .= "/";
-				if (file_exists(TEMPLATEPATH . '/'. $path . $ressource_name)) {
-					$located = TEMPLATEPATH . '/'. $path . $ressource_name;
-					break;
-				}
-			}
+		if (file_exists(STYLESHEETPATH . '/custom/' . $ressource_name)) {
+			$located = STYLESHEETPATH . '/custom/' . $ressource_name;
+		} else if (file_exists(TEMPLATEPATH . '/custom/' . $ressource_name)) {
+			$located = TEMPLATEPATH . '/custom/' . $ressource_name;
+		} else if (file_exists(CUSTOM_PLUGIN_PATH . '/' . $ressource_name)) {
+			$located = CUSTOM_PLUGIN_PATH . $ressource_name;
 		}
 	}
 	return $located;
@@ -201,7 +195,7 @@ if (!function_exists("trace")):
 function trace($content){
 	$success = false;
 	$content = date("Y/m/d G:i:s").' - '.$content;
-	$trace_path = get_stylesheet_directory().'/log/';
+	$trace_path = CUSTOM_PLUGIN_PATH.'/log/';
 	$trace_file = 'log.log';
 	$trace_file_path = $trace_path.$trace_file;
 	if (!file_exists($trace_path)){
@@ -461,7 +455,7 @@ function get_video_embed_code($url, $width = "", $height="", $args = array()){
 	$res = '';
 	if (!empty($url)){
 		if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-			$res = '<p class="video-invalid-url">'.__("Invalid URL...", CUSTOM_TEXT_DOMAIN).'</p>';
+			$res = '<p class="video-invalid-url">'.__("Invalid URL...", CUSTOM_PLUGIN_TEXT_DOMAIN).'</p>';
 		}else{
 
 			$defaults = array(
@@ -530,7 +524,7 @@ function get_video_embed_code($url, $width = "", $height="", $args = array()){
 			if (!empty($embed)){
 				$res = $embed;
 			}else{
-				$res = '<p class="video-invalid-format">'.__("Invalid Format...", CUSTOM_TEXT_DOMAIN).'</p><ul><li>youtube</li><li>vimeo</li><li>dailymotion</li><li>vine</li></ul><p>'.__("are supported", CUSTOM_TEXT_DOMAIN).'</p>';
+				$res = '<p class="video-invalid-format">'.__("Invalid Format...", CUSTOM_PLUGIN_TEXT_DOMAIN).'</p><ul><li>youtube</li><li>vimeo</li><li>dailymotion</li><li>vine</li></ul><p>'.__("are supported", CUSTOM_PLUGIN_TEXT_DOMAIN).'</p>';
 			}
 		}
 	}
@@ -547,29 +541,29 @@ function get_textual_month($timestamp){
 	if (!empty($timestamp) && is_numeric($timestamp)){
 		$month = date("m", $timestamp);
 		if ($month == "1")
-			$res = __("january", CUSTOM_TEXT_DOMAIN);
+			$res = __("january", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "2")
-			$res = __("february", CUSTOM_TEXT_DOMAIN);
+			$res = __("february", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "3")
-			$res = __("march", CUSTOM_TEXT_DOMAIN);
+			$res = __("march", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "4")
-			$res = __("april", CUSTOM_TEXT_DOMAIN);
+			$res = __("april", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "5")
-			$res = __("may", CUSTOM_TEXT_DOMAIN);
+			$res = __("may", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "6")
-			$res = __("june", CUSTOM_TEXT_DOMAIN);
+			$res = __("june", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "7")
-			$res = __("july", CUSTOM_TEXT_DOMAIN);
+			$res = __("july", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "8")
-			$res = __("august", CUSTOM_TEXT_DOMAIN);
+			$res = __("august", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "9")
-			$res = __("september", CUSTOM_TEXT_DOMAIN);
+			$res = __("september", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "10")
-			$res = __("october", CUSTOM_TEXT_DOMAIN);
+			$res = __("october", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "11")
-			$res = __("november", CUSTOM_TEXT_DOMAIN);
+			$res = __("november", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "12")
-			$res = __("december", CUSTOM_TEXT_DOMAIN);
+			$res = __("december", CUSTOM_PLUGIN_TEXT_DOMAIN);
 	}
 	return $res;
 }
@@ -584,29 +578,29 @@ function get_textual_shortmonth($timestamp){
 	if (!empty($timestamp) && is_numeric($timestamp)){
 		$month = date("m", $timestamp);
 		if ($month == "1")
-			$res = __("jan", CUSTOM_TEXT_DOMAIN);
+			$res = __("jan", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "2")
-			$res = __("feb", CUSTOM_TEXT_DOMAIN);
+			$res = __("feb", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "3")
-			$res = __("mar", CUSTOM_TEXT_DOMAIN);
+			$res = __("mar", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "4")
-			$res = __("apr", CUSTOM_TEXT_DOMAIN);
+			$res = __("apr", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "5")
-			$res = __("may", CUSTOM_TEXT_DOMAIN);
+			$res = __("may", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "6")
-			$res = __("jun", CUSTOM_TEXT_DOMAIN);
+			$res = __("jun", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "7")
-			$res = __("jul", CUSTOM_TEXT_DOMAIN);
+			$res = __("jul", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "8")
-			$res = __("aug", CUSTOM_TEXT_DOMAIN);
+			$res = __("aug", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "9")
-			$res = __("sept", CUSTOM_TEXT_DOMAIN);
+			$res = __("sept", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "10")
-			$res = __("oct", CUSTOM_TEXT_DOMAIN);
+			$res = __("oct", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "11")
-			$res = __("nov", CUSTOM_TEXT_DOMAIN);
+			$res = __("nov", CUSTOM_PLUGIN_TEXT_DOMAIN);
 		if ($month == "12")
-			$res = __("dec", CUSTOM_TEXT_DOMAIN);
+			$res = __("dec", CUSTOM_PLUGIN_TEXT_DOMAIN);
 	}
 	return $res;
 }

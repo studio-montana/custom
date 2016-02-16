@@ -1,12 +1,27 @@
 <?php
 /**
- * PRIVATE template
- * @package WordPress
- * @subpackage Custom
- * @version 2.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
- * This file, like this theme, like WordPress, is licensed under the GPL.
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
+
 global $private_tool_errors;
 ?><!DOCTYPE html>
 <!--[if IE 7]>
@@ -72,7 +87,7 @@ global $private_tool_errors;
 						}
 						?>
 						<div class="button-wrapper">
-							<a href="<?php echo wp_login_url(get_current_url(true)); ?>" class="button"><?php _e("sign in", CUSTOM_TEXT_DOMAIN); ?></a>
+							<a href="<?php echo wp_login_url(get_current_url(true)); ?>" class="button"><?php _e("sign in", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></a>
 						</div>
 						<div style="clear: both;"></div>
 					

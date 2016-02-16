@@ -1,32 +1,45 @@
 <?php
 /**
- * GALLERY Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 ?>
 <div id="tool-gallery-display-gallery" class="custom-fields-section">
 	<header class="custom-fields-section-header">
-		<h3><?php _e('Gallery options', CUSTOM_TEXT_DOMAIN); ?></h3>
-		<em style="margin-left: 12px;"><?php _e('customize inner content galleries', CUSTOM_TEXT_DOMAIN); ?></em>
+		<h3><?php _e('Gallery options', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></h3>
+		<em style="margin-left: 12px;"><?php _e('customize inner content galleries', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></em>
 	</header>
 	<div class="custom-fields-section-content">
 		<table class="fields">
 			<tr valign="top">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION; ?>"><?php _e('Presentation', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION; ?>"><?php _e('Presentation', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION, true); ?>
 					<select id="<?php echo META_GALLERY_PRESENTATION; ?>" name="<?php echo META_GALLERY_PRESENTATION; ?>">
-						<option value="classic" <?php if (empty($meta) || $meta == 'classic'){ echo 'selected="selected"'; }?>><?php _e("classic", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="slider" <?php if (!empty($meta) && $meta == 'slider'){ echo 'selected="selected"'; }?>><?php _e("slider", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="masonry" <?php if (!empty($meta) && $meta == 'masonry'){ echo 'selected="selected"'; }?>><?php _e("masonry", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="grid" <?php if (!empty($meta) && $meta == 'grid'){ echo 'selected="selected"'; }?>><?php _e("random grid", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="classic" <?php if (empty($meta) || $meta == 'classic'){ echo 'selected="selected"'; }?>><?php _e("classic", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="slider" <?php if (!empty($meta) && $meta == 'slider'){ echo 'selected="selected"'; }?>><?php _e("slider", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="masonry" <?php if (!empty($meta) && $meta == 'masonry'){ echo 'selected="selected"'; }?>><?php _e("masonry", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="grid" <?php if (!empty($meta) && $meta == 'grid'){ echo 'selected="selected"'; }?>><?php _e("random grid", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
 				<td valign="middle"></td>
@@ -35,7 +48,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_AUTOPLAY; ?>"><?php _e('Autoplay', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_AUTOPLAY; ?>"><?php _e('Autoplay', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_AUTOPLAY, true); ?> 
@@ -47,7 +60,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options display-gallery-slider-options-thumb-nav">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_THUMB_NAV; ?>"><?php _e('Thumb navigation', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_THUMB_NAV; ?>"><?php _e('Thumb navigation', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_THUMB_NAV, true); ?> 
@@ -59,7 +72,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL; ?>"><?php _e('Carousel', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL; ?>"><?php _e('Carousel', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_CAROUSEL, true); ?> 
@@ -71,7 +84,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options display-gallery-slider-options-carousel">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_WIDTH; ?>"><?php _e('Carousel item width', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_WIDTH; ?>"><?php _e('Carousel item width', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_WIDTH, true); 
@@ -86,7 +99,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options display-gallery-slider-options-carousel">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN; ?>"><?php _e('Carousel item margin', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN; ?>"><?php _e('Carousel item margin', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_SLIDER_CAROUSEL_ITEM_MARGIN, true); 
@@ -101,7 +114,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-slider-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_HEIGHT; ?>"><?php _e('Height', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_HEIGHT; ?>"><?php _e('Height', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_HEIGHT, true); 
@@ -116,14 +129,14 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-classic-options display-gallery-grid-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>"><?php _e('Format', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>"><?php _e('Format', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_FORMAT, true); ?>
 					<select id="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>" name="<?php echo META_GALLERY_PRESENTATION_FORMAT; ?>">
-						<option value="square" <?php if (empty($meta) || $meta == 'square'){ echo 'selected="selected"'; }?>><?php _e("square", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="portrait" <?php if (!empty($meta) && $meta == 'portrait'){ echo 'selected="selected"'; }?>><?php _e("portrait", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="landscape" <?php if (!empty($meta) && $meta == 'landscape'){ echo 'selected="selected"'; }?>><?php _e("landscape", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="square" <?php if (empty($meta) || $meta == 'square'){ echo 'selected="selected"'; }?>><?php _e("square", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="portrait" <?php if (!empty($meta) && $meta == 'portrait'){ echo 'selected="selected"'; }?>><?php _e("portrait", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="landscape" <?php if (!empty($meta) && $meta == 'landscape'){ echo 'selected="selected"'; }?>><?php _e("landscape", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
 				<td valign="middle"></td>
@@ -132,13 +145,13 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-specific-options display-gallery-masonry-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_MASONRY_WIDTH; ?>"><?php _e('Max width', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_MASONRY_WIDTH; ?>"><?php _e('Max width', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_MASONRY_WIDTH, true); ?>
 					<select id="<?php echo META_GALLERY_PRESENTATION_MASONRY_WIDTH; ?>" name="<?php echo META_GALLERY_PRESENTATION_MASONRY_WIDTH; ?>">
-						<option value="fully-responsive" <?php if (empty($meta) && $meta == 'fully-responsive'){ echo 'selected="selected"'; }?>><?php _e("fully responsive", CUSTOM_TEXT_DOMAIN); ?></option>
-						<option value="customized" <?php if (!empty($meta) && $meta == 'customized'){ echo 'selected="selected"'; }?>><?php _e("customized", CUSTOM_TEXT_DOMAIN); ?></option>
+						<option value="fully-responsive" <?php if (empty($meta) && $meta == 'fully-responsive'){ echo 'selected="selected"'; }?>><?php _e("fully responsive", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
+						<option value="customized" <?php if (!empty($meta) && $meta == 'customized'){ echo 'selected="selected"'; }?>><?php _e("customized", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></option>
 					</select>
 				</td>
 				<td valign="middle" class="display-gallery-masonry-options-customized-width">
@@ -153,14 +166,14 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			
 			<tr valign="top" class="display-gallery-options display-gallery-masonry-options">
 				<th class="metabox_label_column" align="left" valign="middle"><label
-					for="<?php echo META_GALLERY_PRESENTATION_MASONRY_HEIGHT; ?>"><?php _e('Max height', CUSTOM_TEXT_DOMAIN); ?> : </label>
+					for="<?php echo META_GALLERY_PRESENTATION_MASONRY_HEIGHT; ?>"><?php _e('Max height', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 				</th>
 				<td valign="middle">
 					<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_PRESENTATION_MASONRY_HEIGHT, true); 
 					if (empty($meta) || !is_numeric($meta))
 						$meta = "";
 					?>
-					<input type="checkbox" id="display-gallery-masonry-auto-height" <?php if (empty($meta)){ echo ' checked="checked"'; } ?> />&nbsp;<label for="display-gallery-masonry-auto-height"><?php _e("Auto", CUSTOM_TEXT_DOMAIN); ?></label>					
+					<input type="checkbox" id="display-gallery-masonry-auto-height" <?php if (empty($meta)){ echo ' checked="checked"'; } ?> />&nbsp;<label for="display-gallery-masonry-auto-height"><?php _e("Auto", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></label>					
 				</td>
 				<td valign="middle" class="display-gallery-masonry-options-customized-height">
 					<input type="text" size="4" id="<?php echo META_GALLERY_PRESENTATION_MASONRY_HEIGHT; ?>" name="<?php echo META_GALLERY_PRESENTATION_MASONRY_HEIGHT; ?>" value="<?php echo $meta; ?>" />
@@ -174,7 +187,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				?>
 				<tr valign="top" class="">
 					<th class="metabox_label_column" align="left" valign="middle"><label
-						for="<?php echo META_GALLERY_DISABLE_FANCYBOX; ?>"><?php _e('Disable fancybox', CUSTOM_TEXT_DOMAIN); ?> : </label>
+						for="<?php echo META_GALLERY_DISABLE_FANCYBOX; ?>"><?php _e('Disable fancybox', CUSTOM_PLUGIN_TEXT_DOMAIN); ?> : </label>
 					</th>
 					<td valign="middle">
 						<?php $meta = get_post_meta(get_the_ID(), META_GALLERY_DISABLE_FANCYBOX, true); ?> 

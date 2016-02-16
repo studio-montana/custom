@@ -1,13 +1,26 @@
 <?php
 /**
- * GALLERY Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 ?>
 <div id="tool-gallery-display-gallery" class="custom-fields-section custom-fields-section-side">
 	<div class="custom-fields-section-content">
@@ -15,7 +28,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 		<table class="fields">
 			<tr valign="top">
 				<th colspan="2" class="metabox_label_column" align="left" valign="middle"><label
-					for="meta_event_date_begin"><?php _e('Begin', CUSTOM_TEXT_DOMAIN); ?></label>
+					for="meta_event_date_begin"><?php _e('Begin', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></label>
 				</th>
 			</tr>
 			<tr valign="top">
@@ -39,7 +52,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				}
 				?>
 				<td colspan="2" valign="middle">
-					<input type="text" class="datepicker" name="meta_event_date_begin" id="meta_event_date_begin" value="<?php echo $meta_date_begin_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>"/>
+					<input type="text" class="datepicker" name="meta_event_date_begin" id="meta_event_date_begin" value="<?php echo $meta_date_begin_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_PLUGIN_TEXT_DOMAIN); ?>"/>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -87,7 +100,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 			</tr>
 			<tr valign="top">
 				<th colspan="2" class="metabox_label_column" align="left" valign="middle"><label
-					for="meta_event_date_end"><?php _e('End', CUSTOM_TEXT_DOMAIN); ?></label>
+					for="meta_event_date_end"><?php _e('End', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></label>
 				</th>
 			</tr>
 			<tr valign="top">
@@ -111,7 +124,7 @@ if (!defined ('ABSPATH')) die ('No direct access allowed');
 				}
 				?>
 				<td colspan="2" valign="middle">
-					<input type="text" class="datepicker" name="meta_event_date_end" id="meta_event_date_end" value="<?php echo $meta_date_end_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_TEXT_DOMAIN); ?>"/>
+					<input type="text" class="datepicker" name="meta_event_date_end" id="meta_event_date_end" value="<?php echo $meta_date_end_s; ?>" placeholder="<?php _e('dd/mm/yyyy', CUSTOM_PLUGIN_TEXT_DOMAIN); ?>"/>
 				</td>
 			</tr>
 			<tr valign="top">

@@ -1,13 +1,28 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Custom BACKGROUNDIMAGE
- * @since Custom BACKGROUNDIMAGE 1.0
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-if (!defined ('ABSPATH')) die ('No direct access allowed');
+defined('ABSPATH') or die("Go Away!");
 ?>
-<label class="hidden" for="page_template"><?php _e('BACKGROUNDIMAGE', CUSTOM_TEXT_DOMAIN); ?></label>
+<label class="hidden" for="page_template"><?php _e('BACKGROUNDIMAGE', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></label>
 
 <input type="hidden" name="<?php echo BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION; ?>" value="<?php echo wp_create_nonce(BACKGROUNDIMAGE_NONCE_BACKGROUNDIMAGE_ACTION);?>" />
 
@@ -50,8 +65,8 @@ if (empty($meta_backgroundcolor_opacity)){
 				<td style="height: 120px;">
 					<input type="hidden" name="<?php echo BACKGROUNDIMAGE_URL; ?>" id="<?php echo BACKGROUNDIMAGE_URL; ?>" value="<?php echo $meta_backgroundimage_url; ?>" />
 					<input type="hidden" name="<?php echo BACKGROUNDIMAGE_ID; ?>" id="<?php echo BACKGROUNDIMAGE_ID; ?>" value="<?php echo $meta_backgroundimage_id; ?>" />
-					<button class="choose-backgroundimage button button-large"><?php _e("Choose image", CUSTOM_TEXT_DOMAIN); ?></button>
-					<button class="delete-backgroundimage button button-large" style="<?php if (empty($meta_backgroundimage_url)){ echo 'display: none;'; } ?>"><?php _e("Delete", CUSTOM_TEXT_DOMAIN); ?></button>
+					<button class="choose-backgroundimage button button-large"><?php _e("Choose image", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></button>
+					<button class="delete-backgroundimage button button-large" style="<?php if (empty($meta_backgroundimage_url)){ echo 'display: none;'; } ?>"><?php _e("Delete", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></button>
 				</td>
 			</tr>
 		</table>
@@ -92,9 +107,9 @@ if (empty($meta_backgroundcolor_opacity)){
 	        }
 	        //Extend the wp.media object 
 	        custom_uploader = wp.media.frames.file_frame = wp.media({
-	            title: '<?php _e("Choose document", CUSTOM_TEXT_DOMAIN); ?>',
+	            title: '<?php _e("Choose document", CUSTOM_PLUGIN_TEXT_DOMAIN); ?>',
 	            button: {
-	                text: '<?php _e("Ok", CUSTOM_TEXT_DOMAIN); ?>'
+	                text: '<?php _e("Ok", CUSTOM_PLUGIN_TEXT_DOMAIN); ?>'
 	            },
 	            multiple: false
 	        });

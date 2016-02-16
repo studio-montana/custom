@@ -1,53 +1,162 @@
 <?php
-
 /**
- * Custom tools loader
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ *
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
+global $available_tools;
 global $registered_tools;
 
-if (!function_exists("load_custom_tools")):
+if (!function_exists("custom_get_available_tools_paths_base")):
 /**
- * Load all custom tools (looking for core/tools/ folder)
+ * retrieve available tools paths base
 */
-function load_custom_tools() {
-	global $registered_tools;
-	$registered_tools = array();
-	if (is_dir(TEMPLATEPATH.'/'.CUSTOM_TOOLS_FOLDER)){
-		$tools_folders = scandir(TEMPLATEPATH.'/'.CUSTOM_TOOLS_FOLDER);
-		if ($tools_folders){
-			foreach ($tools_folders as $tool_folder){
-				if ($tool_folder != '.' && $tool_folder != '..'){
-					if (file_exists(TEMPLATEPATH.'/'.CUSTOM_TOOLS_FOLDER.$tool_folder.'/'.$tool_folder.'.php') && custom_is_config("tool", $tool_folder, false)){
-						$registered_tools[] = $tool_folder;
-						require_once locate_template(CUSTOM_TOOLS_FOLDER.$tool_folder).'/'.$tool_folder.'.php';
-						do_action("custom_tool_ready", $tool_folder);
+function custom_get_available_tools_paths_base(){
+	$paths_base = array();
+	$paths_base[] = CUSTOM_PLUGIN_PATH.CUSTOM_PLUGIN_TOOLS_FOLDER;
+	$paths_base = apply_filters("custom_get_available_tools_paths_base", $paths_base);
+	return $paths_base;
+}
+endif;
+
+if (!function_exists("custom_get_available_tools")):
+/**
+ * retrieve available tools
+* @return array:array tools (array(array('slug', 'name', 'description'))
+		*/
+function custom_get_available_tools($reload = false){
+	global $available_tools;
+	if ($reload || empty($available_tools)){
+		$available_tools = array();
+		$paths_base = custom_get_available_tools_paths_base();
+		if (!empty($paths_base)){
+			foreach ($paths_base as $path_base){
+				if (is_dir($path_base)){
+					$tools_folders = scandir($path_base);
+					if ($tools_folders){
+						foreach ($tools_folders as $tool_folder){
+							if ($tool_folder != '.' && $tool_folder != '..' && $tool_folder != '.DS_Store'){
+								$tool_path = $path_base.$tool_folder.'/load.php';
+								if (file_exists($tool_path)){
+									require_once $tool_path;
+									$available_tools[] = array('slug' => $tool_folder, 'name' => custom_get_tool_name($tool_folder), 'description' => custom_get_tool_description($tool_folder));
+									do_action("custom_tool_loaded", $tool_folder);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 	}
-	do_action("custom_tools_ready", $registered_tools);
+	return $available_tools;
 }
 endif;
 
-if (!function_exists("is_registered_custom_tool")):
+if (!function_exists("custom_get_registered_tools")):
+/**
+ * retrieve registered tools
+* @return array:array tools (array(array('slug', 'name', 'description'))
+		*/
+function custom_get_registered_tools($reload = false){
+	global $registered_tools;
+	if ($reload || empty($registered_tools)){
+		$registered_tools = array();
+		if (custom_is_registered()){
+			$available_tools = custom_get_available_tools();
+			if (!empty($available_tools)){
+				foreach ($available_tools as $tool){
+					$active = apply_filters("custom_is_tool_".$tool['slug']."_active", false);
+					if ($active){
+						$registered_tools[] = $tool;
+					}
+				}
+			}
+		}
+	}
+	return $registered_tools;
+}
+endif;
+
+if (!function_exists("custom_get_tool_name")):
+/**
+ * retrieve tool name
+* @param string $tool_slug
+* @return string
+*/
+function custom_get_tool_name($tool_slug){
+	$tool_name = $tool_slug;
+	$tool_name = apply_filters("custom_get_tool_name_".$tool_slug, $tool_name); // must be hooked by tool
+	return $tool_name;
+}
+endif;
+
+if (!function_exists("custom_get_tool_description")):
+/**
+ * retrieve tool description
+* @param string $tool_slug
+* @return string
+*/
+function custom_get_tool_description($tool_slug){
+	$tool_description = $tool_slug;
+	$tool_description = apply_filters("custom_get_tool_description_".$tool_slug, $tool_description); // must be hooked by tool
+	return $tool_description;
+}
+endif;
+
+if (!function_exists("custom_is_registered_tool")):
 /**
  * check if specified tool name is registered
- * @param string $tool_name (ex. 'video')
- * @return boolean
- */
-function is_registered_custom_tool($tool_name) {
-	global $registered_tools;
-	return in_array($tool_name, $registered_tools);
+* @param string $tool_slug (ex. 'video')
+* @return boolean
+*/
+function custom_is_registered_tool($tool_slug, $reload = false) {
+	if (!empty($tool_slug)){
+		$registered_tools = custom_get_registered_tools($reload);
+		foreach ($registered_tools as $tool){
+			if ($tool_slug == $tool['slug'])
+				return true;
+		}
+	}
+	return false;
+}
+endif;
+
+if (!function_exists("activate_custom_tools")):
+/**
+ * activate registered tools
+*/
+function custom_activate_tools() {
+	$registered_tools = custom_get_registered_tools();
+	if (!empty($registered_tools)){
+		foreach ($registered_tools as $tool){
+			do_action("custom_tool_activate_".$tool['slug']); // must be hooked by tool
+			do_action("custom_tool_activated", $tool['slug']);
+		}
+	}
+	do_action("custom_tools_activated", $registered_tools);
 }
 endif;
 
 /**
- * load tools
+ * activate tools
  */
-load_custom_tools();
+custom_activate_tools();

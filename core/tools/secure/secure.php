@@ -1,31 +1,64 @@
 <?php
 /**
- * COOKIES Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+defined('ABSPATH') or die("Go Away!");
+
+/**
  * IMPORTANT : this secure tool use $_SESSION and similare keys for all securized forms, in particular usage you can be failtoban because of an other form failed to ban
  */
 
 /**
- * CONSTANTS
- */
-define('SECURE_TOOL_NAME', 'secure');
-
-/**
  * REQUIREMENTS
 */
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/customizer.php'));
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/captcha.php'));
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/failtoban.php'));
+require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/captcha.php');
+require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/failtoban.php');
+
+/**
+ * Is secure captcha active
+ * @return boolean
+ */
+function secure_is_captcha_active(){
+	$captcha_active = custom_get_option("tool-secure-captcha-active");
+	if (!empty($captcha_active) && $captcha_active == "on")
+		return true;
+	return false;
+}
+
+/**
+ * Is secure failtoban active
+ * @return boolean
+ */
+function secure_is_failtoban_active(){
+	$failtoban_active = custom_get_option("tool-secure-failtoban-active");
+	if (!empty($failtoban_active) && $failtoban_active == "on")
+		return true;
+	return false;
+}
 
 /**
  * Add captchanum to Contact Form 7 plugin
  */
-$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-if ($captcha_enable == 1 && class_exists("WPCF7_ContactForm")){
-	require_once (locate_template(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/contactform7/captchanum.php'));
+if (secure_is_captcha_active() && class_exists("WPCF7_ContactForm")){
+	require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/inc/contactform7/captchanum.php');
 }
 
 /**
@@ -103,12 +136,10 @@ add_filter('tool_contactform7_captchanum_validatation', 'secure_contactform7_for
  * called to generate WP login form
 */
 function secure_login_form(){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_login_form();
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_login_form();
 	}
 }
@@ -118,12 +149,10 @@ function secure_login_form(){
  */
 function secure_login_form_filter(){
 	$field = "";
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		$field .= secure_failtoban_login_form(false);
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		$field .= secure_captcha_login_form(false);
 	}
 	return $field;
@@ -133,12 +162,10 @@ function secure_login_form_filter(){
  * called to generate WooCommerce login form
  */
 function secure_woocommerce_login_form(){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_woocommerce_login_form();
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_woocommerce_login_form();
 	}
 }
@@ -147,12 +174,10 @@ function secure_woocommerce_login_form(){
  * called to generate WooCommerce checkout registration form
  */
 function secure_woocommerce_checkout_registration_form(){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_woocommerce_checkout_registration_form();
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_woocommerce_checkout_registration_form();
 	}
 }
@@ -161,12 +186,10 @@ function secure_woocommerce_checkout_registration_form(){
  * called to generate WP and WooCommerce registration form
  */
 function secure_register_form(){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_register_form();
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_register_form();
 	}
 }
@@ -175,12 +198,10 @@ function secure_register_form(){
  * called to validate WP login form
  */
 function secure_validate_login_form($args){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_validate_login_form($args);
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_validate_login_form($args);
 	}
 }
@@ -190,13 +211,11 @@ function secure_validate_login_form($args){
  */
 function secure_validate_register_form($errors){
 	if (empty($errors)){
-		$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-		if ($failtoban_enable == 1){
+		if (secure_is_failtoban_active()){
 			$errors = secure_failtoban_validate_register_form($errors);
 		}
 		if (empty($errors)){
-			$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-			if ($captcha_enable == 1){
+			if (secure_is_captcha_active()){
 				$errors = secure_captcha_validate_register_form($errors);
 			}
 		}
@@ -209,13 +228,11 @@ function secure_validate_register_form($errors){
  */
 function secure_validate_woocommerce_login_form($validation_error, $user, $password){
 	if (!$validation_error->get_error_code()){
-		$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-		if ($failtoban_enable == 1){
+		if (secure_is_failtoban_active()){
 			$validation_error = secure_failtoban_validate_woocommerce_login_form($validation_error, $user, $password);
 		}
 		if (!$validation_error->get_error_code()){
-			$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-			if ($captcha_enable == 1){
+			if (secure_is_captcha_active()){
 				$validation_error = secure_captcha_validate_woocommerce_login_form($validation_error, $user, $password);
 			}
 		}
@@ -228,13 +245,11 @@ function secure_validate_woocommerce_login_form($validation_error, $user, $passw
  */
 function secure_validate_woocommerce_register_form($validation_error, $user, $email){
 	if (!$validation_error->get_error_code()){
-		$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-		if ($failtoban_enable == 1){
+		if (secure_is_failtoban_active()){
 			$validation_error = secure_failtoban_validate_woocommerce_register_form($validation_error, $user, $email);
 		}
 		if (!$validation_error->get_error_code()){
-			$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-			if ($captcha_enable == 1){
+			if (secure_is_captcha_active()){
 				$validation_error = secure_captcha_validate_woocommerce_register_form($validation_error, $user, $email);
 			}
 		}
@@ -246,12 +261,10 @@ function secure_validate_woocommerce_register_form($validation_error, $user, $em
  * called when WP constructs fields for comment form
  */
 function secure_comment_form_field($fields){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		$fields = secure_failtoban_comment_form_field($fields);
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		$fields = secure_captcha_comment_form_field($fields);
 	}
 	return $fields;
@@ -261,12 +274,10 @@ function secure_comment_form_field($fields){
  * called when WP attemps to insert new comment
  */
 function secure_comment_validate($comment_post_ID){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_comment_validate($comment_post_ID);
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_comment_validate($comment_post_ID);
 	}
 }
@@ -275,12 +286,10 @@ function secure_comment_validate($comment_post_ID){
  * called before PRIVATE TOOL inserts submit field in private form
  */
 function secure_tool_private_form_field(){
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		secure_failtoban_generic_form_field();
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		secure_captcha_generic_form_field();
 	}
 }
@@ -290,13 +299,11 @@ function secure_tool_private_form_field(){
  */
 function secure_tool_private_form_validate($errors){
 	if (empty($errors)){
-		$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-		if ($failtoban_enable == 1){
+		if (secure_is_failtoban_active()){
 			$errors = secure_failtoban_generic_form_validate($errors);
 		}
 		if (empty($errors)){
-			$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-			if ($captcha_enable == 1){
+			if (secure_is_captcha_active()){
 				$errors = secure_captcha_generic_form_validate("", $errors);
 			}
 		}
@@ -309,12 +316,10 @@ function secure_tool_private_form_validate($errors){
  */
 function secure_contactform7_form_field($field_name){
 	$field = "";
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		$field .= secure_failtoban_generic_form_field(false);
 	}
-	$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-	if ($captcha_enable == 1){
+	if (secure_is_captcha_active()){
 		$field .= secure_captcha_generic_form_field($field_name, false);
 	}
 	return $field;
@@ -325,13 +330,11 @@ function secure_contactform7_form_field($field_name){
  */
 function secure_contactform7_form_validate($field_name){
 	$errors = array();
-	$failtoban_enable = get_theme_mod(SECURE_FAILTOBAN_ACTIVE, 1);
-	if ($failtoban_enable == 1){
+	if (secure_is_failtoban_active()){
 		$errors = secure_failtoban_generic_form_validate($errors);
 	}
 	if (empty($errors)){
-		$captcha_enable = get_theme_mod(SECURE_CAPTCHA_ACTIVE, 1);
-		if ($captcha_enable == 1){
+		if (secure_is_captcha_active()){
 			$errors = secure_captcha_generic_form_validate($field_name, $errors);
 		}
 	}
@@ -343,7 +346,7 @@ function secure_contactform7_form_validate($field_name){
  */
 function tool_secure_custom_front_enqueue_styles_tools($dependencies) {
 
-	$css_secure = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-secure.css', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	$css_secure = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/css/tool-secure.css');
 	if (!empty($css_secure))
 		wp_enqueue_style('tool-secure-css', $css_secure, $dependencies, '1.0');
 }
@@ -354,7 +357,7 @@ add_action('custom_front_enqueue_styles_tools', 'tool_secure_custom_front_enqueu
 */
 function tool_secure_custom_front_enqueue_scripts_tools($dependencies) {
 
-	$js_tool_secure = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-secure.js', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	$js_tool_secure = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/js/tool-secure.js');
 	if (!empty($js_tool_secure))
 		wp_enqueue_script('tool-secure-script', $js_tool_secure, $dependencies, '1.0', true);
 }
@@ -365,7 +368,7 @@ add_action('custom_front_enqueue_scripts_tools', 'tool_secure_custom_front_enque
 */
 function tool_secure_custom_login_enqueue_styles_tools($dependencies) {
 
-	$css_secure = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-secure.css', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	$css_secure = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/css/tool-secure.css');
 	if (!empty($css_secure))
 		wp_enqueue_style('tool-secure-css', $css_secure, $dependencies, '1.0');
 }
@@ -376,7 +379,7 @@ add_action('custom_login_enqueue_styles_tools', 'tool_secure_custom_login_enqueu
 */
 function tool_secure_custom_login_enqueue_scripts_tools($dependencies) {
 
-	$js_tool_secure = locate_web_ressource(CUSTOM_JS_FOLDER.'tool-secure.js', array(CUSTOM_TOOLS_FOLDER.SECURE_TOOL_NAME.'/'));
+	$js_tool_secure = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME.'/js/tool-secure.js');
 	if (!empty($js_tool_secure))
 		wp_enqueue_script('tool-secure-script', $js_tool_secure, $dependencies, '1.0', true);
 }

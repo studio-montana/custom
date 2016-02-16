@@ -1,29 +1,37 @@
 <?php
 /**
- * PRIVATE Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-if (!defined ('ABSPATH')) die ('No direct access allowed');
-
-/**
- * CONSTANTS
-*/
-define('PRIVATE_TOOL_NAME', 'private');
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * REQUIREMENTS
 */
-require_once (locate_template(CUSTOM_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/inc/options.php'));
+require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/inc/options.php');
 
 /**
  * Enqueue styles for the front end.
 */
 function tool_private_custom_front_enqueue_styles_tools($dependencies) {
-	$css_private = locate_web_ressource(CUSTOM_CSS_FOLDER.'tool-private.css', array(CUSTOM_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/'));
+	$css_private = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/css/tool-private.css');
 	if (!empty($css_private))
 		wp_enqueue_style('tool-private-css', $css_private, $dependencies, '1.0');
 }
@@ -39,7 +47,7 @@ function private_template_include($template) {
 	if (is_home())
 		$post_id = get_option('page_for_posts');
 	if (tool_private_is_private_post($post_id) && !is_user_logged_in()){
-		$private_template = locate_ressource("tool-private-template.php", array(CUSTOM_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/templates/'));
+		$private_template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.PRIVATE_TOOL_NAME.'/templates/tool-private-template.php');
 		if (!empty($private_template))
 			$template =  $private_template;
 		else
@@ -69,7 +77,7 @@ function tool_private_is_private_post($post_id){
 		$private_items = get_option(TOOL_PRIVATE_OPTIONS_ITEMS."-".get_current_lang());
 		if (!empty($private_items)){
 			$parent_ids = get_post_ancestors($post_id);
-			$private_items = split(",", $private_items);
+			$private_items = explode(",", $private_items);
 			if (in_array($post_id, $private_items)){
 				return true;
 			}else{
@@ -110,8 +118,8 @@ function private_wp_footer() {
 		?>
 <div class="private-logout">
 	<a href="<?php echo wp_logout_url(get_permalink()); ?>"
-		title="<?php echo esc_attr(__("sign out", CUSTOM_TEXT_DOMAIN)); ?>"><i
-		class="fa fa-sign-out"></i><span><?php _e("sign out", CUSTOM_TEXT_DOMAIN); ?>
+		title="<?php echo esc_attr(__("sign out", CUSTOM_PLUGIN_TEXT_DOMAIN)); ?>"><i
+		class="fa fa-sign-out"></i><span><?php _e("sign out", CUSTOM_PLUGIN_TEXT_DOMAIN); ?>
 	</span> </a>
 </div>
 <?php 

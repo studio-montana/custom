@@ -1,22 +1,36 @@
 <?php
 /**
- * EVENT Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * CONSTANTS
  */
-define('EVENT_TOOL_NAME', 'event');
 define('EVENT_NONCE_ACTION', 'event_nonce_action');
 
 /**
  * WIDGETS
 */
-require_once (locate_template('/'.CUSTOM_TOOLS_FOLDER.EVENT_TOOL_NAME.'/widgets/tool-event-widget.class.php'));
+require_once (CUSTOM_PLUGIN_PATH.'/'.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.EVENT_TOOL_NAME.'/widgets/tool-event-widget.class.php');
 
 if (!function_exists("tool_event_admin_init")):
 /**
@@ -25,7 +39,7 @@ if (!function_exists("tool_event_admin_init")):
 * @return void
 */
 function tool_event_admin_init() {
-	add_meta_box('tool-event-properties', '<i class="dashicons dashicons-calendar-alt" style="margin-right: 6px; font-size: 1.3rem;"></i>'.__( 'Event properties', CUSTOM_TEXT_DOMAIN), 'tool_event_add_inner_meta_boxes', 'event', 'side', 'high');
+	add_meta_box('tool-event-properties', '<i class="dashicons dashicons-calendar-alt" style="margin-right: 6px; font-size: 1.3rem;"></i>'.__( 'Event properties', CUSTOM_PLUGIN_TEXT_DOMAIN), 'tool_event_add_inner_meta_boxes', 'event', 'side', 'high');
 }
 add_action('admin_init', 'tool_event_admin_init');
 endif;
@@ -37,7 +51,7 @@ if (!function_exists("tool_event_add_inner_meta_boxes")):
 * @return void
 */
 function tool_event_add_inner_meta_boxes() {
-	include(locate_template('/'.CUSTOM_TOOLS_FOLDER.EVENT_TOOL_NAME.'/templates/template-event-fields.php'));
+	include(locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.EVENT_TOOL_NAME.'/templates/template-event-fields.php'));
 }
 endif;
 
@@ -50,7 +64,7 @@ function event_add_inner_meta_boxes($post){
 	$id_blog_page = get_option('page_for_posts');
 	if ($id_blog_page != get_the_ID()){
 		if (get_post_type($post) == 'event'){
-			include(locate_template('/'.CUSTOM_TOOLS_FOLDER.EVENT_TOOL_NAME.'/templates/template-event-fields.php'));
+			include(locate_ressource('/'.CUSTOM_PLUGIN_TOOLS_FOLDER.EVENT_TOOL_NAME.'/templates/template-event-fields.php'));
 		}
 	}
 }
@@ -65,16 +79,16 @@ function add_event_post_type(){
 
 	// custom post type
 	$labels = array(
-			'name'               => __('Events', CUSTOM_TEXT_DOMAIN),
-			'singular_name'      => __('Event', CUSTOM_TEXT_DOMAIN),
-			'add_new_item'       => __('Add Event', CUSTOM_TEXT_DOMAIN),
-			'edit_item'          => __('Edit Event', CUSTOM_TEXT_DOMAIN),
-			'new_item'           => __('New Event', CUSTOM_TEXT_DOMAIN),
-			'all_items'          => __('Events', CUSTOM_TEXT_DOMAIN),
-			'view_item'          => __('Look Event', CUSTOM_TEXT_DOMAIN),
-			'search_items'       => __('Search Events', CUSTOM_TEXT_DOMAIN),
-			'not_found'          => __('No Event found', CUSTOM_TEXT_DOMAIN),
-			'not_found_in_trash' => __('No Event found in trash', CUSTOM_TEXT_DOMAIN)
+			'name'               => __('Events', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'singular_name'      => __('Event', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'add_new_item'       => __('Add Event', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'edit_item'          => __('Edit Event', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'new_item'           => __('New Event', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'all_items'          => __('Events', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'view_item'          => __('Look Event', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'search_items'       => __('Search Events', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'not_found'          => __('No Event found', CUSTOM_PLUGIN_TEXT_DOMAIN),
+			'not_found_in_trash' => __('No Event found in trash', CUSTOM_PLUGIN_TEXT_DOMAIN)
 	);
 	$args = array(
 			'labels'             => $labels,
@@ -86,23 +100,23 @@ function add_event_post_type(){
 			'capability_type' => 'post',
 			'hierarchical' => true,
 			'supports' => array('title', 'editor', 'thumbnail'),
-			'rewrite'           => array('slug' => _x('evenement', 'URL slug', CUSTOM_TEXT_DOMAIN))
+			'rewrite'           => array('slug' => _x('evenement', 'URL slug', CUSTOM_PLUGIN_TEXT_DOMAIN))
 	);
 	register_post_type('event', $args);
 
 	// custom taxonomy
 	$labels = array(
-			"name"              => __("Event Types", CUSTOM_TEXT_DOMAIN),
-			"singular_name"     => __("Event Type", CUSTOM_TEXT_DOMAIN),
-			"search_items"      => __("Search Event Type", CUSTOM_TEXT_DOMAIN),
-			"all_items"         => __("All Event Types", CUSTOM_TEXT_DOMAIN),
-			"parent_item"       => __("Event Type's parent", CUSTOM_TEXT_DOMAIN),
-			"parent_item_colon" => __("Event Type's parent", CUSTOM_TEXT_DOMAIN),
-			"edit_item"         => __("Edit Event Type", CUSTOM_TEXT_DOMAIN),
-			"update_item"       => __("Update Event Type", CUSTOM_TEXT_DOMAIN),
-			"add_new_item"      => __("Add Event Type", CUSTOM_TEXT_DOMAIN),
-			"new_item_name"     => __("Name", CUSTOM_TEXT_DOMAIN),
-			"menu_name"         => __("Event Type", CUSTOM_TEXT_DOMAIN)
+			"name"              => __("Event Types", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"singular_name"     => __("Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"search_items"      => __("Search Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"all_items"         => __("All Event Types", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"parent_item"       => __("Event Type's parent", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"parent_item_colon" => __("Event Type's parent", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"edit_item"         => __("Edit Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"update_item"       => __("Update Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"add_new_item"      => __("Add Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"new_item_name"     => __("Name", CUSTOM_PLUGIN_TEXT_DOMAIN),
+			"menu_name"         => __("Event Type", CUSTOM_PLUGIN_TEXT_DOMAIN)
 	);
 	$args = array(
 			'hierarchical'      => true,
@@ -110,7 +124,7 @@ function add_event_post_type(){
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array('slug' => _x('evenement-type', 'URL slug', CUSTOM_TEXT_DOMAIN))
+			'rewrite'           => array('slug' => _x('evenement-type', 'URL slug', CUSTOM_PLUGIN_TEXT_DOMAIN))
 	);
 	register_taxonomy('eventtype', array( 'event' ), $args);
 
@@ -193,8 +207,8 @@ if (!function_exists("define_event_columns")):
  * custom listing columns
 */
 function define_event_columns($columns){
-	$columns["event-date-begin"] = __("Begin", CUSTOM_TEXT_DOMAIN);
-	$columns["event-date-end"] = __("End", CUSTOM_TEXT_DOMAIN);
+	$columns["event-date-begin"] = __("Begin", CUSTOM_PLUGIN_TEXT_DOMAIN);
+	$columns["event-date-end"] = __("End", CUSTOM_PLUGIN_TEXT_DOMAIN);
 	return $columns;
 }
 add_filter('manage_edit-event_columns', 'define_event_columns' );

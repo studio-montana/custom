@@ -1,11 +1,26 @@
 <?php
 /**
- * WALL Tool
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 if (!is_admin()){
 	$wall_args = array();
@@ -66,7 +81,7 @@ if (post_type_exists($wall_args['meta_wall_display_post_type'])){ // dynamic lis
 }else if($wall_args['meta_wall_display_post_type'] == "-1"){ // static list
 	$ids = $wall_args['meta_wall_display_ids'];
 	if (!empty($ids)){
-		$ids_tab = split(",", $ids);
+		$ids_tab = explode(",", $ids);
 		if(($key = array_search($wall_args['meta_wall_display_current_post_id'], $ids_tab)) !== false) {
 			unset($ids_tab[$key]);
 		}
@@ -136,7 +151,7 @@ if (!empty($posts)){
 						$wall_args["meta_wall_admin_item_code"] = ob_get_contents();
 						ob_end_clean();
 					}
-					$template = locate_ressource("tool-wall-template-slider-$template_selected.php", array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/'));
+					$template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/tool-wall-template-slider-'.$template_selected.'.php');
 					include($template);
 					wp_reset_postdata();
 				} ?>
@@ -245,7 +260,7 @@ if (!empty($posts)){
 				}
 				if (!empty($tax_terms)){ ?>
 					<ul <?php if (is_admin()){ echo 'id="admin-masonry-wall-filter"'; }else{ echo 'id="masonry-wall-filter-'.get_the_ID().'"'; } ?> class="masonry-wall-filters">
-						<li class="masonry-filter active" data-filter="*"><?php _e('All', CUSTOM_TEXT_DOMAIN); ?></li>
+						<li class="masonry-filter active" data-filter="*"><?php _e('All', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></li>
 						<?php foreach ($tax_terms as $tax => $terms){ ?>
 							<?php foreach ($terms as $term){ ?>
 								<li class="masonry-filter" data-filter=".<?php echo $tax; ?>-<?php echo $term->slug; ?>" id="<?php echo $term->slug; ?>"><?php echo $term->name; ?></li>
@@ -296,7 +311,7 @@ if (!empty($posts)){
 						$wall_args["meta_wall_admin_item_code"] = ob_get_contents();
 						ob_end_clean();
 					}
-					$template = locate_ressource("tool-wall-template-masonry-$template_selected.php", array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/'));
+					$template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/tool-wall-template-masonry-'.$template_selected.'.php');
 					include($template);
 					wp_reset_postdata();
 				} ?>
@@ -342,7 +357,7 @@ if (!empty($posts)){
 				}
 				if (!empty($tax_terms)){ ?>
 					<ul <?php if (is_admin()){ echo 'id="admin-isotope-wall-filter"'; }else{ echo 'id="isotope-wall-filter-'.get_the_ID().'"'; } ?> class="isotope-wall-filters">
-						<li class="isotope-filter active" data-filter="*"><?php _e('All', CUSTOM_TEXT_DOMAIN); ?></li>
+						<li class="isotope-filter active" data-filter="*"><?php _e('All', CUSTOM_PLUGIN_TEXT_DOMAIN); ?></li>
 						<?php foreach ($tax_terms as $tax => $terms){ ?>
 							<?php foreach ($terms as $term){ ?>
 								<li class="isotope-filter" data-filter=".<?php echo $tax; ?>-<?php echo $term->slug; ?>" id="<?php echo $term->slug; ?>"><?php echo $term->name; ?></li>
@@ -432,7 +447,7 @@ if (!empty($posts)){
 						ob_end_clean();
 					}
 					
-					$template = locate_ressource("tool-wall-template-isotope-$template_selected.php", array(CUSTOM_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/'));
+					$template = locate_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.WALL_TOOL_NAME.'/templates/tool-wall-template-isotope-'.$template_selected.'.php');
 					include($template);
 					wp_reset_postdata();
 				} ?>
@@ -462,6 +477,6 @@ if (!empty($posts)){
 			</script>
 		<?php } ?>
 	<?php }else{ ?>
-		<h3><?php echo WALL_TOOL_NAME." tool : ".__("No presentation found !", CUSTOM_TEXT_DOMAIN); ?></h3>
+		<h3><?php echo WALL_TOOL_NAME." tool : ".__("No presentation found !", CUSTOM_PLUGIN_TEXT_DOMAIN); ?></h3>
 	<?php } ?>
 <?php } ?>

@@ -1,11 +1,33 @@
 <?php
+/**
+ * @package Custom
+ * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * Register admin scripts on tinymce load
  */
 function tool_shortcodes_heightspace_tiny_mce_plugins($plugins) {
 	if (tool_shortcodes_heightspace_has_permissions() && tool_shortcodes_heightspace_is_edit_screen()) {
-		wp_enqueue_script('tool-shortcodes-script-heightspace', get_template_directory_uri().'/'.CUSTOM_TOOLS_FOLDER.SHORTCODES_TOOL_NAME.'/heightspace/heightspace.js', array('jquery'), '1.0');
+		wp_enqueue_script('tool-shortcodes-script-heightspace', CUSTOM_PLUGIN_URI.CUSTOM_PLUGIN_TOOLS_FOLDER.SHORTCODES_TOOL_NAME.'/heightspace/heightspace.js', array('jquery'), '1.0');
 	}
 	return $plugins;
 }
@@ -61,7 +83,7 @@ add_action('admin_init', 'tool_shortcodes_heightspace_add_editor_buttons');
 function tool_shortcodes_heightspace_add_button($id_editor = null) {
 	?>
 <span class="tool-shortcodes-insert-shortcode tool-shortcodes-heightspace-insert-shortcode button"
-	title="<?php _e('Height Space', CUSTOM_TEXT_DOMAIN); ?>"
+	title="<?php _e('Height Space', CUSTOM_PLUGIN_TEXT_DOMAIN); ?>"
 	data-id-editor="<?php echo $id_editor; ?>">
 	<i class="fa fa-arrows-v"></i>
 </span>

@@ -1,11 +1,26 @@
 <?php
 /**
- * SECURE : captcha
- * @package WordPress
- * @subpackage Custom
- * @since Custom 1.0
+ * @package Custom
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
+ * License: GPL2
+ * Text Domain: custom
+ * 
+ * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+defined('ABSPATH') or die("Go Away!");
 
 /**
  * CONSTANTS
@@ -39,7 +54,7 @@ function secure_captcha_woocommerce_login_form(){
 function secure_captcha_woocommerce_checkout_registration_form(){
 	trace_info("secure_captcha_woocommerce_checkout_registration_form");
 	echo '<p class="form-row form-row form-row-wide address-field validate-required" id="billing_captcha_field" data-o_class="form-row form-row form-row-wide address-field validate-required">';
-	echo '<label for="'.SECURE_CAPTCHA_FIELD.'-register" class="">'.__("Captcha", CUSTOM_TEXT_DOMAIN).'<abbr class="required" title="requis">*</abbr></label>';
+	echo '<label for="'.SECURE_CAPTCHA_FIELD.'-register" class="">'.__("Captcha", CUSTOM_PLUGIN_TEXT_DOMAIN).'<abbr class="required" title="requis">*</abbr></label>';
 	echo secure_captcha_generate_field(SECURE_CAPTCHA_FIELD.'-register');
 	echo '</p>';
 }
@@ -74,7 +89,7 @@ function secure_captcha_validate_login_form($args){
 function secure_captcha_validate_register_form($errors){
 	if (isset($_POST['user_login']) && isset($_POST['user_email'])){
 		if (!secure_captcha_validate_result(SECURE_CAPTCHA_FIELD.'-register')){
-			$errors->add('captcha-error', "<strong>".__("ERROR", CUSTOM_TEXT_DOMAIN)." : </strong>".__("invalid captcha", CUSTOM_TEXT_DOMAIN));
+			$errors->add('captcha-error', "<strong>".__("ERROR", CUSTOM_PLUGIN_TEXT_DOMAIN)." : </strong>".__("invalid captcha", CUSTOM_PLUGIN_TEXT_DOMAIN));
 		}
 	}
 	return $errors;
@@ -85,7 +100,7 @@ function secure_captcha_validate_register_form($errors){
  */
 function secure_captcha_validate_woocommerce_login_form($validation_error, $user, $password){
 	if (!secure_captcha_validate_result(SECURE_CAPTCHA_FIELD.'-woocommerce-login')){
-		$validation_error = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_TEXT_DOMAIN));
+		$validation_error = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_PLUGIN_TEXT_DOMAIN));
 	}
 	return $validation_error;
 }
@@ -95,7 +110,7 @@ function secure_captcha_validate_woocommerce_login_form($validation_error, $user
  */
 function secure_captcha_validate_woocommerce_register_form($validation_error, $username, $email){
 	if (!secure_captcha_validate_result(SECURE_CAPTCHA_FIELD.'-register')){
-		$validation_error = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_TEXT_DOMAIN));
+		$validation_error = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_PLUGIN_TEXT_DOMAIN));
 	}
 	return $validation_error;
 }
@@ -113,7 +128,7 @@ function secure_captcha_comment_form_field($fields){
  */
 function secure_captcha_comment_validate($comment_post_ID){
 	if (!secure_captcha_validate_result(SECURE_CAPTCHA_FIELD.'-comment')){
-		wp_die(__('<strong>ERROR</strong>: invalid captcha', CUSTOM_TEXT_DOMAIN), 200);
+		wp_die(__('<strong>ERROR</strong>: invalid captcha', CUSTOM_PLUGIN_TEXT_DOMAIN), 200);
 	}
 }
 
@@ -135,7 +150,7 @@ function secure_captcha_generic_form_field($field_name = "", $display = true){
 function secure_captcha_generic_form_validate($field_name = "", $errors = array()){
 	if (empty($field_name)) $field_name = SECURE_CAPTCHA_FIELD;
 	if (!secure_captcha_validate_result($field_name)){
-		$errors[] = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_TEXT_DOMAIN));
+		$errors[] = new WP_Error('captcha-error', __("invalid captcha", CUSTOM_PLUGIN_TEXT_DOMAIN));
 	}
 	return $errors;
 }
@@ -170,7 +185,7 @@ function secure_captcha_generate_field($field_name){
 	$field .= '<span class="input-wrapper tool-secure-input-wrapper">';
 	$field .= '<input class="'.$input_classes.'" size="20" type="number" id="'.$field_name.'" name="'.$field_name.'" placeholder="'.$captcha_1." + ".$captcha_2.'" />';
 	$field .= '<span class="fa fa-question-circle tool-secure-show-info"></span>';
-	$field .= '<span class="tool-secure-info-text">'.__("Please solve the problem. This is an anti-spam security check.", CUSTOM_TEXT_DOMAIN).'</span>';
+	$field .= '<span class="tool-secure-info-text">'.__("Please solve the problem. This is an anti-spam security check.", CUSTOM_PLUGIN_TEXT_DOMAIN).'</span>';
 	$field .= '</span>';
 	return $field;
 }
@@ -194,6 +209,6 @@ function secure_captcha_validate_result($field_name){
 	if ($valid)
 		custom_session_set($field_name.'-error', "");
 	else
-		custom_session_set($field_name.'-error', __("invalid captcha", CUSTOM_TEXT_DOMAIN));
+		custom_session_set($field_name.'-error', __("invalid captcha", CUSTOM_PLUGIN_TEXT_DOMAIN));
 	return $valid;
 }
