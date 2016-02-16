@@ -48,10 +48,18 @@ function tool_login_enqueue_scripts_tools(){
 	$js_login = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.LOGIN_TOOL_NAME.'/js/tool-login.js');
 	if (!empty($js_login)){
 		wp_enqueue_script('tool-login-script', $js_login, array('jquery'), '1.0', true );
-		wp_localize_script('tool-login-script', 'ToolLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_PLUGIN_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_PLUGIN_TEXT_DOMAIN)));
+		wp_localize_script('tool-login-script', 'ToolLogin', array('url_title' => get_bloginfo( 'name' ), 'url_site' => get_site_url(), 'message' => '', 'placeholder_login' => __("login", CUSTOM_PLUGIN_TEXT_DOMAIN), 'placeholder_password' => __("password", CUSTOM_PLUGIN_TEXT_DOMAIN), 'placeholder_email' => __("email", CUSTOM_PLUGIN_TEXT_DOMAIN)));
 	}
 }
 add_action("custom_login_enqueue_scripts_tools", "tool_login_enqueue_scripts_tools");
+endif;
+
+if (!function_exists('custom_login_filter_register_link')):
+function custom_login_filter_register_link($registration_url){
+	$registration_url = sprintf('<a class="registration-url" href="%s">%s</a>', esc_url(wp_registration_url()), __('Register'));
+	return $registration_url;
+}
+add_filter('register', 'custom_login_filter_register_link', 1, 1);
 endif;
 
 if (!function_exists("tool_login_display_background")):
@@ -62,12 +70,12 @@ function tool_login_display_background(){
 	$url_background = get_theme_mod("login_backgroundimage");
 	
 	if (empty($url_background) && custom_is_registered_tool("backgroundimage")){
-		$url_background = get_theme_mod('backgroundimage_image');
+		// $url_background = get_theme_mod('backgroundimage_image');
 	}
 
 	if (!empty($url_background)){
 		?>
-<div id="tool-login-background" class="<?php echo $class; ?>" style="background: url('<?php echo $url_background; ?>') no-repeat center center fixed;
+<div id="tool-login-background" style="background: url('<?php echo $url_background; ?>') no-repeat center center fixed;
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;

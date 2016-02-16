@@ -4,7 +4,7 @@
  * Plugin Name: Custom
  * Plugin URI: https://github.com/studio-montana/custom
  * Description: Multitool experience on WP
- * Version: 2.0.1.1
+ * Version: 2.0.1.2
  * Author: Studio Montana
  * Author URI: http://www.studio-montana.com/
  * License: GPL2

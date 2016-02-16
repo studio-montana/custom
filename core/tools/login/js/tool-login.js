@@ -25,4 +25,21 @@ jQuery(window).ready(function($) {
 		$text.remove();
 	$(".login #login label[for='user_pass'] br").remove();
 	$(".login #login #user_pass").attr("placeholder", ToolLogin.placeholder_password);
+	
+	// remove user_email text - add placeholder
+	var $text = $(".login #login label[for='user_email']").contents().filter(function() {
+		return this.nodeType === 3;
+	});
+	if (!empty($text))
+		$text.remove();
+	$(".login #login label[for='user_email'] br").remove();
+	$(".login #login #user_email").attr("placeholder", ToolLogin.placeholder_email);
+	
+	// remove #nav text
+	var $text = $(".login #nav").contents().filter(function() {
+		return this.nodeType === 3;
+	});
+	if (!empty($text))
+		$text.remove();
+	
 });

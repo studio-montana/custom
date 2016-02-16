@@ -4,7 +4,7 @@
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
  * License: GPL2
  * Text Domain: custom
- * 
+ *
  * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ defined('ABSPATH') or die("Go Away!");
 
 /**
  * IMPORTANT : this secure tool use $_SESSION and similare keys for all securized forms, in particular usage you can be failtoban because of an other form failed to ban
- */
+*/
 
 /**
  * REQUIREMENTS
@@ -35,7 +35,7 @@ require_once (CUSTOM_PLUGIN_PATH.'/'.CUSTOM_PLUGIN_TOOLS_FOLDER.SECURE_TOOL_NAME
 /**
  * Is secure captcha active
  * @return boolean
- */
+*/
 function secure_is_captcha_active(){
 	$captcha_active = custom_get_option("tool-secure-captcha-active");
 	if (!empty($captcha_active) && $captcha_active == "on")
@@ -63,7 +63,7 @@ if (secure_is_captcha_active() && class_exists("WPCF7_ContactForm")){
 
 /**
  * WP uses this action to generate login form
-*/
+ */
 add_action('login_form', 'secure_login_form');
 add_filter('login_form_middle', 'secure_login_form_filter', 10, 1);
 
@@ -111,16 +111,6 @@ add_filter('comment_form_default_fields', 'secure_comment_form_field', 10, 1);
  * WP uses this action before insert new comment
 */
 add_action('pre_comment_on_post', 'secure_comment_validate', 1, 1);
-
-/**
- * PRIVATE TOOL uses this action before insert submit field in private form
-*/
-add_action('tool_private_form_before_submit_field', 'secure_tool_private_form_field');
-
-/**
- * PRIVATE TOOL uses this action during validation of private form
-*/
-add_filter('tool_private_form_validation', 'secure_tool_private_form_validate', 1, 1);
 
 /**
  * CONTACTFORM7 TOOL uses this action to display captchanum field
@@ -210,11 +200,11 @@ function secure_validate_login_form($args){
  * called to validate WP registration form
  */
 function secure_validate_register_form($errors){
-	if (empty($errors)){
+	if (empty($errors->get_error_codes())){
 		if (secure_is_failtoban_active()){
 			$errors = secure_failtoban_validate_register_form($errors);
 		}
-		if (empty($errors)){
+		if (empty($errors->get_error_codes())){
 			if (secure_is_captcha_active()){
 				$errors = secure_captcha_validate_register_form($errors);
 			}
@@ -280,35 +270,6 @@ function secure_comment_validate($comment_post_ID){
 	if (secure_is_captcha_active()){
 		secure_captcha_comment_validate($comment_post_ID);
 	}
-}
-
-/**
- * called before PRIVATE TOOL inserts submit field in private form
- */
-function secure_tool_private_form_field(){
-	if (secure_is_failtoban_active()){
-		secure_failtoban_generic_form_field();
-	}
-	if (secure_is_captcha_active()){
-		secure_captcha_generic_form_field();
-	}
-}
-
-/**
- * called when PRIVATE TOOL validate private form
- */
-function secure_tool_private_form_validate($errors){
-	if (empty($errors)){
-		if (secure_is_failtoban_active()){
-			$errors = secure_failtoban_generic_form_validate($errors);
-		}
-		if (empty($errors)){
-			if (secure_is_captcha_active()){
-				$errors = secure_captcha_generic_form_validate("", $errors);
-			}
-		}
-	}
-	return $errors;
 }
 
 /**
