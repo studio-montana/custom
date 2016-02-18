@@ -22,8 +22,6 @@
  */
 defined('ABSPATH') or die("Go Away!");
 
-
-
 /**
  * Enqueue scripts and styles for the front end.
  *
@@ -66,13 +64,6 @@ function custom_scripts_styles() {
 	$css_slider = locate_web_ressource(CUSTOM_PLUGIN_TEMPLATES_FOLDER.CUSTOM_PLUGIN_CSS_FOLDER.'custom-slider.css');
 	if (!empty($css_slider))
 		wp_enqueue_style('custom-core-slider-style', $css_slider, array('custom-core-isotope-style'), '1.0');
-	
-	// Loads Internet Explorer specific stylesheet
-	$css_ie = locate_web_ressource(CUSTOM_PLUGIN_TEMPLATES_FOLDER.CUSTOM_PLUGIN_CSS_FOLDER.'custom-ie.css');
-	if (!empty($css_ie)){
-		wp_enqueue_style('custom-ie', $css_ie, array('custom-style'), '1.0');
-		wp_style_add_data('custom-ie', 'conditional', 'lt IE 9');
-	}
 	
 	// Action after custom enqueue styles
 	do_action("custom_front_enqueue_styles_after");

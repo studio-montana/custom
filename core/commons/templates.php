@@ -86,34 +86,6 @@ function custom_entry_date($echo = true) {
 }
 endif;
 
-if (!function_exists('custom_comments_template')) :
-/**
- * Custom comment_template
-*
-* @since Custom 1.0
-* @return void
-*/
-function custom_comments_template() {
-	$custom_comments = get_theme_mod('custom_comments');
-	if (!empty($custom_comments))
-		comments_template();
-}
-endif;
-
-if (!function_exists('custom_comments_popup_link')) :
-/**
- * Custom comments_popup_link
-*
-* @since Custom 1.0
-* @return void
-*/
-function custom_comments_popup_link($zero, $one, $more){
-	$custom_comments = get_theme_mod('custom_comments');
-	if (!empty($custom_comments))
-		comments_popup_link($zero, $one, $more);
-}
-endif;
-
 function custom_mini_excerpt_length( $length ) {
 	return 10;
 }
