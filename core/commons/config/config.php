@@ -64,7 +64,8 @@ if (!function_exists("custom_is_registered")):
 */
 function custom_is_registered(){
 	// TODO send request to validate activation key http://lab.studio-montana.com/has-key/?product=custom&key=xxxxxxxx&host=xxxx.xxxxxxxxx.xxxx
-	if (!empty(custom_get_option("key-activation")))
+	$key = custom_get_option("key-activation");
+	if (!empty($key))
 		return true;
 	return false;
 }

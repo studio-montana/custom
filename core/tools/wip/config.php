@@ -23,18 +23,9 @@
 defined('ABSPATH') or die("Go Away!");
 
 function tool_wip_is_active($active){
-	$active_option = custom_get_option('tool-wip-active');
-	if (!empty($active_option) && $active_option == "on")
-		$active = true;
-	return $active;
+	return true;
 }
 add_filter("custom_is_tool_wip_active", "tool_wip_is_active", 1, 1);
-
-function tool_wip_custom_config_default_values($default_values){
-	$default_values["tool-wip-active"] = "on";
-	return $default_values;
-}
-add_filter("custom_config_default_values", "tool_wip_custom_config_default_values");
 
 function tool_wip_get_config_options_section_description(){
 	echo '<p class="tool-description">';
@@ -44,22 +35,4 @@ function tool_wip_get_config_options_section_description(){
 
 function tool_wip_get_config_options_section_documentation_url(){
 	return CUSTOM_DOCUMENTATION_URL.'#wip';
-}
-
-function tool_wip_get_config_options_fields($additional_fields){
-	$additional_fields[] = array("slug" => "tool-wip-active", "callback" => "tool_wip_get_config_options_field_active", "title" => __("active", CUSTOM_PLUGIN_TEXT_DOMAIN));
-	return $additional_fields;
-}
-add_filter("custom_config_options_fields_tool_wip", "tool_wip_get_config_options_fields", 1, 1);
-
-function tool_wip_get_config_options_field_active($args){
-	$options = $args['options'];
-	$active = false;
-	$value = "off";
-	if (isset($options['tool-wip-active']))
-		$value = $options['tool-wip-active'];
-	$checked = '';
-	if ($value == 'on')
-		$checked = ' checked="checked"';
-	echo '<input type="checkbox" name="'.CUSTOM_CONFIG_OPTIONS.'[tool-wip-active]" '.$checked.' />';
 }

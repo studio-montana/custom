@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Custom
  * Plugin URI: http://www.studio-montana.com/product/custom
- * Description: Multitool experience on WP
- * Version: 2.0.1.3
+ * Description: Multitool experience for WP | SEO, security, masonry, private site, social publication, ...
+ * Version: 2.0.1.4
  * Author: Studio Montana
  * Author URI: http://www.studio-montana.com/
  * License: GPL2

@@ -200,11 +200,12 @@ function secure_validate_login_form($args){
  * called to validate WP registration form
  */
 function secure_validate_register_form($errors){
-	if (empty($errors->get_error_codes())){
+	$error_codes = $errors->get_error_codes();
+	if (empty($error_codes)){
 		if (secure_is_failtoban_active()){
 			$errors = secure_failtoban_validate_register_form($errors);
 		}
-		if (empty($errors->get_error_codes())){
+		if (empty($error_codes)){
 			if (secure_is_captcha_active()){
 				$errors = secure_captcha_validate_register_form($errors);
 			}

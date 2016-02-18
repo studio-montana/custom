@@ -9,13 +9,15 @@ class CustomUploader {
 	private $pluginFile; // __FILE__ of our plugin
 	private $githubAPIResult; // holds data from GitHub
 	private $accessToken; // GitHub private repo token
+	private $include_prerelease; // include or not prerelease
 
-	function __construct( $pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '' ) {
+	function __construct($pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '', $include_prerelease = false) {
 
 		$this->pluginFile = $pluginFile;
 		$this->username = $gitHubUsername;
 		$this->repo = $gitHubProjectName;
 		$this->accessToken = $accessToken;
+		$this->include_prerelease = $include_prerelease;
 
 		add_filter("plugins_api", array( $this, "setPluginInfo" ), 10, 3);
 		add_filter('site_transient_update_plugins', array( $this, 'setTransitent'), 10, 1);
@@ -52,7 +54,14 @@ class CustomUploader {
 
 		// Use only the latest release
 		if ( is_array( $this->githubAPIResult ) ) {
-			$this->githubAPIResult = $this->githubAPIResult[0];
+			foreach ($this->githubAPIResult as $result){
+				if (property_exists($result, 'tag_name')){
+					if($this->include_prerelease || !property_exists($result, 'prerelease') || $result->prerelease != true){
+						$this->githubAPIResult = $result;
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -71,7 +80,7 @@ class CustomUploader {
 
 		// Check the versions if we need to do an update
 		$doUpdate = 0;
-		if (property_exists($this->githubAPIResult, 'tag_name'))
+		if (!empty($this->githubAPIResult))
 			$doUpdate = version_compare($this->githubAPIResult->tag_name, $this->pluginData["Version"]);
 
 		// Update the transient to include our updated plugin data
