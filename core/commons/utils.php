@@ -268,6 +268,19 @@ function get_current_url_parameters(){
 }
 endif;
 
+if (!function_exists("get_host")):
+/**
+ * get the host
+*/
+function get_host(){
+	$host = '';
+	if (isset($_SERVER['HTTP_HOST'])) {
+		$host = $_SERVER['HTTP_HOST'];
+	}
+	return $host;
+}
+endif;
+
 if (!function_exists("get_protocol")):
 /**
  * get the current Protocol (http || https)

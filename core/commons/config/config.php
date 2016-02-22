@@ -26,13 +26,14 @@ defined('ABSPATH') or die("Go Away!");
  * CONSTANTS
 */
 define('CUSTOM_CONFIG_OPTIONS', 'custom_config_options');
-define('CUSTOM_CONFIG_GET_KEY_URL', 'http://lab.studio-montana.com/get-key/?product=custom');
+define('CUSTOM_CONFIG_GET_KEY_URL', 'http://api.studio-montana.com/?action=getkey&package=custom');
 
 /**
  * GLOBALS
 */
 global $custom_config_default_values;
 global $custom_config_values;
+global $custom_config_ac;
 
 if (!function_exists("custom_load_tools_config")):
 /**
@@ -63,11 +64,25 @@ if (!function_exists("custom_is_registered")):
 * @return boolean
 */
 function custom_is_registered(){
-	// TODO send request to validate activation key http://lab.studio-montana.com/has-key/?product=custom&key=xxxxxxxx&host=xxxx.xxxxxxxxx.xxxx
-	$key = custom_get_option("key-activation");
-	if (!empty($key))
-		return true;
-	return false;
+	global $custom_config_ac;
+	if(!isset($custom_config_ac)){
+		$custom_config_ac = false;
+		$key = custom_get_option("key-activation");
+		if (!empty($key)){
+			$url = CUSTOM_API_URL;
+			$url = add_query_arg(array("action" => "active"), $url);
+			$url = add_query_arg(array("package" => "custom"), $url);
+			$url = add_query_arg(array("key" => $key), $url);
+			$url = add_query_arg(array("host" => get_host()), $url);
+			$request_body = wp_remote_retrieve_body( wp_remote_get( $url ) );
+			if (!empty($request_body)) {
+				$request_body = @json_decode($request_body);
+				if (isset($request_body->active) && $request_body->active == true)
+					$custom_config_ac = true;
+			}
+		}
+	}
+	return $custom_config_ac;
 }
 endif;
 

@@ -4,20 +4,14 @@ class CustomUploader {
 
 	private $slug; // plugin slug
 	private $pluginData; // plugin data
-	private $username; // GitHub username
-	private $repo; // GitHub repo name
+	private $repo;
 	private $pluginFile; // __FILE__ of our plugin
-	private $githubAPIResult; // holds data from GitHub
-	private $accessToken; // GitHub private repo token
-	private $include_prerelease; // include or not prerelease
+	private $APIResult; // holds data
 
-	function __construct($pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '', $include_prerelease = false) {
+	function __construct($pluginFile, $package) {
 
 		$this->pluginFile = $pluginFile;
-		$this->username = $gitHubUsername;
-		$this->repo = $gitHubProjectName;
-		$this->accessToken = $accessToken;
-		$this->include_prerelease = $include_prerelease;
+		$this->repo = $package;
 
 		add_filter("plugins_api", array( $this, "setPluginInfo" ), 10, 3);
 		add_filter('site_transient_update_plugins', array( $this, 'setTransitent'), 10, 1);
@@ -34,34 +28,17 @@ class CustomUploader {
 	// Get information regarding our plugin from GitHub
 	private function getRepoReleaseInfo() {
 		// Only do this once
-		if ( !empty( $this->githubAPIResult ) ) {
+		if ( !empty( $this->APIResult ) ) {
 			return;
 		}
 
-		// Query the GitHub API
-		$url = "https://api.github.com/repos/{$this->username}/{$this->repo}/releases";
-
-		// We need the access token for private repos
-		if ( !empty( $this->accessToken ) ) {
-			$url = add_query_arg( array( "access_token" => $this->accessToken ), $url );
-		}
-
-		// Get the results
-		$this->githubAPIResult = wp_remote_retrieve_body( wp_remote_get( $url ) );
-		if ( !empty( $this->githubAPIResult ) ) {
-			$this->githubAPIResult = @json_decode( $this->githubAPIResult );
-		}
-
-		// Use only the latest release
-		if ( is_array( $this->githubAPIResult ) ) {
-			foreach ($this->githubAPIResult as $result){
-				if (property_exists($result, 'tag_name')){
-					if($this->include_prerelease || !property_exists($result, 'prerelease') || $result->prerelease != true){
-						$this->githubAPIResult = $result;
-						break;
-					}
-				}
-			}
+		$url = CUSTOM_API_URL;
+		$url = add_query_arg(array("action" => "latestrelease"), $url);
+		$url = add_query_arg(array("package" => "custom"), $url);
+		$url = add_query_arg(array("host" => get_host()), $url);
+		$this->APIResult = wp_remote_retrieve_body(wp_remote_get($url));
+		if (!empty($this->APIResult)) {
+			$this->APIResult = @json_decode($this->APIResult);
 		}
 	}
 
@@ -80,24 +57,19 @@ class CustomUploader {
 
 		// Check the versions if we need to do an update
 		$doUpdate = 0;
-		if (!empty($this->githubAPIResult))
-			$doUpdate = version_compare($this->githubAPIResult->tag_name, $this->pluginData["Version"]);
+		if (!empty($this->APIResult))
+			$doUpdate = version_compare($this->APIResult->tag_name, $this->pluginData["Version"]);
 
 		// Update the transient to include our updated plugin data
 		if ( $doUpdate == 1 ) {
 
-			$package = $this->githubAPIResult->zipball_url;
-
-			// Include the access token for private GitHub repos
-			if ( !empty( $this->accessToken ) ) {
-				$package = add_query_arg( array( "access_token" => $this->accessToken ), $package );
-			}
+			$package = $this->APIResult->zipball_url;
 
 			$response = new stdClass();
 			$response->id = 0;
 			$response->slug = CUSTOM_PLUGIN_SLUG_INSTALLER; // might be custom/custom.php to get plugin information ligthbox but generate an error on ajax update !
 			$response->plugin = $this->slug;
-			$response->new_version = $this->githubAPIResult->tag_name;
+			$response->new_version = $this->APIResult->tag_name;
 			$response->upgrade_notice = '';
 			$response->url = $this->pluginData["PluginURI"];
 			$response->package = $package;
@@ -120,16 +92,16 @@ class CustomUploader {
 		}
 
 		// Add our plugin information
-		$response->last_updated = $this->githubAPIResult->published_at;
+		$response->last_updated = $this->APIResult->published_at;
 		$response->slug = $this->slug;
 		$response->name  = $this->pluginData["Name"];
 		$response->plugin_name  = $this->pluginData["Name"];
-		$response->version = $this->githubAPIResult->tag_name;
+		$response->version = $this->APIResult->tag_name;
 		$response->author = $this->pluginData["AuthorName"];
 		$response->homepage = $this->pluginData["PluginURI"];
 
 		// This is our release download zip file
-		$downloadLink = $this->githubAPIResult->zipball_url;
+		$downloadLink = $this->APIResult->zipball_url;
 
 		// Include the access token for private GitHub repos
 		if ( !empty( $this->accessToken ) ) {
@@ -147,13 +119,13 @@ class CustomUploader {
 		$response->sections = array(
 				'description' => $this->pluginData["Description"],
 				'changelog' => class_exists( "Parsedown" )
-				? Parsedown::instance()->parse( $this->githubAPIResult->body )
-				: $this->githubAPIResult->body
+				? Parsedown::instance()->parse( $this->APIResult->body )
+				: $this->APIResult->body
 		);
 
 		// Gets the required version of WP if available
 		$matches = null;
-		preg_match( "/requires:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches );
+		preg_match( "/requires:\s([\d\.]+)/i", $this->APIResult->body, $matches );
 		if ( !empty( $matches ) ) {
 			if ( is_array( $matches ) ) {
 				if ( count( $matches ) > 1 ) {
@@ -164,7 +136,7 @@ class CustomUploader {
 
 		// Gets the tested version of WP if available
 		$matches = null;
-		preg_match( "/tested:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches );
+		preg_match( "/tested:\s([\d\.]+)/i", $this->APIResult->body, $matches );
 		if ( !empty( $matches ) ) {
 			if ( is_array( $matches ) ) {
 				if ( count( $matches ) > 1 ) {

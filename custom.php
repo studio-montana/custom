@@ -4,7 +4,7 @@
  * Plugin Name: Custom
  * Plugin URI: http://www.studio-montana.com/product/custom
  * Description: Multitool experience for WP | SEO, security, masonry, private site, social publication, ...
- * Version: 2.0.1.4
+ * Version: 1.0.0
  * Author: Studio Montana
  * Author URI: http://www.studio-montana.com/
  * License: GPL2
@@ -52,6 +52,7 @@ define('CUSTOM_PLUGIN_JS_FOLDER', 'js/');
 define('CUSTOM_PLUGIN_FONTS_FOLDER', 'fonts/');
 
 define('CUSTOM_DOCUMENTATION_URL', 'http://lab.studio-montana.com/documentation/custom/');
+define('CUSTOM_API_URL', 'http://api.studio-montana.com');
 
 /**
  * Custom PLUGIN DEFINITION
@@ -124,7 +125,7 @@ if(!class_exists('Custom')){
 				
 			do_action("custom_before_init");
 				
-			require_once (CUSTOM_PLUGIN_PATH.'core/init.php');
+			require_once (CUSTOM_PLUGIN_PATH.CUSTOM_PLUGIN_CORE_FOLDER.'init.php');
 				
 			do_action("custom_after_init");
 		}

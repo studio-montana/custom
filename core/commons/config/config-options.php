@@ -182,20 +182,6 @@ class CustomOptions {
 			$value = $this->options['key-activation'];
 		echo '<input placeholder="'.__("YOUR KEY", CUSTOM_PLUGIN_TEXT_DOMAIN).'" type="text" name="'.CUSTOM_CONFIG_OPTIONS.'[key-activation]" value="'.$value.'" /><a href="'.esc_url(CUSTOM_CONFIG_GET_KEY_URL).'" target="_blank" class="button primary">'.__('Get key', CUSTOM_PLUGIN_TEXT_DOMAIN).'</a>';
 	}
-
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	public function print_setting_tool($args){
-		$active = false;
-		$value = "off";
-		if (isset($this->options['tool-'.$args['tool-slug'].'-active']))
-			$value = $this->options['tool-'.$args['tool-slug'].'-active'];
-		$checked = ' ';
-		if ($value == 'on')
-			$checked = ' checked="checked"';
-		echo '<input type="checkbox" name="'.CUSTOM_CONFIG_OPTIONS.'[tool-'.$args['tool-slug'].'-active]" '.$checked.' />';
-	}
 }
 
 if( is_admin() )
