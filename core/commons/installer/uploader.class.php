@@ -27,18 +27,41 @@ class CustomUploader {
 
 	// Get information regarding our plugin from GitHub
 	private function getRepoReleaseInfo() {
-		// Only do this once
+
 		if ( !empty( $this->APIResult ) ) {
 			return;
 		}
 
-		$url = CUSTOM_API_URL;
-		$url = add_query_arg(array("action" => "latestrelease"), $url);
-		$url = add_query_arg(array("package" => "custom"), $url);
-		$url = add_query_arg(array("host" => get_host()), $url);
-		$this->APIResult = wp_remote_retrieve_body(wp_remote_get($url));
-		if (!empty($this->APIResult)) {
-			$this->APIResult = @json_decode($this->APIResult);
+		$relead = true;
+		$now = new DateTime();
+		$last_update = get_option('custom-last-update-latest-release', null);
+		$latestrelease = get_option('custom-latest-release', null);
+		if ($last_update != null){
+			$last_update->modify('+1 day');
+			if ($last_update > $now){
+				$relead = false;
+			}
+		}
+
+		if ($relead){
+			$url = CUSTOM_API_URL;
+			$url = add_query_arg(array("action" => "latestrelease"), $url);
+			$url = add_query_arg(array("package" => "custom"), $url);
+			$url = add_query_arg(array("host" => get_host()), $url);
+			$remote_result = wp_remote_retrieve_body(wp_remote_get($url));
+			if (!empty($remote_result)) {
+				$this->APIResult = @json_decode($remote_result);
+				// update release
+				if ($latestrelease != null)
+					delete_option('custom-latest-release');
+				add_option('custom-latest-release', $remote_result);
+				// update date
+				if ($last_update != null)
+					delete_option('custom-last-update-latest-release');
+				add_option('custom-last-update-latest-release', $now);
+			}
+		}else{
+			$this->APIResult = @json_decode($latestrelease);
 		}
 	}
 

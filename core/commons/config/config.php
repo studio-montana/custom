@@ -69,16 +69,46 @@ function custom_is_registered(){
 		$custom_config_ac = false;
 		$key = custom_get_option("key-activation");
 		if (!empty($key)){
-			$url = CUSTOM_API_URL;
-			$url = add_query_arg(array("action" => "active"), $url);
-			$url = add_query_arg(array("package" => "custom"), $url);
-			$url = add_query_arg(array("key" => $key), $url);
-			$url = add_query_arg(array("host" => get_host()), $url);
-			$request_body = wp_remote_retrieve_body( wp_remote_get( $url ) );
-			if (!empty($request_body)) {
-				$request_body = @json_decode($request_body);
-				if (isset($request_body->active) && $request_body->active == true)
-					$custom_config_ac = true;
+			$reload = true;
+			$already_activated = false;
+			$key_changed = false;
+			$old_key = get_option('custom-old-key-activation', null);
+			$last_update = get_option('custom-activated-update', null);
+			$now = new DateTime();
+			if ($last_update != null){
+				$last_update->modify('+1 day');
+				if ($last_update > $now){
+					$already_activated = true;
+				}
+			}
+			if (empty($old_key) || $old_key != $key){
+				$key_changed = true;
+			}
+			if (!$key_changed && $already_activated){
+				$reload = false;
+			}
+			if ($reload){
+				$custom_config_ac = false;
+				$url = CUSTOM_API_URL;
+				$url = add_query_arg(array("action" => "active"), $url);
+				$url = add_query_arg(array("package" => "custom"), $url);
+				$url = add_query_arg(array("key" => $key), $url);
+				$url = add_query_arg(array("host" => get_host()), $url);
+				$request_body = wp_remote_retrieve_body( wp_remote_get( $url ) );
+				if (!empty($request_body)) {
+					$request_body = @json_decode($request_body);
+					if (isset($request_body->active) && $request_body->active == true)
+						$custom_config_ac = true;
+				}
+				if ($last_update != null)
+					delete_option('custom-activated-update');
+				if ($custom_config_ac)
+					add_option('custom-activated-update', $now, '', false);
+				if ($old_key != null)
+					delete_option('custom-old-key-activation');
+				add_option('custom-old-key-activation', $key, '', false);
+			}else{
+				$custom_config_ac = $already_activated;
 			}
 		}
 	}
