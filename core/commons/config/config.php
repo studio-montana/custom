@@ -90,10 +90,10 @@ function custom_is_registered(){
 			if ($reload){
 				$custom_config_ac = false;
 				$url = CUSTOM_API_URL;
-				$url = add_query_arg(array("action" => "active"), $url);
-				$url = add_query_arg(array("package" => "custom"), $url);
-				$url = add_query_arg(array("key" => $key), $url);
-				$url = add_query_arg(array("host" => get_host()), $url);
+				$url = add_query_arg(array("api-action" => "active"), $url);
+				$url = add_query_arg(array("api-package" => CUSTOM_PLUGIN_NAME), $url);
+				$url = add_query_arg(array("api-host" => get_site_url()), $url);
+				$url = add_query_arg(array("api-key" => $key), $url);
 				$request_body = wp_remote_retrieve_body( wp_remote_get( $url ) );
 				if (!empty($request_body)) {
 					$request_body = @json_decode($request_body);

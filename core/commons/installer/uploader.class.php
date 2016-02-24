@@ -44,9 +44,9 @@ class CustomUploader {
 
 		if ($reload){
 			$url = CUSTOM_API_URL;
-			$url = add_query_arg(array("action" => "latestrelease"), $url);
-			$url = add_query_arg(array("package" => "custom"), $url);
-			$url = add_query_arg(array("host" => get_host()), $url);
+			$url = add_query_arg(array("api-action" => "latestrelease"), $url);
+			$url = add_query_arg(array("api-package" => CUSTOM_PLUGIN_NAME), $url);
+			$url = add_query_arg(array("api-host" => get_site_url()), $url);
 			$remote_result = wp_remote_retrieve_body(wp_remote_get($url));
 			if (!empty($remote_result)) {
 				$this->APIResult = @json_decode($remote_result);
