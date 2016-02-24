@@ -52,7 +52,6 @@ function secure_captcha_woocommerce_login_form(){
  * called to generate WooCommerce checkout registration form
  */
 function secure_captcha_woocommerce_checkout_registration_form(){
-	trace_info("secure_captcha_woocommerce_checkout_registration_form");
 	echo '<p class="form-row form-row form-row-wide address-field validate-required" id="billing_captcha_field" data-o_class="form-row form-row form-row-wide address-field validate-required">';
 	echo '<label for="'.SECURE_CAPTCHA_FIELD.'-register" class="">'.__("Captcha", CUSTOM_PLUGIN_TEXT_DOMAIN).'<abbr class="required" title="requis">*</abbr></label>';
 	echo secure_captcha_generate_field(SECURE_CAPTCHA_FIELD.'-register');

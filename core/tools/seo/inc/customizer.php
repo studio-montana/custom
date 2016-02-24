@@ -339,8 +339,11 @@ function seo_get_meta_opengraph_image($display = true) {
 		$url_logo = get_theme_mod('logo_image'); // site-logo
 		if (!empty($url_logo)){
 			$opengraph_content = $url_logo;
-		}else{ // default (tool-seo-default-og-image.png)
-			$opengraph_content = locate_web_ressource(CUSTOM_PLUGIN_TOOLS_FOLDER.SEO_TOOL_NAME.'/img/tool-seo-default-og-image.png');
+		}else{ // default (theme screenshot)
+			if (file_exists(get_stylesheet_directory().'/screenshot.png'))
+				$opengraph_content = get_stylesheet_directory_uri().'/screenshot.png';
+			else if (file_exists(get_template_directory().'/screenshot.png'))
+				$opengraph_content = get_template_directory_uri().'/screenshot.png';
 		}
 	}
 

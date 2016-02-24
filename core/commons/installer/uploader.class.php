@@ -25,25 +25,24 @@ class CustomUploader {
 		$this->pluginData = get_plugin_data( $this->pluginFile );
 	}
 
-	// Get information regarding our plugin from GitHub
+	// Get information regarding our plugin from API
 	private function getRepoReleaseInfo() {
-
 		if ( !empty( $this->APIResult ) ) {
 			return;
 		}
 
-		$relead = true;
+		$reload = true;
 		$now = new DateTime();
 		$last_update = get_option('custom-last-update-latest-release', null);
 		$latestrelease = get_option('custom-latest-release', null);
 		if ($last_update != null){
-			$last_update->modify('+1 day');
+			$last_update->add(new DateInterval('PT1H'));
 			if ($last_update > $now){
-				$relead = false;
+				$reload = false;
 			}
 		}
 
-		if ($relead){
+		if ($reload){
 			$url = CUSTOM_API_URL;
 			$url = add_query_arg(array("action" => "latestrelease"), $url);
 			$url = add_query_arg(array("package" => "custom"), $url);

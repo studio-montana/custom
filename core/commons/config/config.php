@@ -76,7 +76,7 @@ function custom_is_registered(){
 			$last_update = get_option('custom-activated-update', null);
 			$now = new DateTime();
 			if ($last_update != null){
-				$last_update->modify('+1 day');
+				$last_update->add(new DateInterval('PT1H'));
 				if ($last_update > $now){
 					$already_activated = true;
 				}
