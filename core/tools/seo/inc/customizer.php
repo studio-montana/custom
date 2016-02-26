@@ -4,7 +4,7 @@
  * @author Sébastien Chandonay www.seb-c.com / Cyril Tissot www.cyriltissot.com
  * License: GPL2
  * Text Domain: custom
- * 
+ *
  * Copyright 2016 Sébastien Chandonay (email : please contact me from my website)
  *
  * This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ endif;
 
 if (!function_exists("seo_get_metatitle")):
 /**
- * seo_get_metadescription
+ * seo_get_metatitle
 */
 function seo_get_metatitle($sep = " | ", $display = true) {
 	global $paged, $page;
@@ -95,11 +95,11 @@ function seo_get_metatitle($sep = " | ", $display = true) {
 add_action("get_metatitle", "seo_get_metatitle");
 endif;
 
-if (!function_exists("seo_get_metadescription")):
+if (!function_exists("custom_seo_get_metadescription")):
 /**
- * seo_get_metadescription
+ * custom_seo_get_metadescription
 */
-function seo_get_metadescription($display = true) {
+function custom_seo_get_metadescription($display = true) {
 	$description = '';
 	if (is_category() || is_tax()){
 		if (is_category()){
@@ -136,14 +136,14 @@ function seo_get_metadescription($display = true) {
 	else
 		return esc_attr($description);
 }
-add_action("get_metadescription", "seo_get_metadescription");
+add_action("custom_seo_get_metadescription", "custom_seo_get_metadescription");
 endif;
 
-if (!function_exists("seo_get_metakeywords")):
+if (!function_exists("custom_seo_get_metakeywords")):
 /**
- * seo_get_metakeywords
+ * custom_seo_get_metakeywords
 */
-function seo_get_metakeywords($display = true) {
+function custom_seo_get_metakeywords($display = true) {
 	$keywords = '';
 	if (is_category() || is_tax()){
 		if (is_category()){
@@ -180,14 +180,68 @@ function seo_get_metakeywords($display = true) {
 	else
 		return esc_attr($keywords);
 }
-add_action("get_metakeywords", "seo_get_metakeywords");
+add_action("custom_seo_get_metakeywords", "custom_seo_get_metakeywords");
 endif;
 
-if (!function_exists("seo_get_meta_opengraph_title")):
+if (!function_exists("custom_seo_get_meta_publication_type")):
 /**
- * seo_get_meta_opengraph_title
+ * custom_seo_get_meta_publication_type
 */
-function seo_get_meta_opengraph_title($display = true) {
+function custom_seo_get_meta_publication_type($display = true) {
+	$opengraph_content = '';
+
+	if (is_home() || is_front_page()){
+		$opengraph_content = "website";
+	}else{
+		$opengraph_content = "article";
+	}
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("custom_seo_get_meta_publication_type", "custom_seo_get_meta_publication_type");
+endif;
+
+if (!function_exists("custom_seo_get_meta_publication_card")):
+/**
+ * custom_seo_get_meta_publication_card
+*/
+function custom_seo_get_meta_publication_card($display = true) {
+	$opengraph_content = 'summary';
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("custom_seo_get_meta_publication_card", "custom_seo_get_meta_publication_card");
+endif;
+
+if (!function_exists("custom_seo_get_meta_publication_url")):
+/**
+ * custom_seo_get_meta_publication_url
+*/
+function custom_seo_get_meta_publication_url($display = true) {
+	$opengraph_content = get_current_url(true);
+
+	// result
+	if ($display)
+		echo esc_attr($opengraph_content);
+	else
+		return esc_attr($opengraph_content);
+}
+add_action("custom_seo_get_meta_publication_url", "custom_seo_get_meta_publication_url");
+endif;
+
+if (!function_exists("custom_seo_get_meta_publication_title")):
+/**
+ * custom_seo_get_meta_publication_title
+*/
+function custom_seo_get_meta_publication_title($display = true) {
 	$opengraph_content = '';
 	$sep = " | ";
 	if (is_category() || is_tax()){
@@ -238,14 +292,14 @@ function seo_get_meta_opengraph_title($display = true) {
 	else
 		return esc_attr($opengraph_content);
 }
-add_action("get_meta_opengraph_title", "seo_get_meta_opengraph_title");
+add_action("custom_seo_get_meta_publication_title", "custom_seo_get_meta_publication_title");
 endif;
 
-if (!function_exists("seo_get_meta_opengraph_description")):
+if (!function_exists("custom_seo_get_meta_publication_description")):
 /**
- * seo_get_meta_opengraph_description
+ * custom_seo_get_meta_publication_description
 */
-function seo_get_meta_opengraph_description($display = true) {
+function custom_seo_get_meta_publication_description($display = true) {
 	$opengraph_content = '';
 	if (is_category() || is_tax()){
 		if (is_category()){
@@ -291,14 +345,14 @@ function seo_get_meta_opengraph_description($display = true) {
 	else
 		return esc_attr($opengraph_content);
 }
-add_action("get_meta_opengraph_description", "seo_get_meta_opengraph_description");
+add_action("custom_seo_get_meta_publication_description", "custom_seo_get_meta_publication_description");
 endif;
 
-if (!function_exists("seo_get_meta_opengraph_image")):
+if (!function_exists("custom_seo_get_meta_publication_image")):
 /**
- * seo_get_meta_opengraph_image
+ * custom_seo_get_meta_publication_image
 */
-function seo_get_meta_opengraph_image($display = true) {
+function custom_seo_get_meta_publication_image($display = true) {
 	$opengraph_content = '';
 	if (is_category() || is_tax()){
 		if (is_category()){
@@ -353,27 +407,47 @@ function seo_get_meta_opengraph_image($display = true) {
 	else
 		return esc_attr($opengraph_content);
 }
-add_action("get_meta_opengraph_image", "seo_get_meta_opengraph_image");
+add_action("custom_seo_get_meta_publication_image", "custom_seo_get_meta_publication_image");
 endif;
 
 function seo_header(){
 	?>
 <meta
 	name="description"
-	content="<?php do_action('get_metadescription', true); ?>">
+	content="<?php do_action('custom_seo_get_metadescription', true); ?>">
 <meta
-	name="keywords" content="<?php do_action('get_metakeywords', true); ?>">
-<meta property="og:type"
-	content="website" />
+	name="keywords"
+	content="<?php do_action('custom_seo_get_metakeywords', true); ?>">
+<meta
+	property="og:type"
+	content="<?php do_action('custom_seo_get_meta_publication_type', true); ?>">
+<meta
+	property="og:url"
+	content="<?php do_action('custom_seo_get_meta_publication_url', true); ?>">
 <meta
 	property="og:title"
-	content="<?php do_action('get_meta_opengraph_title', true); ?>">
+	content="<?php do_action('custom_seo_get_meta_publication_title', true); ?>">
 <meta
 	property="og:description"
-	content="<?php do_action('get_meta_opengraph_description', true); ?>">
+	content="<?php do_action('custom_seo_get_meta_publication_description', true); ?>">
 <meta
 	property="og:image"
-	content="<?php do_action('get_meta_opengraph_image', true); ?>">
+	content="<?php do_action('custom_seo_get_meta_publication_image', true); ?>">
+<meta
+	name="twitter:card"
+	content="<?php do_action('custom_seo_get_meta_publication_card', true); ?>">
+<meta
+	name="twitter:url"
+	content="<?php do_action('custom_seo_get_meta_publication_url', true); ?>">
+<meta
+	name="twitter:title"
+	content="<?php do_action('custom_seo_get_meta_publication_title', true); ?>">
+<meta
+	name="twitter:description"
+	content="<?php do_action('custom_seo_get_meta_publication_description', true); ?>">
+<meta
+	name="twitter:image"
+	content="<?php do_action('custom_seo_get_meta_publication_image', true); ?>">
 <?php
 }
 add_action('wp_head', 'seo_header');
